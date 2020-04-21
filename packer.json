@@ -20,13 +20,13 @@
   "provisioners": [
     {
       "type": "ansible",
-      "playbook_file": "master.yml",
+      "playbook_file": "ansible/master.yml",
       "user": "{{user `ssh_user`}}"
     },
     {
       "type": "shell",
       "execute_command": "{{.Vars}} sudo --stdin --preserve-env bash '{{.Path}}'",
-      "script": "cleanup.sh"
+      "script": "scripts/cleanup.sh"
     }
   ],
   "_comment": "We use the ssh_username defined in the.... "
