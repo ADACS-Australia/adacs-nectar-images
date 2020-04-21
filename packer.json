@@ -29,5 +29,7 @@
       "script": "scripts/cleanup.sh"
     }
   ],
-  "_comment": "We use the ssh_username defined in the.... "
+  "_comment1": " Make sure ansible provisioner 'user' is the same as ",
+  "_comment2": " openstack builder 'ssh_username'. This prevents the ",
+  "_comment3": " '~local_user' directory being created on the remote. "
 }
