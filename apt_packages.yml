@@ -1,0 +1,9 @@
+---
+
+apt_packages:
+  - build-essential
+  - git
+  - gfortran
+  - nano
+  - emacs
+  - wget

@@ -1,0 +1,33 @@
+{
+  "variables": {
+    "ssh_user": "ubuntu"
+  },
+  "builders": [
+    {
+      "type": "openstack",
+      "cloud": "swin-dev",
+      "communicator": "ssh",
+      "ssh_username": "{{user `ssh_user`}}",
+      "image_name": "packer-test",
+      "source_image": "45225edb-66d8-4fd0-bf41-132a31a18166",
+      "flavor": "t3.small",
+      "security_groups": [
+        "default",
+        "SSH"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "master.yml",
+      "user": "{{user `ssh_user`}}"
+    },
+    {
+      "type": "shell",
+      "execute_command": "{{.Vars}} sudo --stdin --preserve-env bash '{{.Path}}'",
+      "script": "cleanup.sh"
+    }
+  ],
+  "_comment": "We use the ssh_username defined in the.... "
+}

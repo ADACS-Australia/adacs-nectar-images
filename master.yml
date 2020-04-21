@@ -1,0 +1,18 @@
+---
+
+- name: Provision the image
+  hosts: default
+  gather_facts: yes
+  become: no
+
+  vars:
+    home_dir: "{{ ansible_facts['env']['HOME'] }}" #/home/ubuntu
+
+  vars_files:
+    - apt_packages.yml
+    - conda_packages.yml
+
+  tasks:
+    - wait_for_connection:
+    - import_tasks: provision.yml
+    - import_tasks: cleanup.yml

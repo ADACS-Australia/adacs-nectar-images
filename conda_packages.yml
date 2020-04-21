@@ -1,0 +1,13 @@
+---
+
+conda_packages:
+  - python
+  - ipython
+  - numpy
+  - matplotlib
+  - scipy
+  - pandas
+  - tensorflow
+  - astropy
+  - fftw
+  - hdf5
