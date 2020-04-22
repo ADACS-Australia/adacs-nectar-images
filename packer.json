@@ -8,7 +8,7 @@
       "cloud": "swin-dev",
       "communicator": "ssh",
       "ssh_username": "{{user `ssh_user`}}",
-      "image_name": "packer-test",
+      "image_name": "ADACS_astro_ubuntu",
       "source_image": "45225edb-66d8-4fd0-bf41-132a31a18166",
       "flavor": "t3.small",
       "security_groups": [
