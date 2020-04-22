@@ -48,11 +48,15 @@ openstack image create --disk-format qcow2 --container-format bare --file ${IMAG
 rm ${IMAGE_NAME}_small.qcow2
 
 # Set and unset some image properties
-openstack image set --property default_user=ubuntu ${IMAGE_NAME}
-openstack image set --property nectar_name=${IMAGE_NAME} ${IMAGE_NAME}
-openstack image set --property os_distro=ubuntu ${IMAGE_NAME}
-openstack image set --property os_version=18.04 ${IMAGE_NAME}
+openstack image set --property default_user=ubuntu ${IMAGE_NAME} || true
+sleep 10
+openstack image set --property nectar_name=${IMAGE_NAME} ${IMAGE_NAME} || true
+sleep 10
+openstack image set --property os_distro=ubuntu ${IMAGE_NAME} || true
+sleep 10
+openstack image set --property os_version=18.04 ${IMAGE_NAME} || true
+sleep 10
 
-openstack image unset --property owner_specified.openstack.sha256 ${IMAGE_NAME}
-openstack image unset --property owner_specified.openstack.object ${IMAGE_NAME}
-openstack image unset --property owner_specified.openstack.md5 ${IMAGE_NAME}
+openstack image unset --property owner_specified.openstack.sha256 ${IMAGE_NAME} || true
+openstack image unset --property owner_specified.openstack.object ${IMAGE_NAME} || true
+openstack image unset --property owner_specified.openstack.md5 ${IMAGE_NAME} || true
