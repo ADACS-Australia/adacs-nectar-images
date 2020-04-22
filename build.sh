@@ -1,5 +1,11 @@
 #!/bin/bash -e
 
+# This script requires:
+#  - Packer
+#  - jq (JSON CLI tool)
+#  - QEMU tools
+#  - OpenStack credentials loaded in your environment
+
 # Find packer
 if ! hash packer >/dev/null 2>&1; then
     echo "You need packer installed to use this script"
@@ -9,6 +15,13 @@ fi
 # Find jq
 if ! hash jq >/dev/null 2>&1; then
     echo "You need jq installed to use this script"
+    exit 1
+fi
+
+if [ -z "${OS_CLOUD}" ]; then
+    echo "Please load the OpenStack credentials"
+    echo "export OS_CLOUD = <my_cloud> "
+    echo "where <my_cloud> is defined in a clouds.yaml file"
     exit 1
 fi
 

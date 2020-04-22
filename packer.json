@@ -5,7 +5,6 @@
   "builders": [
     {
       "type": "openstack",
-      "cloud": "swin-dev",
       "communicator": "ssh",
       "ssh_username": "{{user `ssh_user`}}",
       "image_name": "ADACS_astro_ubuntu",
