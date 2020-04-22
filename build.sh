@@ -28,25 +28,26 @@ fi
 FILE=packer.json
 IMAGE_NAME=$(jq -r '.builders[0].image_name' ${FILE})
 
-set -x
+set -x # Print commands as they are run
 
-echo "Building and provisioning image with: packer build ${FILE}..."
+# Build and provision image
 packer build ${FILE}
 
-echo "Saving image locally..."
+# Save image locally
 openstack image save --file ${IMAGE_NAME}_large.qcow2 ${IMAGE_NAME}
 
-echo "Deleting image on openstack..."
+# Delete image on openstack
 openstack image delete ${IMAGE_NAME}
 
-echo "Compressing image..."
+# Compress image
 qemu-img convert -c -o compat=0.10 -O qcow2 ${IMAGE_NAME}_large.qcow2 ${IMAGE_NAME}_small.qcow2
 rm ${IMAGE_NAME}_large.qcow2
 
-echo "Uploading compressed image to openstack..."
+# Upload smaller image to openstack and delete local file
 openstack image create --disk-format qcow2 --container-format bare --file ${IMAGE_NAME}_small.qcow2 ${IMAGE_NAME}
 rm ${IMAGE_NAME}_small.qcow2
 
+# Set and unset some image properties
 openstack image set --property default_user=ubuntu ${IMAGE_NAME}
 openstack image set --property nectar_name=${IMAGE_NAME} ${IMAGE_NAME}
 openstack image set --property os_distro=ubuntu ${IMAGE_NAME}
