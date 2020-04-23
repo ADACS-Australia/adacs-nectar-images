@@ -11,3 +11,4 @@ conda_packages:
   - astropy
   - fftw
   - hdf5
+  - jupyter
