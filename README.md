@@ -2,7 +2,7 @@
 
 This project includes a script to build an image, suitable for the NeCTAR Research Cloud environment, with a suite of software/applications pre-installed.
 
-The image is based on Nectar's official Ubuntu 18.04 (Bionic) image.
+The image is based on Nectar's official Ubuntu 18.04 (Bionic) image, but can be changed by editing the appropriate lines in the build script.
 
 The repository contains:
  * `packer.json` -- packer JSON config for building the image on the NeCTAR Research Cloud.
