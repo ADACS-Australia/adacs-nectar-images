@@ -8,6 +8,9 @@ rm -fr /root/'~'*
 # Truncate any log files
 find /var/log -type f -print0 | xargs -0 truncate -s0
 
+# Clean up Ubuntu user (but don't remove home directory)
+userdel -f ubuntu || true
+
 # Writes zeroes to empty space on the volume;
 # (allows for better compression)
 dd if=/dev/zero of=/EMPTY bs=1M

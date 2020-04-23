@@ -42,13 +42,6 @@
     name: /etc/netplan/01-netcfg.yaml
     state: absent
 
-- name: Remove the default user (but don't remove home directory)
-  become: yes
-  user:
-    name: ubuntu
-    state: absent
-    # remove: yes
-
 - name: remove /var/lib/dbus/machine-id
   become: yes
   file:
