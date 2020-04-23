@@ -74,7 +74,7 @@ qemu-img convert -c -o compat=0.10 -O qcow2 image_large.qcow2 image_small.qcow2
 rm image_large.qcow2
 
 # Upload smaller image to openstack and delete local file
-openstack image create --disk-format qcow2 --container-format bare --file image_small.qcow2 ${NEW_IMAGE_NAME}
+openstack image create --disk-format qcow2 --container-format bare --file image_small.qcow2 "${NEW_IMAGE_NAME}"
 rm image_small.qcow2
 
 # Set and unset some image properties
