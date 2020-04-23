@@ -1,14 +1,14 @@
 {
   "variables": {
-    "ssh_user": "ubuntu"
+    "ssh_user": ""
   },
   "builders": [
     {
       "type": "openstack",
       "communicator": "ssh",
       "ssh_username": "{{user `ssh_user`}}",
-      "image_name": "ADACS_astro_ubuntu",
-      "source_image": "45225edb-66d8-4fd0-bf41-132a31a18166",
+      "image_name": "",
+      "source_image": "",
       "flavor": "t3.small",
       "security_groups": [
         "default",

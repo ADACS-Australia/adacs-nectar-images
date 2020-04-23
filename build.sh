@@ -18,40 +18,71 @@ if ! hash jq >/dev/null 2>&1; then
     exit 1
 fi
 
+# Find qemu
+if ! hash qemu-img >/dev/null 2>&1; then
+    echo "You need qemu-utils installed to use this script"
+    exit 1
+fi
+
+# Check if OpenStack credentials are loaded
 if [ -z "${OS_CLOUD}" ]; then
-    echo "Please load the OpenStack credentials"
-    echo "export OS_CLOUD = <my_cloud> "
+    echo "Please load the OpenStack credentials!"
+    echo "Do:   export OS_CLOUD=<my_cloud> "
     echo "where <my_cloud> is defined in a clouds.yaml file"
     exit 1
 fi
 
 FILE=packer.json
-IMAGE_NAME=$(jq -r '.builders[0].image_name' ${FILE})
 
-set -x # Print commands as they are run
+# Get the image ID
+SOURCE_IMAGE_NAME='NeCTAR Ubuntu 18.04 LTS (Bionic) amd64'
+SOURCE_ID=$(openstack image show -f value -c id "$SOURCE_IMAGE_NAME")
+
+# Name to upload image as
+NEW_IMAGE_NAME='ADACS-Astro Ubuntu 18.04 LTS (Bionic) amd64'
+
+# Define some image properties
+DEFAULT_USER='ubuntu'
+OS_DISTRO='ubuntu'
+OS_VERSION='18.04'
+
+# Name to use for the temporary image during provisioning
+BUILD_NAME='ADACS_astro_image_build'
+
+# Fill out missing information in packer build file
+cat ${FILE} | \
+  jq ".variables.ssh_user       = \"${DEFAULT_USER}\""   | \
+  jq ".builders[0].source_image = \"${SOURCE_ID}\""      | \
+  jq ".builders[0].image_name   = \"${BUILD_NAME}\"" | \
+cat > ${FILE}.tmp
+
+# Print commands as they are run
+set -x
 
 # Build and provision image
-packer build ${FILE}
+packer build ${FILE}.tmp
+rm -f ${FILE}.tmp
 
 # Save image locally
-openstack image save --file ${IMAGE_NAME}_large.qcow2 ${IMAGE_NAME}
+openstack image save --file image_large.qcow2 ${BUILD_NAME}
 
 # Delete image on openstack
-openstack image delete ${IMAGE_NAME}
+openstack image delete ${BUILD_NAME}
 
-# Compress image
-qemu-img convert -c -o compat=0.10 -O qcow2 ${IMAGE_NAME}_large.qcow2 ${IMAGE_NAME}_small.qcow2
-rm ${IMAGE_NAME}_large.qcow2
+# Shrink image
+qemu-img convert -c -o compat=0.10 -O qcow2 image_large.qcow2 image_small.qcow2
+rm image_large.qcow2
 
 # Upload smaller image to openstack and delete local file
-openstack image create --disk-format qcow2 --container-format bare --file ${IMAGE_NAME}_small.qcow2 ${IMAGE_NAME}
-rm ${IMAGE_NAME}_small.qcow2
+openstack image create --disk-format qcow2 --container-format bare --file image_small.qcow2 ${NEW_IMAGE_NAME}
+rm image_small.qcow2
 
 # Set and unset some image properties
-openstack image set --property default_user=ubuntu ${IMAGE_NAME} || true
-openstack image set --property os_distro=ubuntu ${IMAGE_NAME} || true
-openstack image set --property os_version=18.04 ${IMAGE_NAME} || true
+NEW_ID=$(openstack image show -f value -c id "$NEW_IMAGE_NAME")
+openstack image set --property default_user=${DEFAULT_USER} ${NEW_ID} || true
+openstack image set --property os_distro=${OS_DISTRO}       ${NEW_ID} || true
+openstack image set --property os_version=${OS_VERSION}     ${NEW_ID} || true
 
-openstack image unset --property owner_specified.openstack.sha256 ${IMAGE_NAME} || true
-openstack image unset --property owner_specified.openstack.object ${IMAGE_NAME} || true
-openstack image unset --property owner_specified.openstack.md5 ${IMAGE_NAME} || true
+openstack image unset --property owner_specified.openstack.sha256 ${NEW_ID} || true
+openstack image unset --property owner_specified.openstack.object ${NEW_ID} || true
+openstack image unset --property owner_specified.openstack.md5    ${NEW_ID} || true
