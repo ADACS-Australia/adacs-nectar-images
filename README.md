@@ -37,6 +37,7 @@ You'll require the following tools installed and in your path
 
 ## Notes:
 
-After the image is built and provisioned via packer, it is downloaded locally and 'shrunk' via `qemu-img`, before being re-uploaded to Nectar/OpenStack.
-
+1. After the image is built and provisioned via packer, it is downloaded locally and 'shrunk' via `qemu-img`, before being re-uploaded to Nectar/OpenStack.
 As a consequence, **several GB of local disk space is required** to run this script successfully.
+
+2. This code is based off https://github.com/NeCTAR-RC/packer-jupyternotebook.
