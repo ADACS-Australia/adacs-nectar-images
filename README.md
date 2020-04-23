@@ -34,3 +34,9 @@ You'll require the following tools installed and in your path
 ```
 ./build.sh
 ```
+
+## Notes:
+
+After the image is built and provisioned via packer, it is downloaded locally and 'shrunk' via `qemu-img`, before being re-uploaded to Nectar/OpenStack.
+
+As a consequence, **several GB of local disk space is required** to run this script successfully.
