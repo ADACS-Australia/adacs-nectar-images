@@ -2,6 +2,7 @@
 
 # This script requires:
 #  - Packer
+#  - Ansible
 #  - jq (JSON CLI tool)
 #  - QEMU tools
 #  - OpenStack credentials loaded in your environment
@@ -9,6 +10,12 @@
 # Find packer
 if ! hash packer >/dev/null 2>&1; then
     echo "You need packer installed to use this script"
+    exit 1
+fi
+
+# Find ansible
+if ! hash ansible >/dev/null 2>&1; then
+    echo "You need ansible installed to use this script"
     exit 1
 fi
 
