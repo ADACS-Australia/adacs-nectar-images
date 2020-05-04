@@ -2,7 +2,9 @@
 
 apt_packages:
   - build-essential
+  - cmake
   - git
+  - git-lfs
   - gfortran
   - nano
   - emacs
