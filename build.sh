@@ -32,10 +32,9 @@ if ! hash qemu-img >/dev/null 2>&1; then
 fi
 
 # Check if OpenStack credentials are loaded
-if [ -z "${OS_CLOUD}" ]; then
-    echo "Please load the OpenStack credentials!"
-    echo "Do:   export OS_CLOUD=<my_cloud> "
-    echo "where <my_cloud> is defined in a clouds.yaml file"
+if [ -z "${OS_CLOUD}" ] && [ -z "${OS_USERNAME}" ]; then
+    echo -e "Please load the OpenStack credentials! \n"
+    echo    "Set the environemnt variable OS_CLOUD to one defined in a clouds.yaml file, or source your OpenStack RC file."
     exit 1
 fi
 
