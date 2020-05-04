@@ -18,12 +18,12 @@
     url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
     dest: "{{ home_dir }}/miniconda.sh"
 
-- name: install conda
+- name: install miniconda
   shell:
     chdir: "{{ home_dir }}"
-    creates: "{{ home_dir }}/conda"
+    creates: "{{ home_dir }}/miniconda"
     executable: /bin/bash
-    cmd: bash miniconda.sh -b -p conda
+    cmd: bash miniconda.sh -b -p miniconda
 
 - name: "conda: init, install packages, and clean"
   shell:
@@ -31,6 +31,6 @@
     executable: /bin/bash
     cmd: "{{ item }}"
   with_items:
-    - "source conda/bin/activate && conda init"
-    - "source conda/bin/activate && conda install -y {{ conda_packages | join(' ')}}"
-    - "source conda/bin/activate && conda clean -y --all"
+    - "source miniconda/bin/activate && conda init"
+    - "source miniconda/bin/activate && conda install -y {{ conda_packages | join(' ')}}"
+    - "source miniconda/bin/activate && conda clean -y --all"
