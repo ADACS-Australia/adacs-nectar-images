@@ -57,16 +57,19 @@ BUILD_NAME='ADACS_astro_image_build'
 
 # Fill out missing information in packer build file
 cat ${FILE} | \
-  jq ".variables.ssh_user       = \"${DEFAULT_USER}\""   | \
-  jq ".builders[0].source_image = \"${SOURCE_ID}\""      | \
-  jq ".builders[0].image_name   = \"${BUILD_NAME}\"" | \
+  jq ".variables.ssh_user       = \"${DEFAULT_USER}\"" | \
+  jq ".variables.os_source_id   = \"${SOURCE_ID}\""    | \
+  jq ".variables.os_build_name  = \"${BUILD_NAME}\""   | \
 cat > ${FILE}.tmp
 
 # Print commands as they are run
 set -x
 
+# Pass additional scrip arguments/options through to packer build
+PACKER_OPTS=$1
+
 # Build and provision image
-packer build ${FILE}.tmp
+packer build ${PACKER_OPTS} ${FILE}.tmp
 rm -f ${FILE}.tmp
 
 # Save image locally

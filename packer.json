@@ -1,14 +1,16 @@
 {
   "variables": {
-    "ssh_user": ""
+    "ssh_user": "",
+    "os_source_id": "",
+    "os_build_name":""
   },
   "builders": [
     {
       "type": "openstack",
       "communicator": "ssh",
       "ssh_username": "{{user `ssh_user`}}",
-      "image_name": "",
-      "source_image": "",
+      "source_image": "{{user `os_source_id`}}",
+      "image_name": "{{user `os_build_name`}}",
       "flavor": "t3.small",
       "security_groups": [
         "default",
