@@ -2,7 +2,8 @@
   "variables": {
     "ssh_user": "",
     "os_source_id": "",
-    "os_build_name":""
+    "os_build_name": "",
+    "os_volume_name": ""
   },
   "builders": [
     {
@@ -11,7 +12,7 @@
       "ssh_username": "{{user `ssh_user`}}",
       "source_image": "{{user `os_source_id`}}",
       "image_name": "{{user `os_build_name`}}",
-      "flavor": "t3.small",
+      "flavor": "m3.small",
       "security_groups": [
         "default",
         "SSH"
@@ -20,9 +21,17 @@
   ],
   "provisioners": [
     {
+      "type": "shell-local",
+      "command": "openstack server add volume {{user `os_build_name`}} {{user `os_volume_name`}}"
+    },
+    {
       "type": "ansible",
       "playbook_file": "ansible/master.yml",
       "user": "{{user `ssh_user`}}"
+    },
+    {
+      "type": "shell-local",
+      "command": "openstack server remove volume {{user `os_build_name`}} {{user `os_volume_name`}}"
     },
     {
       "type": "shell",

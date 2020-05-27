@@ -45,7 +45,7 @@ SOURCE_IMAGE_NAME='NeCTAR Ubuntu 18.04 LTS (Bionic) amd64'
 SOURCE_ID=$(openstack image show -f value -c id "$SOURCE_IMAGE_NAME")
 
 # Name to upload image as
-NEW_IMAGE_NAME='ADACS-Astro Ubuntu 18.04 LTS (Bionic) amd64'
+NEW_IMAGE_NAME='ADACS-Astro Ubuntu 18.04 LTS (Bionic) amd64 - unreleased'
 
 # Define some image properties
 DEFAULT_USER='ubuntu'
@@ -55,11 +55,15 @@ OS_VERSION='18.04'
 # Name to use for the temporary image during provisioning
 BUILD_NAME='ADACS_astro_image_build'
 
+# Volume to attach during provisioning
+VOLUME_NAME='software'
+
 # Fill out missing information in packer build file
 cat ${FILE} | \
   jq ".variables.ssh_user       = \"${DEFAULT_USER}\"" | \
   jq ".variables.os_source_id   = \"${SOURCE_ID}\""    | \
   jq ".variables.os_build_name  = \"${BUILD_NAME}\""   | \
+  jq ".variables.os_volume_name = \"${VOLUME_NAME}\""  | \
 cat > ${FILE}.tmp
 
 # Print commands as they are run
