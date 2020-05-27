@@ -2,7 +2,7 @@
 - name: mount volume containing software
   become: yes
   mount:
-    src: /dev/vdb
+    src: LABEL=Software_Volume
     path: /mnt/software
     state: mounted
     fstype: ext4
