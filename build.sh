@@ -76,6 +76,10 @@ PACKER_OPTS=$1
 packer build ${PACKER_OPTS} ${FILE}.tmp
 rm -f ${FILE}.tmp
 
+SAVE_DIR=${SAVE_DIR:-$(PWD)}
+
+cd ${SAVE_DIR}
+
 # Save image locally
 openstack image save --file image_large.qcow2 ${BUILD_NAME}
 
