@@ -8,73 +8,77 @@
     fstype: ext4
     opts: ro
 
-- name: install Mathematica dependencies
-  become: yes
-  apt:
-    name:
-      - avahi-daemon
-      - qt5-default       # Should cover most of what's required. The others are "just in case".
-      - xauth
-      - fontconfig
-      - libglu1-mesa
-      - libasound2
-    update_cache: yes
+- name: install licensed software
+  block:
 
-- name: run Mathematica installer silently
-  become: yes
-  shell:
-    executable: /bin/bash
-    cmd: "{{ item }}"
-    creates: /usr/local/Wolfram/Mathematica/11.2/Configuration/Licensing/mathpass
-  with_items:
-    - "sh /mnt/software/Mathematica/Mathematica_11.2.0_LINUX.sh -- -silent"
-    - "cp /mnt/software/Mathematica/mathpass /usr/local/Wolfram/Mathematica/11.2/Configuration/Licensing/mathpass"
+    - name: install Mathematica dependencies
+      become: yes
+      apt:
+        name:
+          - avahi-daemon
+          - qt5-default       # Should cover most of what's required. The others are "just in case".
+          - xauth
+          - fontconfig
+          - libglu1-mesa
+          - libasound2
+        update_cache: yes
 
-- name: run IDL installer silently
-  become: yes
-  shell:
-    executable: /bin/bash
-    chdir: /mnt/software/IDL/installer
-    cmd: "{{ item }}"
-    creates: /usr/local/exelis/license/license.dat
-  with_items:
-    - "./install.sh -s < ./silent/envi_answer_file"
-    - "cp ../idl-license.dat /usr/local/exelis/license/license.dat"
+    - name: run Mathematica installer silently
+      become: yes
+      shell:
+        executable: /bin/bash
+        cmd: "{{ item }}"
+        creates: /usr/local/Wolfram/Mathematica/11.2/Configuration/Licensing/mathpass
+      with_items:
+        - "sh /mnt/software/Mathematica/Mathematica_11.2.0_LINUX.sh -- -silent"
+        - "cp /mnt/software/Mathematica/mathpass /usr/local/Wolfram/Mathematica/11.2/Configuration/Licensing/mathpass"
 
-- name: Install libxp6 (IDL dependency)
-  become: yes
-  apt:
-    deb: http://archive.ubuntu.com/ubuntu/pool/main/libx/libxp/libxp6_1.0.2-1ubuntu1_amd64.deb
+    - name: run IDL installer silently
+      become: yes
+      shell:
+        executable: /bin/bash
+        chdir: /mnt/software/IDL/installer
+        cmd: "{{ item }}"
+        creates: /usr/local/exelis/license/license.dat
+      with_items:
+        - "./install.sh -s < ./silent/envi_answer_file"
+        - "cp ../idl-license.dat /usr/local/exelis/license/license.dat"
 
-- name: Install other IDL dependencies
-  become: yes
-  apt:
-    name:
-      - libxmu6
+    - name: Install libxp6 (IDL dependency)
+      become: yes
+      apt:
+        deb: http://archive.ubuntu.com/ubuntu/pool/main/libx/libxp/libxp6_1.0.2-1ubuntu1_amd64.deb
 
-- name: create symbolic links for idl
-  become: yes
-  shell:
-    executable: /bin/bash
-    chdir: /usr/local/exelis
-    cmd: "{{ item }}"
-    creates: /usr/local/bin/idl
-  with_items:
-    - "./envi/bin/create_symlinks"
-    - "./idl/bin/create_symlinks"
+    - name: Install other IDL dependencies
+      become: yes
+      apt:
+        name:
+          - libxmu6
 
-- name: install intel parallel studio silently
-  become: yes
-  shell:
-    executable: /bin/bash
-    chdir: /mnt/software/Intel/installer
-    cmd: "{{ item }}"
-  with_items:
-    - "./install.sh -s ../silent.input"
+    - name: create symbolic links for idl
+      become: yes
+      shell:
+        executable: /bin/bash
+        chdir: /usr/local/exelis
+        cmd: "{{ item }}"
+        creates: /usr/local/bin/idl
+      with_items:
+        - "./envi/bin/create_symlinks"
+        - "./idl/bin/create_symlinks"
 
-- name: unmount software volume
-  become: yes
-  mount:
-    path: /mnt/software
-    state: absent
+    - name: install intel parallel studio silently
+      become: yes
+      shell:
+        executable: /bin/bash
+        chdir: /mnt/software/Intel/installer
+        cmd: "{{ item }}"
+      with_items:
+        - "./install.sh -s ../silent.input"
+
+  always:
+    - name: unmount software volume
+      become: yes
+      mount:
+        path: /mnt/software
+        state: absent
 
