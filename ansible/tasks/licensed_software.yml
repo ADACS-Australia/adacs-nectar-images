@@ -75,6 +75,12 @@
       with_items:
         - "./install.sh -s ../silent.input"
 
+  rescue:
+    - debug:
+        msg:
+        - "WARNING: Could not complete installation of licensed software."
+        - "         Provisioning will continue as if no error has occurred."
+
   always:
     - name: unmount software volume
       become: yes
