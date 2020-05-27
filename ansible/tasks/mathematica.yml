@@ -1,4 +1,12 @@
 ---
+- name: mount volume containing software
+  become: yes
+  mount:
+    src: /dev/vdb
+    path: /mnt/software
+    state: mounted
+    fstype: ext4
+    opts: ro
 
 - name: install Mathematica dependencies
   become: yes
@@ -12,23 +20,48 @@
       - libasound2
     update_cache: yes
 
-- name: mount volume containing software
-  become: yes
-  mount:
-    src: /dev/vdb
-    path: /mnt/software
-    state: mounted
-    fstype: ext4
-    opts: ro
-
 - name: run Mathematica installer silently
   become: yes
   shell:
     executable: /bin/bash
     cmd: "{{ item }}"
+    creates: /usr/local/Wolfram/Mathematica/11.2/Configuration/Licensing/mathpass
   with_items:
     - "sh /mnt/software/Mathematica/Mathematica_11.2.0_LINUX.sh -- -silent"
     - "cp /mnt/software/Mathematica/mathpass /usr/local/Wolfram/Mathematica/11.2/Configuration/Licensing/mathpass"
+
+- name: run IDL installer silently
+  become: yes
+  shell:
+    executable: /bin/bash
+    chdir: /mnt/software/IDL/installer
+    cmd: "{{ item }}"
+    creates: /usr/local/exelis/license/license.dat
+  with_items:
+    - "./install.sh -s < ./silent/envi_answer_file"
+    - "cp ../idl-license.dat /usr/local/exelis/license/license.dat"
+
+- name: Install libxp6 (IDL dependency)
+  become: yes
+  apt:
+    deb: http://archive.ubuntu.com/ubuntu/pool/main/libx/libxp/libxp6_1.0.2-1ubuntu1_amd64.deb
+
+- name: Install other IDL dependencies
+  become: yes
+  apt:
+    name:
+      - libxmu6
+
+- name: create symbolic links for idl
+  become: yes
+  shell:
+    executable: /bin/bash
+    chdir: /usr/local/exelis
+    cmd: "{{ item }}"
+    creates: /usr/local/bin/idl
+  with_items:
+    - "./envi/bin/create_symlinks"
+    - "./idl/bin/create_symlinks"
 
 - name: unmount software volume
   become: yes
