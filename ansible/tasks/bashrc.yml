@@ -1,0 +1,12 @@
+---
+
+- name: copy search history bindings file
+  copy:
+    src: "files2copy/search_history_bindings.txt"
+    dest: "~/.bindings"
+
+- name: source the bind commands file from .profile
+  lineinfile:
+    line: "\nsource .bindings"
+    path: "~/.profile"
+    state: present
