@@ -88,3 +88,20 @@
         path: /mnt/software
         state: absent
 
+- name: clone IDL Astro library
+  git:
+    repo: https://github.com/wlandsman/IDLAstro.git
+    dest: "~/IDLAstro"
+
+- name: set IDL paths
+  blockinfile:
+    path: ~/.bashrc
+    block: |
+      source /usr/local/exelis/idl/bin/idl_setup.bash
+      source /usr/local/exelis/envi/bin/envi_setup.bash
+      export IDL_PATH=+/usr/local/exelis/idl
+      export IDL_PATH=+~/IDLAstro/pro:$IDL_PATH
+      export ASTRO_DATA=~/IDLAstro/data/
+    marker: "{mark}"
+    marker_begin: "\n# >>> BEGIN IDL PATH SETUP"
+    marker_end: "# <<< END IDL PATH SETUP"
