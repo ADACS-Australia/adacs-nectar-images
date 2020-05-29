@@ -22,7 +22,10 @@
     - "source miniconda/bin/activate && conda install -y {{ conda_packages | join(' ')}}"
     - "source miniconda/bin/activate && conda clean -y --all"
 
-- name: "Remove (base) prefix from command prompt"
-  lineinfile:
-    path: "{{ home_dir }}/.bashrc"
-    line: PS1=${PS1/"(base) "/""}
+- name: remove default conda env prefix (base) from command prompt
+  blockinfile:
+    path: ~/.bashrc
+    block: PS1=${PS1/"(base) "/""}
+    marker: "{mark}"
+    marker_begin: "\n# >>> BEGIN remove default conda env prefix (base) from command prompt"
+    marker_end: "# <<< END"

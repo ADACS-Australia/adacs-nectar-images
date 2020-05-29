@@ -6,7 +6,9 @@
     dest: "~/.bindings"
 
 - name: source the bind commands file from .profile
-  lineinfile:
-    line: "\nsource .bindings"
-    path: "~/.profile"
-    state: present
+  blockinfile:
+    path: ~/.profile
+    block: source .bindings
+    marker: "{mark}"
+    marker_begin: "\n# >>> BEGIN bindings for ipython style forward/reverse history search"
+    marker_end: "# <<< END"
