@@ -3,4 +3,4 @@
 - import_tasks: tasks/apt.yml
 - import_tasks: tasks/conda.yml
 - import_tasks: tasks/licensed_software.yml
-- import_tasks: tasks/bashrc.yml
+- import_tasks: tasks/bindings.yml
