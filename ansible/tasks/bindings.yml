@@ -2,13 +2,13 @@
 
 - name: copy search history bindings file
   copy:
-    src: "files2copy/search_history_bindings.txt"
+    src: "files2copy/bindings.txt"
     dest: "~/.bindings"
 
-- name: source the bind commands file from .profile
+- name: source .bindings in .profile
   blockinfile:
     path: ~/.profile
-    block: source .bindings
+    block: source ~/.bindings
     marker: "{mark}"
-    marker_begin: "\n# >>> BEGIN bindings for ipython style forward/reverse history search"
-    marker_end: "# <<< END"
+    marker_begin: "\n# >>> set bindings for ipython style forward/reverse history search"
+    marker_end: "# <<<"
