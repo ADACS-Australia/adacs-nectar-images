@@ -24,7 +24,7 @@
 
 - name: remove default conda env prefix (base) from command prompt
   blockinfile:
-    path: ~/.bashrc
+    path: $HOME/.bashrc
     block: PS1=${PS1/"(base) "/""}
     marker: "{mark}"
     marker_begin: "\n# >>> BEGIN remove default conda env prefix (base) from command prompt"
