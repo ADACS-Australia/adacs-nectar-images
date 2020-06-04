@@ -34,7 +34,7 @@ fi
 # Check if OpenStack credentials are loaded
 if [ -z "${OS_CLOUD}" ] && [ -z "${OS_USERNAME}" ]; then
     echo -e "Please load the OpenStack credentials! \n"
-    echo    "Set the environemnt variable OS_CLOUD to one defined in a clouds.yaml file, or source your OpenStack RC file."
+    echo    "(source your OpenStack RC file)"
     exit 1
 fi
 
@@ -56,7 +56,7 @@ OS_VERSION='18.04'
 BUILD_NAME='ADACS_astro_image_build'
 
 # Volume to attach during provisioning
-VOLUME_NAME='software'
+VOLUME_NAME='licensed_software'
 
 # Fill out missing information in packer build file
 cat ${FILE} | \
