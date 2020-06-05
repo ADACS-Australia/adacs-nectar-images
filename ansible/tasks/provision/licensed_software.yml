@@ -4,6 +4,10 @@
 
   vars:
     mnt_software: /mnt/software
+    mnt_matlab_iso: /mnt/matlab_iso
+    mnt_matlab_installation: /mnt/matlab
+    matlab_inputFile: /mnt/silent.ini
+    matlab_activationFile: /mnt/activate.ini
 
   block:
 
@@ -18,6 +22,25 @@
 
     - import_tasks: tasks/provision/licensed_software/mathematica.yml
     - import_tasks: tasks/provision/licensed_software/idl.yml
+
+    - name: mount matlab iso
+      become: yes
+      mount:
+        src: "{{ mnt_software }}/Matlab/R2019b_Linux.iso"
+        path: "{{ mnt_matlab_iso }}"
+        state: mounted
+        fstype: iso9660
+        opts: ro
+
+    - name: mount matlab install volume
+      become: yes
+      mount:
+        src: LABEL=matlab_install
+        path: "{{ mnt_matlab_installation }}"
+        state: mounted
+        fstype: ext4
+
+    - import_tasks: tasks/provision/licensed_software/matlab.yml
     - import_tasks: tasks/provision/licensed_software/intel.yml
 
   rescue:
@@ -27,6 +50,19 @@
         - "         Provisioning will continue as if no error has occurred."
 
   always:
+
+    - name: unmount matlab install volume
+      become: yes
+      mount:
+        path: "{{ mnt_matlab_installation }}"
+        state: absent
+
+    - name: unmount matlab iso
+      become: yes
+      mount:
+        path: "{{ mnt_matlab_iso }}"
+        state: absent
+
     - name: unmount software volume
       become: yes
       mount:
