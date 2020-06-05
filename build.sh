@@ -55,15 +55,17 @@ OS_VERSION='18.04'
 # Name to use for the temporary image during provisioning
 BUILD_NAME='ADACS_astro_image_build'
 
-# Volume to attach during provisioning
-VOLUME_NAME='licensed_software'
+# Volumes to attach during provisioning
+SOFTWARE_VOLUME='licensed_software'
+MATLAB_VOLUME='matlab'
 
 # Fill out missing information in packer build file
 cat ${FILE} | \
-  jq ".variables.ssh_user       = \"${DEFAULT_USER}\"" | \
-  jq ".variables.os_source_id   = \"${SOURCE_ID}\""    | \
-  jq ".variables.os_build_name  = \"${BUILD_NAME}\""   | \
-  jq ".variables.os_volume_name = \"${VOLUME_NAME}\""  | \
+  jq ".variables.ssh_user           = \"${DEFAULT_USER}\""     | \
+  jq ".variables.os_source_id       = \"${SOURCE_ID}\""        | \
+  jq ".variables.os_build_name      = \"${BUILD_NAME}\""       | \
+  jq ".variables.os_software_volume = \"${SOFTWARE_VOLUME}\""  | \
+  jq ".variables.os_matlab_volume   = \"${MATLAB_VOLUME}\""    | \
 cat > ${FILE}.tmp
 
 # Print commands as they are run

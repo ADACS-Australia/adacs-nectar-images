@@ -3,7 +3,8 @@
     "ssh_user": "",
     "os_source_id": "",
     "os_build_name": "",
-    "os_volume_name": ""
+    "os_software_volume": "",
+    "os_matlab_volume": ""
   },
   "builders": [
     {
@@ -22,7 +23,11 @@
   "provisioners": [
     {
       "type": "shell-local",
-      "command": "openstack server add volume {{user `os_build_name`}} {{user `os_volume_name`}}"
+      "command": "openstack server add volume {{user `os_build_name`}} {{user `os_software_volume`}}"
+    },
+    {
+      "type": "shell-local",
+      "command": "openstack server add volume {{user `os_build_name`}} {{user `os_matlab_volume`}}"
     },
     {
       "type": "ansible",
@@ -31,7 +36,11 @@
     },
     {
       "type": "shell-local",
-      "command": "openstack server remove volume {{user `os_build_name`}} {{user `os_volume_name`}}"
+      "command": "openstack server remove volume {{user `os_build_name`}} {{user `os_matlab_volume`}}"
+    },
+    {
+      "type": "shell-local",
+      "command": "openstack server remove volume {{user `os_build_name`}} {{user `os_software_volume`}}"
     },
     {
       "type": "shell",
