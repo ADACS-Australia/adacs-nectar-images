@@ -1,6 +1,6 @@
 ---
 
-- import_tasks: tasks/apt.yml
-- import_tasks: tasks/conda.yml
-- import_tasks: tasks/licensed_software.yml
-- import_tasks: tasks/bindings.yml
+- import_tasks: tasks/provision/apt.yml
+- import_tasks: tasks/provision/conda.yml
+- import_tasks: tasks/provision/licensed_software.yml
+- import_tasks: tasks/provision/bindings.yml

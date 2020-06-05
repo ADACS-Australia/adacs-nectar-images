@@ -1,0 +1,10 @@
+---
+
+- name: install intel parallel studio silently
+  become: yes
+  shell:
+    executable: /bin/bash
+    chdir: /mnt/software/Intel/installer
+    cmd: "{{ item }}"
+  with_items:
+    - "./install.sh -s ../silent.input"

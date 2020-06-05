@@ -1,0 +1,30 @@
+---
+
+- name: install licensed software
+  block:
+
+    - name: mount volume containing software
+      become: yes
+      mount:
+        src: LABEL=Software_Volume
+        path: /mnt/software
+        state: mounted
+        fstype: ext4
+        opts: ro
+
+    - import_tasks: tasks/provision/licensed_software/mathematica.yml
+    - import_tasks: tasks/provision/licensed_software/idl.yml
+    - import_tasks: tasks/provision/licensed_software/intel.yml
+
+  rescue:
+    - debug:
+        msg:
+        - "WARNING: Could not complete installation of licensed software."
+        - "         Provisioning will continue as if no error has occurred."
+
+  always:
+    - name: unmount software volume
+      become: yes
+      mount:
+        path: /mnt/software
+        state: absent
