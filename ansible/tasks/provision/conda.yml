@@ -27,5 +27,5 @@
     path: $HOME/.bashrc
     block: PS1=${PS1/"(base) "/""}
     marker: "{mark}"
-    marker_begin: "\n# >>> BEGIN remove default conda env prefix (base) from command prompt"
+    marker_begin: "# >>> BEGIN remove default conda env prefix (base) from command prompt"
     marker_end: "# <<< END"

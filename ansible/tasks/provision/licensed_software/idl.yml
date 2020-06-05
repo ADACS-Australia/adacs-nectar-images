@@ -1,10 +1,11 @@
+# Needs "{{ mnt_software }}" defined
 ---
 
 - name: run IDL installer silently
   become: yes
   shell:
     executable: /bin/bash
-    chdir: /mnt/software/IDL/installer
+    chdir: "{{ mnt_software }}/IDL/installer"
     cmd: "{{ item }}"
     creates: /usr/local/exelis/license/license.dat
   with_items:

@@ -1,3 +1,4 @@
+# Needs "{{ mnt_software }}" defined
 ---
 
 - name: install Mathematica dependencies
@@ -14,10 +15,12 @@
 
 - name: run Mathematica installer silently
   become: yes
+  vars:
+    mathematica_path: /usr/local/Wolfram/Mathematica/11.2
   shell:
     executable: /bin/bash
     cmd: "{{ item }}"
-    creates: /usr/local/Wolfram/Mathematica/11.2/Configuration/Licensing/mathpass
+    creates: "{{ mathematica_path }}/Configuration/Licensing/mathpass"
   with_items:
-    - "sh /mnt/software/Mathematica/Mathematica_11.2.0_LINUX.sh -- -silent"
-    - "cp /mnt/software/Mathematica/mathpass /usr/local/Wolfram/Mathematica/11.2/Configuration/Licensing/mathpass"
+    - "sh {{ mnt_software }}/Mathematica/Mathematica_11.2.0_LINUX.sh -- -silent"
+    - "cp {{ mnt_software }}/Mathematica/mathpass {{ mathematica_path }}/Configuration/Licensing/mathpass"

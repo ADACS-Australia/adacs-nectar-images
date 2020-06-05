@@ -10,5 +10,5 @@
     path: $HOME/.profile
     block: source $HOME/.bindings
     marker: "{mark}"
-    marker_begin: "\n# >>> set bindings for ipython style forward/reverse history search"
+    marker_begin: "# >>> set bindings for ipython style forward/reverse history search"
     marker_end: "# <<<"

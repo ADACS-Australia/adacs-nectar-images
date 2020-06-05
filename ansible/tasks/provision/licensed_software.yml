@@ -1,13 +1,17 @@
 ---
 
 - name: install licensed software
+
+  vars:
+    mnt_software: /mnt/software
+
   block:
 
     - name: mount volume containing software
       become: yes
       mount:
         src: LABEL=Software_Volume
-        path: /mnt/software
+        path: "{{ mnt_software }}"
         state: mounted
         fstype: ext4
         opts: ro
@@ -26,5 +30,5 @@
     - name: unmount software volume
       become: yes
       mount:
-        path: /mnt/software
+        path: "{{ mnt_software }}"
         state: absent
