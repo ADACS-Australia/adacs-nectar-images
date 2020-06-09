@@ -59,6 +59,20 @@ BUILD_NAME='ADACS_astro_image_build'
 SOFTWARE_VOLUME='licensed_software'
 MATLAB_VOLUME='matlab'
 
+# Check if volumes are present and available
+STATUS=$(openstack volume show -c status -f value ${SOFTWARE_VOLUME})
+if [ "${STATUS}" != "available" ]; then
+  echo The volume \'"${SOFTWARE_VOLUME}"\' is "$STATUS"
+  openstack volume show "${SOFTWARE_VOLUME}"
+  exit 1
+fi
+STATUS=$(openstack volume show -c status -f value ${MATLAB_VOLUME})
+if [ "${STATUS}" != "available" ]; then
+  echo The volume \'"${MATLAB_VOLUME}"\' is "$STATUS"
+  openstack volume show "${MATLAB_VOLUME}"
+  exit 1
+fi
+
 # Fill out missing information in packer build file
 cat ${FILE} | \
   jq ".variables.ssh_user           = \"${DEFAULT_USER}\""     | \
