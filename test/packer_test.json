@@ -20,10 +20,18 @@
   ],
   "provisioners": [
     {
+      "type": "shell-local",
+      "command": "openstack server add volume {{user `test_name`}} {{user `matlab_volume`}}"
+    },
+    {
       "type": "inspec",
       "inspec_env_vars": ["CHEF_LICENSE=accept"],
       "profile": "{{user `inspec_profile`}}",
       "user": "{{user `ssh_user`}}"
+    },
+    {
+      "type": "shell-local",
+      "command": "openstack server remove volume {{user `test_name`}} {{user `matlab_volume`}}"
     },
     {
       "type": "shell-local",
