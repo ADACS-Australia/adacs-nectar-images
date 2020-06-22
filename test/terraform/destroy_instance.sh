@@ -1,3 +1,9 @@
+#!/bin/bash
+
+# This script requires:
+#  - Terraform
+#  - OpenStack credentials loaded in your environment
+
 # Find packer
 if ! hash terraform >/dev/null 2>&1; then
     echo "You need terraform installed to use this script"
