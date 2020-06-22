@@ -48,7 +48,7 @@ terraform output private_key > temporary_key.pem
 IP=$(terraform output IP)
 
 # Run tests
-inspec exec ../inspec-test -t ssh://${DEFAULT_USER}@${IP} -i temporary_key.pem || true
+inspec exec ../inspec -t ssh://${DEFAULT_USER}@${IP} -i temporary_key.pem || true
 
 # Cleanup
 terraform destroy -auto-approve -backup=-

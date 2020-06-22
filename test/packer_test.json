@@ -3,7 +3,8 @@
     "ssh_user":      "{{env `DEFAULT_USER`}}",
     "test_image":    "{{env `TEST_IMAGE`}}",
     "test_name":     "{{env `TEST_NAME`}}",
-    "matlab_volume": "{{env `MATLAB_VOLUME`}}"
+    "matlab_volume": "{{env `MATLAB_VOLUME`}}",
+    "inspec_profile":""
   },
   "builders": [
     {
@@ -20,7 +21,8 @@
     {
       "type": "inspec",
       "inspec_env_vars": ["CHEF_LICENSE=accept"],
-      "profile": "../inspec-test"
+      "profile": "{{user `inspec_profile`}}",
+      "user": "{{user `ssh_user`}}"
     },
     {
       "type": "shell-local",
