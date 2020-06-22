@@ -16,6 +16,7 @@ BUILD_NAME='ADACS_astro_image_build'
 
 # Name used for the image/server during testing
 TEST_NAME='TEST_'${BUILD_NAME}
+TEST_IMAGE=${NEW_IMAGE_NAME}
 
 # Volumes to attach during provisioning
 SOFTWARE_VOLUME='licensed_software'
