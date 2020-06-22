@@ -1,7 +1,7 @@
 {
   "variables": {
     "ssh_user": "",
-    "os_source_id": "",
+    "os_source_name": "",
     "os_build_name": "",
     "os_software_volume": "",
     "os_matlab_volume": ""
@@ -11,7 +11,7 @@
       "type": "openstack",
       "communicator": "ssh",
       "ssh_username": "{{user `ssh_user`}}",
-      "source_image": "{{user `os_source_id`}}",
+      "source_image_name": "{{user `os_source_name`}}",
       "image_name": "{{user `os_build_name`}}",
       "flavor": "m3.small",
       "security_groups": [

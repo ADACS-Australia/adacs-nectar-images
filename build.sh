@@ -40,9 +40,8 @@ fi
 
 FILE=packer.json
 
-# Get the image ID
+# Source image to build upon
 SOURCE_IMAGE_NAME='NeCTAR Ubuntu 18.04 LTS (Bionic) amd64'
-SOURCE_ID=$(openstack image show -f value -c id "$SOURCE_IMAGE_NAME")
 
 # Name to upload image as
 NEW_IMAGE_NAME='ADACS-Astro Ubuntu 18.04 LTS (Bionic) amd64 - unreleased'
@@ -88,7 +87,7 @@ fi
 # Fill out missing information in packer build file
 cat ${FILE} | \
   jq ".variables.ssh_user           = \"${DEFAULT_USER}\""     | \
-  jq ".variables.os_source_id       = \"${SOURCE_ID}\""        | \
+  jq ".variables.os_source_name     = \"${SOURCE_IMAGE_NAME}\""| \
   jq ".variables.os_build_name      = \"${BUILD_NAME}\""       | \
   jq ".variables.os_software_volume = \"${SOFTWARE_VOLUME}\""  | \
   jq ".variables.os_matlab_volume   = \"${MATLAB_VOLUME}\""    | \
