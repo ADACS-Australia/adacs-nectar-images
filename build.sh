@@ -25,7 +25,7 @@ if ! hash qemu-img >/dev/null 2>&1; then
 fi
 
 # Check if OpenStack credentials are loaded
-if [ -z "${OS_CLOUD}" ] && [ -z "${OS_USERNAME}" ]; then
+if [ -z "${OS_USERNAME}" ]; then
     echo -e "Please load the OpenStack credentials! \n"
     echo    "(source your OpenStack RC file)"
     exit 1
@@ -93,11 +93,10 @@ rm image_small.qcow2
 set +e
 
 # Set and unset some image properties
-NEW_ID=$(openstack image show -f value -c id "$NEW_IMAGE_NAME")
-openstack image set --property default_user=${DEFAULT_USER} ${NEW_ID}
-openstack image set --property os_distro=${OS_DISTRO}       ${NEW_ID}
-openstack image set --property os_version=${OS_VERSION}     ${NEW_ID}
+openstack image set --property default_user=${DEFAULT_USER} ${NEW_IMAGE_NAME}
+openstack image set --property os_distro=${OS_DISTRO}       ${NEW_IMAGE_NAME}
+openstack image set --property os_version=${OS_VERSION}     ${NEW_IMAGE_NAME}
 
-openstack image unset --property owner_specified.openstack.sha256 ${NEW_ID}
-openstack image unset --property owner_specified.openstack.object ${NEW_ID}
-openstack image unset --property owner_specified.openstack.md5    ${NEW_ID}
+openstack image unset --property owner_specified.openstack.sha256 ${NEW_IMAGE_NAME}
+openstack image unset --property owner_specified.openstack.object ${NEW_IMAGE_NAME}
+openstack image unset --property owner_specified.openstack.md5    ${NEW_IMAGE_NAME}
