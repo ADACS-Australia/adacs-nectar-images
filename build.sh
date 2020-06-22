@@ -40,23 +40,20 @@ fi
 
 FILE=packer.json
 
-# Source image to build upon
-SOURCE_IMAGE_NAME='NeCTAR Ubuntu 18.04 LTS (Bionic) amd64'
+# Set variables
+source vars.sh
 
-# Name to upload image as
-NEW_IMAGE_NAME='ADACS-Astro Ubuntu 18.04 LTS (Bionic) amd64 - unreleased'
-
-# Define some image properties
-DEFAULT_USER='ubuntu'
-OS_DISTRO='ubuntu'
-OS_VERSION='18.04'
-
-# Name to use for the temporary image during provisioning
-BUILD_NAME='ADACS_astro_image_build'
-
-# Volumes to attach during provisioning
-SOFTWARE_VOLUME='licensed_software'
-MATLAB_VOLUME='matlab'
+# Check if image names are not already taken/present
+STATUS=$(openstack image show -c status -f value "${BUILD_NAME}" 2> /dev/null || true)
+if [ "${STATUS}" != "" ]; then
+  echo The image \'"${BUILD_NAME}"\' already exists!
+  exit 1
+fi
+STATUS=$(openstack image show -c status -f value "${NEW_IMAGE_NAME}" 2> /dev/null || true)
+if [ "${STATUS}" != "" ]; then
+  echo The image \'"${NEW_IMAGE_NAME}"\' already exists!
+  exit 1
+fi
 
 # Check if volumes are present and available
 STATUS=$(openstack volume show -c status -f value ${SOFTWARE_VOLUME})
@@ -69,18 +66,6 @@ STATUS=$(openstack volume show -c status -f value ${MATLAB_VOLUME})
 if [ "${STATUS}" != "available" ]; then
   echo The volume \'"${MATLAB_VOLUME}"\' is "$STATUS"
   openstack volume show "${MATLAB_VOLUME}"
-  exit 1
-fi
-
-# Check if image names are not already taken/present
-STATUS=$(openstack image show -c status -f value "${BUILD_NAME}" 2> /dev/null || true)
-if [ "${STATUS}" != "" ]; then
-  echo The image \'"${BUILD_NAME}"\' already exists!
-  exit 1
-fi
-STATUS=$(openstack image show -c status -f value "${NEW_IMAGE_NAME}" 2> /dev/null || true)
-if [ "${STATUS}" != "" ]; then
-  echo The image \'"${NEW_IMAGE_NAME}"\' already exists!
   exit 1
 fi
 
