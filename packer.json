@@ -1,23 +1,20 @@
 {
   "variables": {
-    "ssh_user": "",
-    "os_source_name": "",
-    "os_build_name": "",
-    "os_software_volume": "",
-    "os_matlab_volume": ""
+    "ssh_user":           "{{env `DEFAULT_USER`}}",
+    "os_source_name":     "{{env `SOURCE_IMAGE_NAME`}}",
+    "os_build_name":      "{{env `BUILD_NAME`}}",
+    "os_software_volume": "{{env `SOFTWARE_VOLUME`}}",
+    "os_matlab_volume":   "{{env `MATLAB_VOLUME`}}"
   },
   "builders": [
     {
-      "type": "openstack",
-      "communicator": "ssh",
-      "ssh_username": "{{user `ssh_user`}}",
+      "type":              "openstack",
+      "communicator":      "ssh",
+      "ssh_username":      "{{user `ssh_user`}}",
       "source_image_name": "{{user `os_source_name`}}",
-      "image_name": "{{user `os_build_name`}}",
-      "flavor": "m3.small",
-      "security_groups": [
-        "default",
-        "SSH"
-      ]
+      "image_name":        "{{user `os_build_name`}}",
+      "flavor":            "m3.small",
+      "security_groups":  ["default","SSH"]
     }
   ],
   "provisioners": [

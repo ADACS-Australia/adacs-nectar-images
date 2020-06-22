@@ -3,7 +3,6 @@
 # This script requires:
 #  - Packer
 #  - Ansible
-#  - jq (JSON CLI tool)
 #  - QEMU tools
 #  - OpenStack credentials loaded in your environment
 
@@ -16,12 +15,6 @@ fi
 # Find ansible
 if ! hash ansible >/dev/null 2>&1; then
     echo "You need ansible installed to use this script"
-    exit 1
-fi
-
-# Find jq
-if ! hash jq >/dev/null 2>&1; then
-    echo "You need jq installed to use this script"
     exit 1
 fi
 
@@ -38,7 +31,7 @@ if [ -z "${OS_CLOUD}" ] && [ -z "${OS_USERNAME}" ]; then
     exit 1
 fi
 
-FILE=packer.json
+PACKER_TEMPLATE=packer.json
 
 # Set variables
 source vars.sh
@@ -69,15 +62,6 @@ if [ "${STATUS}" != "available" ]; then
   exit 1
 fi
 
-# Fill out missing information in packer build file
-cat ${FILE} | \
-  jq ".variables.ssh_user           = \"${DEFAULT_USER}\""     | \
-  jq ".variables.os_source_name     = \"${SOURCE_IMAGE_NAME}\""| \
-  jq ".variables.os_build_name      = \"${BUILD_NAME}\""       | \
-  jq ".variables.os_software_volume = \"${SOFTWARE_VOLUME}\""  | \
-  jq ".variables.os_matlab_volume   = \"${MATLAB_VOLUME}\""    | \
-cat > ${FILE}.tmp
-
 # Print commands as they are run
 set -x
 
@@ -85,8 +69,7 @@ set -x
 PACKER_OPTS=$1
 
 # Build and provision image
-packer build ${PACKER_OPTS} ${FILE}.tmp
-rm -f ${FILE}.tmp
+packer build ${PACKER_OPTS} ${PACKER_TEMPLATE}
 
 SAVE_DIR=${SAVE_DIR:-$(PWD)}
 
