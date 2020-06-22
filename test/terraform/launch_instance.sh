@@ -1,19 +1,12 @@
-#!/bin/bash -e
+#!/bin/bash
 
 # This script requires:
 #  - Terraform
-#  - Chef InSpec
 #  - OpenStack credentials loaded in your environment
 
 # Find packer
 if ! hash terraform >/dev/null 2>&1; then
     echo "You need terraform installed to use this script"
-    exit 1
-fi
-
-# Find inspec
-if ! hash inspec >/dev/null 2>&1; then
-    echo "You need inspec installed to use this script"
     exit 1
 fi
 
@@ -38,19 +31,28 @@ fi
 # Export terraform variables
 export TF_VAR_test_image_name=${TEST_IMAGE}
 export TF_VAR_matlab_volume=$(openstack volume show -c id -f value ${MATLAB_VOLUME})
+export TF_VAR_test_name=${TEST_NAME}
 
-# Launch test server
+# Launch test instance
 terraform init
-terraform apply -auto-approve -backup=-
+terraform apply -auto-approve #-backup=-
 
 # Save private key and IP address
 terraform output private_key > temporary_key.pem
+chmod 600 temporary_key.pem
 IP=$(terraform output IP)
 
-# Run tests
-inspec exec ../inspec -t ssh://${DEFAULT_USER}@${IP} -i temporary_key.pem || true
-
-# Cleanup
-terraform destroy -auto-approve -backup=-
-rm temporary_key.pem
-rm terraform.tfstate
+echo "=== Successfully launched test instance ==="
+echo
+echo "You can run the Chef InSpec test with the command:"
+echo
+echo "      inspec exec ../inspec -t ssh://${DEFAULT_USER}@${IP} -i temporary_key.pem"
+echo
+echo "or simply ssh into the machine with:"
+echo
+echo "      ssh -i temporary_key.pem ${DEFAULT_USER}@${IP}"
+echo
+echo "To tear down the test instance run:"
+echo
+echo "      ./destroy_instance.sh"
+echo

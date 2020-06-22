@@ -5,6 +5,9 @@ variable "test_image_name" {
 variable "matlab_volume" {
   default = ""
 }
+variable "test_name" {
+  default = ""
+}
 
 # Configure the OpenStack Provider
 provider "openstack" { version = "~> 1.28" }
@@ -16,7 +19,7 @@ resource "openstack_compute_keypair_v2" "test-keypair" {
 
 # Launch VM with image to test
 resource "openstack_compute_instance_v2" "test-server" {
-  name            = "ADACS_IMAGE_TESTING"
+  name            = var.test_name
   image_name      = var.test_image_name
   flavor_name     = "m3.small"
   key_pair        = openstack_compute_keypair_v2.test-keypair.name
@@ -24,7 +27,7 @@ resource "openstack_compute_instance_v2" "test-server" {
 
 # Wait for ssh connection
   provisioner "remote-exec" {
-    inline = ["echo"]
+    inline = ["echo '===> ssh is now available <==='"]
 
     connection {
     type        = "ssh"
