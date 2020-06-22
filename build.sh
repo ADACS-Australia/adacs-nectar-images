@@ -89,12 +89,15 @@ rm image_large.qcow2
 openstack image create --disk-format qcow2 --container-format bare --file image_small.qcow2 "${NEW_IMAGE_NAME}"
 rm image_small.qcow2
 
+# Allow script to continue if subsequent commands have an error
+set +e
+
 # Set and unset some image properties
 NEW_ID=$(openstack image show -f value -c id "$NEW_IMAGE_NAME")
-openstack image set --property default_user=${DEFAULT_USER} ${NEW_ID} || true
-openstack image set --property os_distro=${OS_DISTRO}       ${NEW_ID} || true
-openstack image set --property os_version=${OS_VERSION}     ${NEW_ID} || true
+openstack image set --property default_user=${DEFAULT_USER} ${NEW_ID}
+openstack image set --property os_distro=${OS_DISTRO}       ${NEW_ID}
+openstack image set --property os_version=${OS_VERSION}     ${NEW_ID}
 
-openstack image unset --property owner_specified.openstack.sha256 ${NEW_ID} || true
-openstack image unset --property owner_specified.openstack.object ${NEW_ID} || true
-openstack image unset --property owner_specified.openstack.md5    ${NEW_ID} || true
+openstack image unset --property owner_specified.openstack.sha256 ${NEW_ID}
+openstack image unset --property owner_specified.openstack.object ${NEW_ID}
+openstack image unset --property owner_specified.openstack.md5    ${NEW_ID}
