@@ -13,6 +13,7 @@
       "ssh_username":      "{{user `ssh_user`}}",
       "source_image_name": "{{user `test_image`}}",
       "image_name":        "{{user `test_name`}}",
+      "instance_name":     "{{user `test_name`}}",
       "flavor":            "m3.small",
       "security_groups":  ["default","SSH"]
     }
