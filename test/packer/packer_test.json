@@ -1,0 +1,42 @@
+{
+  "variables": {
+    "ssh_user": "",
+    "os_source_id": "",
+    "os_build_name": "",
+    "os_matlab_volume": ""
+  },
+  "builders": [
+    {
+      "type": "openstack",
+      "communicator": "ssh",
+      "ssh_username": "{{user `ssh_user`}}",
+      "source_image": "{{user `os_source_id`}}",
+      "image_name": "{{user `os_build_name`}}",
+      "flavor": "m3.small",
+      "security_groups": ["default","SSH"]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "inspec",
+      "inspec_env_vars": ["CHEF_LICENSE=accept"],
+      "profile": "../inspec-test"
+    },
+    {
+      "type": "shell-local",
+      "inline": [
+                 "echo",
+                 "echo '============================================================='",
+                 "echo",
+                 "echo 'SUCCESS: TESTS PASSED'",
+                 "echo",
+                 "echo 'FORCING PACKER TO EXIT WITH AN ERROR TO PREVENT IMAGE UPLOAD'",
+                 "echo",
+                 "echo '(Ignore packer output beyond this message)'",
+                 "echo '============================================================='",
+                 "echo",
+                 "exit 1"
+                 ]
+    }
+  ]
+}

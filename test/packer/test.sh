@@ -57,20 +57,17 @@ cat ${FILE} | \
   jq ".variables.os_matlab_volume   = \"${MATLAB_VOLUME}\""    | \
 cat > ${FILE}.tmp
 
-# Print commands as they are run
-set -x
-
 # Pass additional scrip arguments/options through to packer build
 PACKER_OPTS=$1
 
 # Build and provision image
-packer build ${PACKER_OPTS} ${FILE}.tmp
+packer build -color=false ${PACKER_OPTS} ${FILE}.tmp
 rm -f ${FILE}.tmp
-set +x
 
-echo
-echo "Testing Complete."
-echo "See output from the InSpec provisioner for the results."
+echo "========================================================"
+echo "END PACKER OUTPUT"
+echo "========================================================"
+echo "See output from the InSpec provisioner (above) for test results."
 echo
 echo "   (Note: Packer is forced to exit with a non-zero"
 echo "          error code, even upon success, in order"

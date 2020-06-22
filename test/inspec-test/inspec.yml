@@ -1,0 +1,6 @@
+name: inspec-test
+title: ADACS-Astro image tests
+summary: InSpec tests for testing the software installed on the ADACS-Astro image
+version: 0.1.0
+supports:
+  platform: os
