@@ -73,6 +73,18 @@ if [ "${STATUS}" != "available" ]; then
   exit 1
 fi
 
+# Check if image names are not already taken/present
+STATUS=$(openstack image show -c status -f value "${BUILD_NAME}" 2> /dev/null || true)
+if [ "${STATUS}" != "" ]; then
+  echo The image \'"${BUILD_NAME}"\' already exists!
+  exit 1
+fi
+STATUS=$(openstack image show -c status -f value "${NEW_IMAGE_NAME}" 2> /dev/null || true)
+if [ "${STATUS}" != "" ]; then
+  echo The image \'"${NEW_IMAGE_NAME}"\' already exists!
+  exit 1
+fi
+
 # Fill out missing information in packer build file
 cat ${FILE} | \
   jq ".variables.ssh_user           = \"${DEFAULT_USER}\""     | \
