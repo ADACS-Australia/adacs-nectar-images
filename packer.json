@@ -1,18 +1,18 @@
 {
   "variables": {
-    "ssh_user":           "{{env `DEFAULT_USER`}}",
-    "os_source_name":     "{{env `SOURCE_IMAGE_NAME`}}",
-    "os_build_name":      "{{env `BUILD_NAME`}}",
-    "os_software_volume": "{{env `SOFTWARE_VOLUME`}}",
-    "os_matlab_volume":   "{{env `MATLAB_VOLUME`}}"
+    "ssh_user":        "{{env `DEFAULT_USER`}}",
+    "source_name":     "{{env `SOURCE_IMAGE_NAME`}}",
+    "build_name":      "{{env `BUILD_NAME`}}",
+    "software_volume": "{{env `SOFTWARE_VOLUME`}}",
+    "matlab_volume":   "{{env `MATLAB_VOLUME`}}"
   },
   "builders": [
     {
       "type":              "openstack",
       "communicator":      "ssh",
       "ssh_username":      "{{user `ssh_user`}}",
-      "source_image_name": "{{user `os_source_name`}}",
-      "image_name":        "{{user `os_build_name`}}",
+      "source_image_name": "{{user `source_name`}}",
+      "image_name":        "{{user `build_name`}}",
       "flavor":            "m3.small",
       "security_groups":  ["default","SSH"]
     }
@@ -20,11 +20,11 @@
   "provisioners": [
     {
       "type": "shell-local",
-      "command": "openstack server add volume {{user `os_build_name`}} {{user `os_software_volume`}}"
+      "command": "openstack server add volume {{user `build_name`}} {{user `software_volume`}}"
     },
     {
       "type": "shell-local",
-      "command": "openstack server add volume {{user `os_build_name`}} {{user `os_matlab_volume`}}"
+      "command": "openstack server add volume {{user `build_name`}} {{user `matlab_volume`}}"
     },
     {
       "type": "ansible",
@@ -33,11 +33,11 @@
     },
     {
       "type": "shell-local",
-      "command": "openstack server remove volume {{user `os_build_name`}} {{user `os_matlab_volume`}}"
+      "command": "openstack server remove volume {{user `build_name`}} {{user `matlab_volume`}}"
     },
     {
       "type": "shell-local",
-      "command": "openstack server remove volume {{user `os_build_name`}} {{user `os_software_volume`}}"
+      "command": "openstack server remove volume {{user `build_name`}} {{user `software_volume`}}"
     },
     {
       "type": "shell",
