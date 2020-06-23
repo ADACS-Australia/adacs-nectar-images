@@ -55,3 +55,27 @@ control '3' do
   end
 
 end
+
+control '4' do
+  impact 0.7
+  title 'Mathematica license'
+  desc 'Check whether license file works'
+
+  describe command(%q{echo | math}) do
+    its('exit_status') {should cmp 0}
+  end
+end
+
+control '5' do
+  impact 0.7
+  title 'IDL license'
+  desc 'Check whether license file works'
+
+  describe command(%q{idl -e 'print, "test"'}) do
+    its('stderr') {should cmp''}
+  end
+end
+
+#--- TO DO:
+# Check Matlab license
+# Check intel license
