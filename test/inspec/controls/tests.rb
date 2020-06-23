@@ -1,31 +1,15 @@
-apt_packages = [
-  'gcc','g++','make',
-  'cmake',
-  'git',
-  'git-lfs',
-  'gfortran',
-  'nano',
-  'emacs',
-  'wget'
-  ]
+require 'yaml'
 
-py = ['conda','python','ipython']
+# Load apt package list from file
+apt_packages=YAML.load_file('../../ansible/vars/apt_packages.yml')['apt_packages']
+apt_packages.delete_if{|i| i == 'build-essential'}
+apt_packages.concat(['gcc','g++','make'])
 
-conda_packages = [
-  "python",
-  "ipython",
-  "numpy",
-  "matplotlib",
-  "scipy",
-  "pandas",
-  "tensorflow",
-  "astropy",
-  "fftw",
-  "hdf5",
-  "jupyter"
-  ]
+# Load conda package list from file
+conda_packages=YAML.load_file('../../ansible/vars/conda_packages.yml')['conda_packages']
+python = ['conda','python','ipython']
 
-lsoft = ['ifort','icc','matlab','mathematica','math','idl']
+licensed_software = ['ifort','icc','matlab','mathematica','math','idl']
 
 control '1' do
   impact 1.0
@@ -33,9 +17,6 @@ control '1' do
   desc 'Check commands for packages installed with apt'
 
   apt_packages.each do |package|
-      # describe command(package+' --version') do
-      #     its('exit_status') { should eq 0 }
-      # end
       describe command(package) do
         it {should exist}
       end
@@ -48,7 +29,7 @@ control '2' do
   title 'conda/python installation'
   desc 'Check for installation of conda/python and packages'
 
-  py.each do |j|
+  python.each do |j|
     describe command(j) do
       it {should exist}
     end
@@ -67,7 +48,7 @@ control '3' do
   title 'Licensed software installations'
   desc 'Check for installations of licensed software'
 
-  lsoft.each do |k|
+  licensed_software.each do |k|
     describe command(k) do
       it {should exist}
     end
