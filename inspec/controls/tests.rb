@@ -1,12 +1,14 @@
 require 'yaml'
 
 # Load apt package list from file
-apt_packages=YAML.load_file('../../ansible/vars/apt_packages.yml')['apt_packages']
+apt_packages = input('apt_packages')
+
+# Replace 'build-essential' with 'gcc', 'g++' and 'make'
 apt_packages.delete_if{|i| i == 'build-essential'}
 apt_packages.concat(['gcc','g++','make'])
 
 # Load conda package list from file
-conda_packages=YAML.load_file('../../ansible/vars/conda_packages.yml')['conda_packages']
+conda_packages=input('conda_packages')
 python = ['conda','python','ipython']
 
 licensed_software = ['ifort','icc','matlab','mathematica','math','idl']

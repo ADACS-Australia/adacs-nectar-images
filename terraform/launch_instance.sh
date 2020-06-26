@@ -18,7 +18,7 @@ if [ -z "${OS_USERNAME}" ]; then
 fi
 
 # Set variables
-source ../../vars.sh
+source ../vars.sh
 
 # Check if volumes are present and available
 STATUS=$(openstack volume show -c status -f value ${MATLAB_VOLUME})
@@ -37,20 +37,22 @@ export TF_VAR_test_name=${TEST_NAME}
 terraform init
 terraform apply -auto-approve #-backup=-
 
+TMP_KEY="temporary_key.pem"
+
 # Save private key and IP address
-terraform output private_key > temporary_key.pem
-chmod 600 temporary_key.pem
+terraform output private_key > ${TMP_KEY}
+chmod 600 ${TMP_KEY}
 IP=$(terraform output IP)
 
 echo "=== Successfully launched test instance ==="
 echo
-echo "You can run the Chef InSpec test with the command:"
+echo "You can ssh into the machine with:"
 echo
-echo "      inspec exec ../inspec -t ssh://${DEFAULT_USER}@${IP} -i temporary_key.pem"
+echo "      ssh -i ${TMP_KEY} ${DEFAULT_USER}@${IP}"
 echo
-echo "or simply ssh into the machine with:"
+echo "Template command for running the inspec test on this instance is:"
 echo
-echo "      ssh -i temporary_key.pem ${DEFAULT_USER}@${IP}"
+echo "      inspec exec \${INSPEC_PROFILE} -t ssh://${DEFAULT_USER}@${IP} -i ${TMP_KEY} --input-file \${APT_PACKAGES} \${CONDA_PACKAGES}"
 echo
 echo "To tear down the test instance run:"
 echo

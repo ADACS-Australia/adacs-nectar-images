@@ -4,7 +4,9 @@
     "test_image":    "{{env `TEST_IMAGE`}}",
     "test_name":     "{{env `TEST_NAME`}}",
     "matlab_volume": "{{env `MATLAB_VOLUME`}}",
-    "inspec_profile":""
+    "inspec_profile":"",
+    "apt_packages":  "",
+    "conda_packages":""
   },
   "builders": [
     {
@@ -27,7 +29,8 @@
       "type": "inspec",
       "inspec_env_vars": ["CHEF_LICENSE=accept"],
       "profile": "{{user `inspec_profile`}}",
-      "user": "{{user `ssh_user`}}"
+      "user": "{{user `ssh_user`}}",
+      "attributes": ["{{user `apt_packages`}}","{{user `conda_packages`}}"]
     },
     {
       "type": "shell-local",

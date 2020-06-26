@@ -17,7 +17,7 @@ if [ -z "${OS_USERNAME}" ]; then
     exit 1
 fi
 
-PACKER_TEMPLATE=test/packer_test.json
+PACKER_TEMPLATE=packer_test.json
 
 # Set variables
 source vars.sh
@@ -33,8 +33,17 @@ fi
 # Pass additional scrip arguments/options through to packer build
 PACKER_OPTS=$1
 
+# Set some directories
+VARS_DIR="ansible/vars/"
+INSPEC_DIR="inspec/"
+
 # Build and provision image
-packer build -color=false -var 'inspec_profile=./test/inspec' ${PACKER_OPTS} ${PACKER_TEMPLATE}
+packer build                                           \
+  -color=false                                         \
+  -var "inspec_profile=${INSPEC_DIR}"                  \
+  -var "apt_packages=${VARS_DIR}/apt_packages.yml"     \
+  -var "conda_packages=${VARS_DIR}/conda_packages.yml" \
+  ${PACKER_OPTS} ${PACKER_TEMPLATE}
 
 echo "========================================================"
 echo "END PACKER OUTPUT"
