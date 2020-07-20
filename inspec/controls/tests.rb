@@ -3,8 +3,10 @@ require 'yaml'
 # Load apt package list from file
 apt_packages = input('apt_packages')
 
-# Replace 'build-essential' with 'gcc', 'g++' and 'make'
+# Delete 'build-essential' and 'lsb-core'
 apt_packages.delete_if{|i| i == 'build-essential'}
+apt_packages.delete_if{|i| i == 'lsb-core'}
+# Add 'gcc', 'g++' and 'make'
 apt_packages.concat(['gcc','g++','make'])
 
 # Load conda package list from file
