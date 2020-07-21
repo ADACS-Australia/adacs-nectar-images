@@ -38,19 +38,22 @@
     - "./idl/bin/create_symlinks"
 
 - name: clone IDL Astro library
+  become: yes
   git:
     repo: https://github.com/wlandsman/IDLAstro.git
-    dest: "$HOME/idlastro"
+    dest: "{{ idl_astro_dir }}"
 
 - name: clone IDL utils (SDSS)
+  become: yes
   subversion:
     repo: https://svn.sdss.org/public/repo/sdss/idlutils/tags/v5_5_24
-    dest: "$HOME/idlutils"
+    dest: "{{ idl_utils_dir }}"
 
 - name: clone IDL spec2d (SDSS)
+  become: yes
   subversion:
     repo: https://svn.sdss.org/public/repo/eboss/idlspec2d/tags/v5_13_2
-    dest: "$HOME/idlspec2d"
+    dest: "{{ idl_spec2d_dir }}"
 
 - name: set IDL paths
   blockinfile:
@@ -61,17 +64,17 @@
       export IDL_PATH=+/usr/local/exelis/idl
 
       #-- IDL Astro
-      export IDL_PATH=+$HOME/idlastro/pro:$IDL_PATH
-      export ASTRO_DATA=$HOME/idlastro/data/
+      export IDL_PATH=+{{ idl_astro_dir }}/pro:$IDL_PATH
+      export ASTRO_DATA={{ idl_astro_dir }}/data/
 
       #-- IDL utils
-      export IDLUTILS_DIR=$HOME/idlutils
+      export IDLUTILS_DIR={{ idl_utils_dir }}
       export PATH=$IDLUTILS_DIR/bin:$PATH
       export IDL_PATH=+$IDLUTILS_DIR/goddard/pro:$IDL_PATH
       export IDL_PATH=+$IDLUTILS_DIR/pro:$IDL_PATH
 
       #-- IDL spec2d
-      export IDLSPEC2D_DIR=$HOME/idlspec2d
+      export IDLSPEC2D_DIR={{ idl_spec2d_dir }}
       export PATH=$IDLSPEC2D_DIR/bin:$PATH
       export IDL_PATH=+$IDLSPEC2D_DIR/pro:$IDL_PATH
     marker: "{mark}"
@@ -79,14 +82,15 @@
     marker_end: "# <<< END IDL PATH SETUP"
 
 - name: build C libraries for idlutils and idlspec2d
+  become: yes
   shell:
     executable: /bin/bash
     chdir: "{{ item }}"
     cmd: |
       export IDL_DIR=/usr/local/exelis/idl/;
-      export IDLUTILS_DIR=$HOME/idlutils;
-      export IDLSPEC2D_DIR=$HOME/idlspec2d;
+      export IDLUTILS_DIR={{ idl_utils_dir }};
+      export IDLSPEC2D_DIR={{ idl_spec2d_dir }};
       $IDLUTILS_DIR/bin/evilmake all
   with_items:
-    - $HOME/idlutils
-    - $HOME/idlspec2d
+    - "{{ idl_utils_dir }}"
+    - "{{ idl_spec2d_dir }}"

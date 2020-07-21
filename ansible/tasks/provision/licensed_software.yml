@@ -8,6 +8,9 @@
     mnt_matlab_installation: /mnt/matlab
     matlab_inputFile: /mnt/silent.ini
     matlab_activationFile: /mnt/activate.ini
+    idl_astro_dir: "/usr/local/idlastro"
+    idl_utils_dir: "/usr/local/idlutils"
+    idl_spec2d_dir: "/usr/local/idlspec2d"
 
   block:
 
