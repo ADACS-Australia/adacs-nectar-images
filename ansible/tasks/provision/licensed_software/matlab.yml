@@ -14,7 +14,7 @@
   become: yes
   copy:
     remote_src: yes
-    src: "{{ mnt_software }}/Matlab/silent.ini"
+    src: "{{ mnt_software }}/Matlab/silent.ini.template"
     dest: "{{ matlab_inputFile }}"
 
 - name: make copy of activate.ini
