@@ -1,12 +1,5 @@
 ---
 
-- name: delete miniconda install script
-  file:
-    path: "{{ home_dir }}/{{ item }}"
-    state: absent
-  with_items:
-    - miniconda.sh
-
 - name: apt autoclean and autoremove
   become: true
   apt:

@@ -29,3 +29,10 @@
     marker: "{mark}"
     marker_begin: "# >>> BEGIN remove default conda env prefix (base) from command prompt"
     marker_end: "# <<< END"
+
+- name: delete miniconda install script
+  file:
+    path: "{{ home_dir }}/{{ item }}"
+    state: absent
+  with_items:
+    - miniconda.sh

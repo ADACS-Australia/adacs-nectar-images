@@ -74,4 +74,3 @@
   file:
     path: "{{ matlab_activationFile }}"
     state: absent
-
