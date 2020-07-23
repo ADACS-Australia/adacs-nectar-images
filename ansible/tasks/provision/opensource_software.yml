@@ -31,6 +31,11 @@
   with_items:
     - "source ~/.bashrc && conda activate iraf27 && printf '\n' | mkiraf"
 
+- name: copy DRAGONS rsys.cfg
+  copy:
+    src: files2copy/dragons_rsys.cfg
+    dest: "$HOME/.geminidir/rsys.cfg"
+
 - name: conda clean
   shell:
     chdir: "$HOME"
