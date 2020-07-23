@@ -1,4 +1,27 @@
 ---
 
-- import_tasks: tasks/provision/opensource_software/fermitools.yml
 - import_tasks: tasks/provision/opensource_software/pywifes.yml
+# - import_tasks: tasks/provision/opensource_software/fermitools.yml
+# - import_tasks: tasks/provision/opensource_software/dragons.yml
+# - import_tasks: tasks/provision/opensource_software/gemini.yml
+
+- name: conda envs
+  include_tasks: tasks/provision/opensource_software/conda_envs.yml
+  vars:
+    env_file: "{{ file }}"
+  loop_control:
+    loop_var: file
+  loop:
+    - "env_fermitools.yml"
+    - "env_dragons.yml"
+    - "env_gemini.yml"
+    - "env_astroconda.yml"
+    - "env_iraf27.yml"
+
+- name: conda clean
+  shell:
+    chdir: "{{ home_dir }}"
+    executable: /bin/bash
+    cmd: "{{ item }}"
+  with_items:
+    - "conda clean -y --all"

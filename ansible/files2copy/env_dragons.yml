@@ -1,0 +1,8 @@
+name: dragons
+channels:
+  - http://ssb.stsci.edu/astroconda
+  - http://astroconda.gemini.edu/public
+dependencies:
+  - python=3.6
+  - gemini
+  - stsci

@@ -1,0 +1,10 @@
+name: geminiconda
+channels:
+  - http://ssb.stsci.edu/astroconda
+  - http://astroconda.gemini.edu/public
+dependencies:
+  - python=2.7
+  - gemini
+  - stsci
+  - iraf-all
+  - pyraf-all

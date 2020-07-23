@@ -1,0 +1,8 @@
+name: iraf27
+channels:
+  - http://ssb.stsci.edu/astroconda
+dependencies:
+  - python=2.7
+  - iraf-all
+  - pyraf-all
+  - stsci

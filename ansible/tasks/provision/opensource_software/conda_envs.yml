@@ -1,0 +1,19 @@
+---
+
+- name: "copy {{ env_file }}"
+  copy:
+    src: "files2copy/{{ env_file }}"
+    dest: "$HOME/{{ env_file }}"
+
+- name: "create conda env from {{ env_file }}"
+  shell:
+    chdir: "$HOME"
+    executable: /bin/bash
+    cmd: "{{ item }}"
+  with_items:
+    - "conda env create --force -f {{ env_file }}"
+
+- name: "remove {{ env_file }}"
+  file:
+    path: "$HOME/{{ env_file }}"
+    state: absent
