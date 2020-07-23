@@ -1,9 +1,6 @@
 ---
 
 - import_tasks: tasks/provision/opensource_software/pywifes.yml
-# - import_tasks: tasks/provision/opensource_software/fermitools.yml
-# - import_tasks: tasks/provision/opensource_software/dragons.yml
-# - import_tasks: tasks/provision/opensource_software/gemini.yml
 
 - name: conda envs
   include_tasks: tasks/provision/opensource_software/conda_envs.yml
