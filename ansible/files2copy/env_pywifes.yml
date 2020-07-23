@@ -1,0 +1,7 @@
+name: pywifes
+dependencies:
+  - python=2
+  - astropy
+  - matplotlib
+  - numpy
+  - scipy

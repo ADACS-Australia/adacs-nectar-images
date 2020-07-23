@@ -1,0 +1,4 @@
+---
+
+- import_tasks: tasks/provision/opensource_software/fermitools.yml
+- import_tasks: tasks/provision/opensource_software/pywifes.yml

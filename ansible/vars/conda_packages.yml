@@ -1,6 +1,7 @@
 ---
 
 conda_packages:
+  - conda-build
   - python
   - ipython
   - numpy
