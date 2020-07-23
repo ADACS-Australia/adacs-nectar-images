@@ -1,0 +1,37 @@
+---
+
+- name: download DS9
+  become: yes
+  get_url:
+    url: http://ds9.si.edu/download/ubuntu18/ds9.ubuntu18.8.1.tar.gz
+    dest: /tmp/ds9.tar.gz
+
+- name: create DS9 directory
+  become: yes
+  file:
+    path: /usr/local/ds9
+    state: directory
+
+- name: install DS9
+  become: yes
+  unarchive:
+    src: /tmp/ds9.tar.gz
+    dest: /usr/local/ds9
+    remote_src: yes
+    extra_opts:
+      - --one-top-level
+
+- name: add DS9 to path
+  blockinfile:
+    path: $HOME/.bashrc
+    block: |
+      export PATH=/usr/local/ds9:$PATH
+    marker: "{mark}"
+    marker_begin: "# >>> BEGIN DS9 PATH SETUP"
+    marker_end: "# <<< END DS9 PATH SETUP"
+
+- name: delete ds9.tar.gz
+  become: yes
+  file:
+    path: /tmp/ds9.tar.gz
+    state: absent

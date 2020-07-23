@@ -1,5 +1,6 @@
 ---
 
+- import_tasks: tasks/provision/opensource_software/ds9.yml
 - import_tasks: tasks/provision/opensource_software/pywifes.yml
 
 - name: conda envs
