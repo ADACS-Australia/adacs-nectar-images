@@ -10,3 +10,4 @@ apt_packages:
   - nano
   - emacs
   - wget
+  - sextractor
