@@ -15,6 +15,22 @@
     - "env_astroconda.yml"
     - "env_iraf27.yml"
 
+- name: create iraf and DRAGONS directories
+  file:
+    path: "$HOME/{{ item }}"
+    state: directory
+  with_items:
+   - "iraf"
+   - ".geminidir"
+
+- name: configure iraf
+  shell:
+    chdir: "$HOME/iraf"
+    executable: /bin/bash
+    cmd: "{{ item }}"
+  with_items:
+    - "source ~/.bashrc && conda activate iraf27 && printf '\n' | mkiraf"
+
 - name: conda clean
   shell:
     chdir: "$HOME"
