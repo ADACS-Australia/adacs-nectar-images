@@ -8,9 +8,9 @@
 - name: install miniconda
   shell:
     chdir: "{{ home_dir }}"
-    creates: "{{ home_dir }}/miniconda"
+    creates: "{{ home_dir }}/conda"
     executable: /bin/bash
-    cmd: bash miniconda.sh -b -p miniconda
+    cmd: bash miniconda.sh -b -p conda
 
 - name: "conda: init, install packages, and clean"
   shell:
@@ -18,17 +18,11 @@
     executable: /bin/bash
     cmd: "{{ item }}"
   with_items:
-    - "source miniconda/bin/activate && conda init"
-    - "source miniconda/bin/activate && conda install -y {{ conda_packages | join(' ')}}"
-    - "source miniconda/bin/activate && conda clean -y --all"
-
-- name: remove default conda env prefix (base) from command prompt
-  blockinfile:
-    path: $HOME/.bashrc
-    block: PS1=${PS1/"(base) "/""}
-    marker: "{mark}"
-    marker_begin: "# >>> BEGIN remove default conda env prefix (base) from command prompt"
-    marker_end: "# <<< END"
+    - "source conda/bin/activate && conda init"
+    - "conda install -y {{ conda_packages | join(' ')}}"
+    - "conda clean -y --all"
+    - "conda config --set env_prompt '({name}) '"
+    - "conda config --set auto_activate_base false"
 
 - name: delete miniconda install script
   file:
