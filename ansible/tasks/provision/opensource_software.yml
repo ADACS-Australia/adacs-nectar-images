@@ -17,7 +17,7 @@
 
 - name: conda clean
   shell:
-    chdir: "{{ home_dir }}"
+    chdir: "$HOME"
     executable: /bin/bash
     cmd: "{{ item }}"
   with_items:
