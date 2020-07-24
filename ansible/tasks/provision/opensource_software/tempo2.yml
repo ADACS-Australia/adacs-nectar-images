@@ -1,0 +1,34 @@
+---
+
+- name: clone tempo2
+  become: yes
+  git:
+    repo: https://bitbucket.org/psrsoft/tempo2.git
+    dest: /usr/local/tempo2
+
+- name: install pgplot
+  become: yes
+  apt:
+    name: pgplot5
+
+- name: get CONDA_PREFIX
+  shell:
+    executable: /bin/bash
+    cmd: "source ~/.bashrc && conda activate && echo $CONDA_PREFIX"
+  register: CONDA_PREFIX
+
+- name: install tempo2
+  become: yes
+  shell:
+    chdir: "/usr/local/tempo2"
+    executable: /bin/bash
+    cmd: "{{ item }}"
+  with_items:
+    - "./bootstrap"
+    - >
+      TEMPO2=/usr/local/tempo2/T2runtime
+      LD_LIBRARY_PATH={{ CONDA_PREFIX.stdout }}/pkgs/
+      GSL_CONFIG={{ CONDA_PREFIX.stdout }}/bin/gsl-config
+      ./configure
+    - "make && make install"
+    - "make plugins && make plugins-install"
