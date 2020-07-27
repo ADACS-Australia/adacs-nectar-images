@@ -1,6 +1,5 @@
 ---
 
-- import_tasks: tasks/provision/opensource_software/tempo2.yml
 - import_tasks: tasks/provision/opensource_software/ds9.yml
 - import_tasks: tasks/provision/opensource_software/pywifes.yml
 
@@ -45,3 +44,5 @@
     cmd: "{{ item }}"
   with_items:
     - "conda clean -y --all"
+
+- import_tasks: tasks/provision/opensource_software/tempo2.yml
