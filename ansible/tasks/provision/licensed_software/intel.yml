@@ -1,4 +1,5 @@
-# Needs "{{ mnt_software }}" defined
+# Needs:
+#       {{ mnt_software }}  -- Path to mount software volume
 ---
 
 - name: install intel parallel studio silently

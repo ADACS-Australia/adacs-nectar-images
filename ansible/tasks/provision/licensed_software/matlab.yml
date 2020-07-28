@@ -1,5 +1,7 @@
-# Needs {{ mnt_software }}, {{ mnt_matlab_iso }}, {{ mnt_matlab_installation }},
-#       {{ matlab_inputFile }}, and {{ matlab_activationFile }} paths defined
+# Needs:
+#       {{ mnt_software }}              -- Path to mount software volume
+#       {{ mnt_matlab_installation }}   -- Path to mount matlab volume
+#       {{ matlab_inputFile }}          -- Full path for creating matlab silent install input file (with completed fields)
 ---
 
 - name: install Matlab dependencies
@@ -17,27 +19,12 @@
     src: "{{ mnt_software }}/Matlab/silent.ini.template"
     dest: "{{ matlab_inputFile }}"
 
-- name: make copy of activate.ini
-  become: yes
-  copy:
-    remote_src: yes
-    src: "{{ mnt_software }}/Matlab/activate.ini"
-    dest: "{{ matlab_activationFile }}"
-
 - name: set installation folder path within silent.ini
   become: yes
   lineinfile:
     path: "{{ matlab_inputFile }}"
     regexp: "^destinationFolder="
     line: "destinationFolder={{ mnt_matlab_installation }}/MATLAB-R2019b"
-    state: present
-
-- name: set path to activate.ini within silent.ini
-  become: yes
-  lineinfile:
-    path: "{{ matlab_inputFile }}"
-    regexp: "^activationPropertiesFile="
-    line: "activationPropertiesFile={{ matlab_inputFile }}"
     state: present
 
 - name: set path to network.lic within silent.ini
@@ -48,29 +35,15 @@
     line: "licensePath={{ mnt_software }}/Matlab/network.lic"
     state: present
 
-- name: set path to network.lic within activate.ini
-  become: yes
-  lineinfile:
-      path: "{{ matlab_activationFile }}"
-      regexp: "^licenseFile="
-      line: "licenseFile={{ mnt_software }}/Matlab/network.lic"
-      state: present
-
 - name: run matlab installer silently
   become: yes
   shell:
     executable: /bin/bash
-    cmd: "{{ mnt_matlab_iso }}/install -inputFile {{ matlab_inputFile }}"
+    cmd: "{{ mnt_software }}/Matlab/matlab-2019b/install -inputFile {{ matlab_inputFile }}"
     creates: "{{ mnt_matlab_installation }}/MATLAB-R2019b"
 
 - name: remove temporary silent.ini
   become: yes
   file:
     path: "{{ matlab_inputFile }}"
-    state: absent
-
-- name: remove temporary activate.ini
-  become: yes
-  file:
-    path: "{{ matlab_activationFile }}"
     state: absent
