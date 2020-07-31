@@ -1,6 +1,6 @@
 ---
 
-- name: apt install packages
+- name: install sextractor
   become: true
   apt:
     name:
