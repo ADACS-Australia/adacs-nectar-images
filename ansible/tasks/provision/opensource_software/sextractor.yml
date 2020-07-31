@@ -1,0 +1,7 @@
+---
+
+- name: apt install packages
+  become: true
+  apt:
+    name:
+      - sextractor
