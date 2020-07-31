@@ -1,11 +1,13 @@
 ---
 
-- import_tasks: tasks/provision/opensource_software/ds9.yml
-- import_tasks: tasks/provision/opensource_software/sextractor.yml
-- import_tasks: tasks/provision/opensource_software/pywifes.yml
+- import_tasks: tasks/provision/astro_software/heasoft.yml
+
+- import_tasks: tasks/provision/astro_software/ds9.yml
+- import_tasks: tasks/provision/astro_software/sextractor.yml
+- import_tasks: tasks/provision/astro_software/pywifes.yml
 
 - name: conda envs
-  include_tasks: tasks/provision/opensource_software/conda_envs.yml
+  include_tasks: tasks/provision/astro_software/conda_envs.yml
   vars:
     env_file: "{{ file }}"
   loop_control:
@@ -46,4 +48,4 @@
   with_items:
     - "conda clean -y --all"
 
-- import_tasks: tasks/provision/opensource_software/tempo2.yml
+- import_tasks: tasks/provision/astro_software/tempo2.yml
