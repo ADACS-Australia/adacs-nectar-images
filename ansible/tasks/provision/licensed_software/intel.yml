@@ -1,12 +1,22 @@
-# Needs:
-#       {{ mnt_software }}  -- Path to software volume mount
 ---
 
-- name: install intel parallel studio silently
-  become: yes
-  shell:
-    executable: /bin/bash
-    chdir: "{{ mnt_software }}/Intel/installer"
-    cmd: "{{ item }}"
-  with_items:
-    - "./install.sh -s ../silent.input"
+- name: install intel parallel studio
+
+  vars:
+    mnt_software: /mnt/software
+
+  block:
+
+    - import_tasks: tasks/provision/licensed_software/mount_software.yml
+
+    - name: install intel parallel studio silently
+      become: yes
+      shell:
+        executable: /bin/bash
+        chdir: "{{ mnt_software }}/Intel/installer"
+        cmd: "{{ item }}"
+      with_items:
+        - "./install.sh -s ../silent.input"
+
+  always:
+    - import_tasks: tasks/provision/licensed_software/unmount_software.yml

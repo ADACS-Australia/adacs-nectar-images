@@ -1,25 +1,6 @@
 ---
 
-- name: install licensed software
-
-  vars:
-    mnt_software: /mnt/software
-
-  block:
-
-    - import_tasks: tasks/provision/licensed_software/mount_software.yml
-
-    - import_tasks: tasks/provision/licensed_software/mathematica.yml
-    - import_tasks: tasks/provision/licensed_software/idl.yml
-    - import_tasks: tasks/provision/licensed_software/matlab.yml
-    - import_tasks: tasks/provision/licensed_software/intel.yml
-
-  rescue:
-    - debug:
-        msg:
-        - "WARNING: Could not complete installation of licensed software."
-        - "         Provisioning will continue as if no error has occurred."
-
-  always:
-
-    - import_tasks: tasks/provision/licensed_software/unmount_software.yml
+- import_tasks: tasks/provision/licensed_software/mathematica.yml
+- import_tasks: tasks/provision/licensed_software/idl.yml
+- import_tasks: tasks/provision/licensed_software/matlab.yml
+- import_tasks: tasks/provision/licensed_software/intel.yml

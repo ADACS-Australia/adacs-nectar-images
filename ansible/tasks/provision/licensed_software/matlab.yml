@@ -1,14 +1,15 @@
-# Needs:
-#       {{ mnt_software }}  -- Path to software volume mount
 ---
 
 - name: install matlab
 
   vars:
-    install_dir: /usr/local/MATLAB-R2019b
-    silent_ini: /tmp/matlab_silent.ini
+    mnt_software: /mnt/software
+    install_dir:  /usr/local/MATLAB-R2019b
+    silent_ini:   /tmp/matlab_silent.ini
 
   block:
+
+    - import_tasks: tasks/provision/licensed_software/mount_software.yml
 
     - name: install Matlab dependencies
       become: yes
@@ -76,3 +77,6 @@
       become: yes
       reboot:
         msg: rebooting to flush /tmp/
+
+  always:
+    - import_tasks: tasks/provision/licensed_software/unmount_software.yml

@@ -1,15 +1,16 @@
-# Needs:
-#       {{ mnt_software }}  -- Path to software volume mount
 ---
 
 - name: install IDL
 
   vars:
+    mnt_software:   /mnt/software
     idl_astro_dir:  /usr/local/idlastro
     idl_utils_dir:  /usr/local/idlutils
     idl_spec2d_dir: /usr/local/idlspec2d
 
   block:
+
+    - import_tasks: tasks/provision/licensed_software/mount_software.yml
 
     - name: run IDL installer silently
       become: yes
@@ -104,3 +105,6 @@
       with_items:
         - "{{ idl_utils_dir }}"
         - "{{ idl_spec2d_dir }}"
+
+  always:
+    - import_tasks: tasks/provision/licensed_software/unmount_software.yml
