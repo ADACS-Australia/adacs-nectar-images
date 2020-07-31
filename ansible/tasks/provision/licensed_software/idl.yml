@@ -1,97 +1,106 @@
 # Needs:
-#       {{ mnt_software }}  -- Path to mount software volume
+#       {{ mnt_software }}  -- Path to software volume mount
 ---
 
-- name: run IDL installer silently
-  become: yes
-  shell:
-    executable: /bin/bash
-    chdir: "{{ mnt_software }}/IDL/installer"
-    cmd: "{{ item }}"
-    creates: /usr/local/exelis/license/license.dat
-  with_items:
-    - "./install.sh -s < ./silent/envi_answer_file"
-    - "cp ../idl-license.dat /usr/local/exelis/license/license.dat"
+- name: install IDL
 
-- name: Install libxp6 (IDL dependency)
-  become: yes
-  apt:
-    deb: http://archive.ubuntu.com/ubuntu/pool/main/libx/libxp/libxp6_1.0.2-1ubuntu1_amd64.deb
+  vars:
+    idl_astro_dir:  /usr/local/idlastro
+    idl_utils_dir:  /usr/local/idlutils
+    idl_spec2d_dir: /usr/local/idlspec2d
 
-- name: Install other IDL dependencies
-  become: yes
-  apt:
-    name:
-      - libxmu6
-      - subversion
-      - libxpm4
-      - gfortran
+  block:
 
-- name: create symbolic links for idl
-  become: yes
-  shell:
-    executable: /bin/bash
-    chdir: /usr/local/exelis
-    cmd: "{{ item }}"
-    creates: /usr/local/bin/idl
-  with_items:
-    - "./envi/bin/create_symlinks"
-    - "./idl/bin/create_symlinks"
+    - name: run IDL installer silently
+      become: yes
+      shell:
+        executable: /bin/bash
+        chdir: "{{ mnt_software }}/IDL/installer"
+        cmd: "{{ item }}"
+        creates: /usr/local/exelis/license/license.dat
+      with_items:
+        - "./install.sh -s < ./silent/envi_answer_file"
+        - "cp ../idl-license.dat /usr/local/exelis/license/license.dat"
 
-- name: clone IDL Astro library
-  become: yes
-  git:
-    repo: https://github.com/wlandsman/IDLAstro.git
-    dest: "{{ idl_astro_dir }}"
+    - name: Install libxp6 (IDL dependency)
+      become: yes
+      apt:
+        deb: http://archive.ubuntu.com/ubuntu/pool/main/libx/libxp/libxp6_1.0.2-1ubuntu1_amd64.deb
 
-- name: clone IDL utils (SDSS)
-  become: yes
-  subversion:
-    repo: https://svn.sdss.org/public/repo/sdss/idlutils/tags/v5_5_24
-    dest: "{{ idl_utils_dir }}"
+    - name: Install other IDL dependencies
+      become: yes
+      apt:
+        name:
+          - libxmu6
+          - subversion
+          - libxpm4
+          - gfortran
 
-- name: clone IDL spec2d (SDSS)
-  become: yes
-  subversion:
-    repo: https://svn.sdss.org/public/repo/eboss/idlspec2d/tags/v5_13_2
-    dest: "{{ idl_spec2d_dir }}"
+    - name: create symbolic links for idl
+      become: yes
+      shell:
+        executable: /bin/bash
+        chdir: /usr/local/exelis
+        cmd: "{{ item }}"
+        creates: /usr/local/bin/idl
+      with_items:
+        - "./envi/bin/create_symlinks"
+        - "./idl/bin/create_symlinks"
 
-- name: set IDL paths
-  blockinfile:
-    path: $HOME/.bashrc
-    block: |
-      #-- IDL
-      export IDL_DIR=/usr/local/exelis/idl/
-      export IDL_PATH=+/usr/local/exelis/idl
+    - name: clone IDL Astro library
+      become: yes
+      git:
+        repo: https://github.com/wlandsman/IDLAstro.git
+        dest: "{{ idl_astro_dir }}"
 
-      #-- IDL Astro
-      export IDL_PATH=+{{ idl_astro_dir }}/pro:$IDL_PATH
-      export ASTRO_DATA={{ idl_astro_dir }}/data/
+    - name: clone IDL utils (SDSS)
+      become: yes
+      subversion:
+        repo: https://svn.sdss.org/public/repo/sdss/idlutils/tags/v5_5_24
+        dest: "{{ idl_utils_dir }}"
 
-      #-- IDL utils
-      export IDLUTILS_DIR={{ idl_utils_dir }}
-      export PATH=$IDLUTILS_DIR/bin:$PATH
-      export IDL_PATH=+$IDLUTILS_DIR/goddard/pro:$IDL_PATH
-      export IDL_PATH=+$IDLUTILS_DIR/pro:$IDL_PATH
+    - name: clone IDL spec2d (SDSS)
+      become: yes
+      subversion:
+        repo: https://svn.sdss.org/public/repo/eboss/idlspec2d/tags/v5_13_2
+        dest: "{{ idl_spec2d_dir }}"
 
-      #-- IDL spec2d
-      export IDLSPEC2D_DIR={{ idl_spec2d_dir }}
-      export PATH=$IDLSPEC2D_DIR/bin:$PATH
-      export IDL_PATH=+$IDLSPEC2D_DIR/pro:$IDL_PATH
-    marker: "{mark}"
-    marker_begin: "# >>> BEGIN IDL PATH SETUP"
-    marker_end: "# <<< END IDL PATH SETUP"
+    - name: set IDL paths
+      blockinfile:
+        path: $HOME/.bashrc
+        block: |
+          #-- IDL
+          export IDL_DIR=/usr/local/exelis/idl/
+          export IDL_PATH=+/usr/local/exelis/idl
 
-- name: build C libraries for idlutils and idlspec2d
-  become: yes
-  shell:
-    executable: /bin/bash
-    chdir: "{{ item }}"
-    cmd: |
-      export IDL_DIR=/usr/local/exelis/idl/;
-      export IDLUTILS_DIR={{ idl_utils_dir }};
-      export IDLSPEC2D_DIR={{ idl_spec2d_dir }};
-      $IDLUTILS_DIR/bin/evilmake all
-  with_items:
-    - "{{ idl_utils_dir }}"
-    - "{{ idl_spec2d_dir }}"
+          #-- IDL Astro
+          export IDL_PATH=+{{ idl_astro_dir }}/pro:$IDL_PATH
+          export ASTRO_DATA={{ idl_astro_dir }}/data/
+
+          #-- IDL utils
+          export IDLUTILS_DIR={{ idl_utils_dir }}
+          export PATH=$IDLUTILS_DIR/bin:$PATH
+          export IDL_PATH=+$IDLUTILS_DIR/goddard/pro:$IDL_PATH
+          export IDL_PATH=+$IDLUTILS_DIR/pro:$IDL_PATH
+
+          #-- IDL spec2d
+          export IDLSPEC2D_DIR={{ idl_spec2d_dir }}
+          export PATH=$IDLSPEC2D_DIR/bin:$PATH
+          export IDL_PATH=+$IDLSPEC2D_DIR/pro:$IDL_PATH
+        marker: "{mark}"
+        marker_begin: "# >>> BEGIN IDL PATH SETUP"
+        marker_end: "# <<< END IDL PATH SETUP"
+
+    - name: build C libraries for idlutils and idlspec2d
+      become: yes
+      shell:
+        executable: /bin/bash
+        chdir: "{{ item }}"
+        cmd: |
+          export IDL_DIR=/usr/local/exelis/idl/;
+          export IDLUTILS_DIR={{ idl_utils_dir }};
+          export IDLSPEC2D_DIR={{ idl_spec2d_dir }};
+          $IDLUTILS_DIR/bin/evilmake all
+      with_items:
+        - "{{ idl_utils_dir }}"
+        - "{{ idl_spec2d_dir }}"

@@ -3,10 +3,7 @@
 - name: install licensed software
 
   vars:
-    mnt_software:       /mnt/software
-    idl_astro_dir:      /usr/local/idlastro
-    idl_utils_dir:      /usr/local/idlutils
-    idl_spec2d_dir:     /usr/local/idlspec2d
+    mnt_software: /mnt/software
 
   block:
 

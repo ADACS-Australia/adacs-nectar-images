@@ -2,69 +2,77 @@
 #       {{ mnt_software }}  -- Path to software volume mount
 ---
 
-- name: install Matlab dependencies
-  become: yes
-  apt:
-    name:
-      - build-essential
-      - xterm             # This covers all X libraries required
-    update_cache: yes
+- name: install matlab
 
-- name: copy silent.ini to remote
-  become: yes
-  copy:
-    src: "files2copy/matlab_silent.ini"
-    dest: "/tmp/matlab_silent.ini"
+  vars:
+    install_dir: /usr/local/MATLAB-R2019b
+    silent_ini: /tmp/matlab_silent.ini
 
-- name: get fileInstallationKey
-  shell:
-    executable: /bin/bash
-    cmd: "cat {{ mnt_software }}/Matlab/fileInstall.key"
-  register: fileInstallationKey
+  block:
 
-- name: set fileInstallationKey
-  become: yes
-  lineinfile:
-    path: "/tmp/matlab_silent.ini"
-    regexp: "^fileInstallationKey="
-    line: "fileInstallationKey={{ fileInstallationKey.stdout }}"
-    state: present
+    - name: install Matlab dependencies
+      become: yes
+      apt:
+        name:
+          - build-essential
+          - xterm             # This covers all X libraries required
+        update_cache: yes
 
-- name: run matlab installer silently
-  become: yes
-  shell:
-    executable: /bin/bash
-    cmd: "{{ mnt_software }}/Matlab/matlab-2019b/install -inputFile /tmp/matlab_silent.ini"
-    creates: "/usr/local/MATLAB-2019b"
+    - name: copy silent.ini to remote
+      become: yes
+      copy:
+        src: "files2copy/matlab_silent.ini"
+        dest: "{{ silent_ini }}"
 
-- name: create licenses directory
-  become: yes
-  file:
-    path: "/usr/local/MATLAB-2019b/licenses"
-    state: directory
+    - name: get fileInstallationKey
+      shell:
+        executable: /bin/bash
+        cmd: "cat {{ mnt_software }}/Matlab/fileInstall.key"
+      register: fileInstallationKey
 
-- name: copy license file
-  become: yes
-  copy:
-    src: "{{ mnt_software }}/Matlab/network.lic"
-    dest: "/usr/local/MATLAB-2019b/licenses/network.lic"
-    remote_src: yes
+    - name: set fileInstallationKey
+      become: yes
+      lineinfile:
+        path: "{{ silent_ini }}"
+        regexp: "^fileInstallationKey="
+        line: "fileInstallationKey={{ fileInstallationKey.stdout }}"
+        state: present
 
-- name: create symbolic link to matlab
-  become: yes
-  file:
-    src: "/usr/local/MATLAB-2019b/bin/matlab"
-    dest: "/usr/local/bin/matlab"
-    state: link
+    - name: run matlab installer silently
+      become: yes
+      shell:
+        executable: /bin/bash
+        cmd: "{{ mnt_software }}/Matlab/matlab-2019b/install -inputFile {{ silent_ini }}"
+        creates: "{{ install_dir }}"
 
-- name: add $MATLAB_DIR to .bashrc
-  lineinfile:
-    path: "$HOME/.bashrc"
-    regexp: "^export MATLAB_DIR=/usr/local/MATLAB-2019b$"
-    line: "export MATLAB_DIR=/usr/local/MATLAB-2019b"
-    state: present
+    - name: create licenses directory
+      become: yes
+      file:
+        path: "{{ install_dir }}/licenses"
+        state: directory
 
-- name: reboot to flush /tmp/
-  become: yes
-  reboot:
-    msg: rebooting to flush /tmp/
+    - name: copy license file
+      become: yes
+      copy:
+        src: "{{ mnt_software }}/Matlab/network.lic"
+        dest: "{{ install_dir }}/licenses/network.lic"
+        remote_src: yes
+
+    - name: create symbolic link to matlab
+      become: yes
+      file:
+        src: "{{ install_dir }}/bin/matlab"
+        dest: "/usr/local/bin/matlab"
+        state: link
+
+    - name: add $MATLAB_DIR to .bashrc
+      lineinfile:
+        path: "$HOME/.bashrc"
+        regexp: "^export MATLAB_DIR={{ install_dir }}$"
+        line: "export MATLAB_DIR={{ install_dir }}"
+        state: present
+
+    - name: reboot to flush /tmp/
+      become: yes
+      reboot:
+        msg: rebooting to flush /tmp/
