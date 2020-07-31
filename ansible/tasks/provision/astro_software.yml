@@ -1,6 +1,6 @@
 ---
 
-- import_tasks: tasks/provision/astro_software/heasoft.yml
+# - import_tasks: tasks/provision/astro_software/heasoft.yml
 
 - import_tasks: tasks/provision/astro_software/ds9.yml
 - import_tasks: tasks/provision/astro_software/sextractor.yml
