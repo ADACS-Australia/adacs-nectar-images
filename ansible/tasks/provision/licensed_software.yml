@@ -3,13 +3,10 @@
 - name: install licensed software
 
   vars:
-    mnt_software: /mnt/software
-    mnt_matlab_installation: /mnt/matlab
-    matlab_inputFile: /mnt/silent.ini
-    matlab_activationFile: /mnt/activate.ini
-    idl_astro_dir: "/usr/local/idlastro"
-    idl_utils_dir: "/usr/local/idlutils"
-    idl_spec2d_dir: "/usr/local/idlspec2d"
+    mnt_software:       /mnt/software
+    idl_astro_dir:      /usr/local/idlastro
+    idl_utils_dir:      /usr/local/idlutils
+    idl_spec2d_dir:     /usr/local/idlspec2d
 
   block:
 
@@ -24,15 +21,6 @@
 
     - import_tasks: tasks/provision/licensed_software/mathematica.yml
     - import_tasks: tasks/provision/licensed_software/idl.yml
-
-    - name: mount matlab install volume
-      become: yes
-      mount:
-        src: LABEL=matlab_install
-        path: "{{ mnt_matlab_installation }}"
-        state: mounted
-        fstype: ext4
-
     - import_tasks: tasks/provision/licensed_software/matlab.yml
     - import_tasks: tasks/provision/licensed_software/intel.yml
 
@@ -43,12 +31,6 @@
         - "         Provisioning will continue as if no error has occurred."
 
   always:
-
-    - name: unmount matlab install volume
-      become: yes
-      mount:
-        path: "{{ mnt_matlab_installation }}"
-        state: absent
 
     - name: unmount software volume
       become: yes
