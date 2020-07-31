@@ -7,14 +7,7 @@
 
   block:
 
-    - name: mount volume containing software
-      become: yes
-      mount:
-        src: LABEL=Software_Volume
-        path: "{{ mnt_software }}"
-        state: mounted
-        fstype: ext4
-        opts: ro
+    - import_tasks: tasks/provision/licensed_software/mount_software.yml
 
     - import_tasks: tasks/provision/licensed_software/mathematica.yml
     - import_tasks: tasks/provision/licensed_software/idl.yml
@@ -29,8 +22,4 @@
 
   always:
 
-    - name: unmount software volume
-      become: yes
-      mount:
-        path: "{{ mnt_software }}"
-        state: absent
+    - import_tasks: tasks/provision/licensed_software/unmount_software.yml

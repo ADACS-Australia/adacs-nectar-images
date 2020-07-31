@@ -1,0 +1,9 @@
+# Needs:
+#       {{ mnt_software }}  -- Path to software volume mount
+---
+
+- name: unmount software volume
+  become: yes
+  mount:
+    path: "{{ mnt_software }}"
+    state: absent

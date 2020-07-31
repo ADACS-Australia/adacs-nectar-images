@@ -1,0 +1,12 @@
+# Needs:
+#       {{ mnt_software }}  -- Path to mount software volume
+---
+
+- name: mount volume containing software
+  become: yes
+  mount:
+    src: LABEL=Software_Volume
+    path: "{{ mnt_software }}"
+    state: mounted
+    fstype: ext4
+    opts: ro
