@@ -3,7 +3,6 @@
     "ssh_user":      "{{env `DEFAULT_USER`}}",
     "test_image":    "{{env `TEST_IMAGE`}}",
     "test_name":     "{{env `TEST_NAME`}}",
-    "matlab_volume": "{{env `MATLAB_VOLUME`}}",
     "inspec_profile":"",
     "apt_packages":  "",
     "conda_packages":""
@@ -22,19 +21,11 @@
   ],
   "provisioners": [
     {
-      "type": "shell-local",
-      "command": "openstack server add volume {{user `test_name`}} {{user `matlab_volume`}}"
-    },
-    {
       "type": "inspec",
       "inspec_env_vars": ["CHEF_LICENSE=accept"],
       "profile": "{{user `inspec_profile`}}",
       "user": "{{user `ssh_user`}}",
       "attributes": ["{{user `apt_packages`}}","{{user `conda_packages`}}"]
-    },
-    {
-      "type": "shell-local",
-      "command": "openstack server remove volume {{user `test_name`}} {{user `matlab_volume`}}"
     },
     {
       "type": "shell-local",

@@ -48,17 +48,11 @@ if [ "${STATUS}" != "" ]; then
   exit 1
 fi
 
-# Check if volumes are present and available
+# Check if volume is present and available
 STATUS=$(openstack volume show -c status -f value ${SOFTWARE_VOLUME})
 if [ "${STATUS}" != "available" ]; then
   echo The volume \'"${SOFTWARE_VOLUME}"\' is "$STATUS"
   openstack volume show "${SOFTWARE_VOLUME}"
-  exit 1
-fi
-STATUS=$(openstack volume show -c status -f value ${MATLAB_VOLUME})
-if [ "${STATUS}" != "available" ]; then
-  echo The volume \'"${MATLAB_VOLUME}"\' is "$STATUS"
-  openstack volume show "${MATLAB_VOLUME}"
   exit 1
 fi
 

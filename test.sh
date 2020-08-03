@@ -22,14 +22,6 @@ PACKER_TEMPLATE=packer_test.json
 # Set variables
 source vars.sh
 
-# Check if volumes are present and available
-STATUS=$(openstack volume show -c status -f value ${MATLAB_VOLUME})
-if [ "${STATUS}" != "available" ]; then
-  echo The volume \'"${MATLAB_VOLUME}"\' is "$STATUS"
-  openstack volume show "${MATLAB_VOLUME}"
-  exit 1
-fi
-
 # Pass additional scrip arguments/options through to packer build
 PACKER_OPTS=$1
 

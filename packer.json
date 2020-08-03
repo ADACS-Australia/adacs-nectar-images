@@ -3,8 +3,7 @@
     "ssh_user":        "{{env `DEFAULT_USER`}}",
     "source_name":     "{{env `SOURCE_IMAGE_NAME`}}",
     "build_name":      "{{env `BUILD_NAME`}}",
-    "software_volume": "{{env `SOFTWARE_VOLUME`}}",
-    "matlab_volume":   "{{env `MATLAB_VOLUME`}}"
+    "software_volume": "{{env `SOFTWARE_VOLUME`}}"
   },
   "builders": [
     {
@@ -24,17 +23,9 @@
       "command": "openstack server add volume {{user `build_name`}} {{user `software_volume`}}"
     },
     {
-      "type": "shell-local",
-      "command": "openstack server add volume {{user `build_name`}} {{user `matlab_volume`}}"
-    },
-    {
       "type": "ansible",
       "playbook_file": "ansible/master.yml",
       "user": "{{user `ssh_user`}}"
-    },
-    {
-      "type": "shell-local",
-      "command": "openstack server remove volume {{user `build_name`}} {{user `matlab_volume`}}"
     },
     {
       "type": "shell-local",

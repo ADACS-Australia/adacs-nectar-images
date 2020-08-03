@@ -20,6 +20,5 @@ TEST_IMAGE=${NEW_IMAGE_NAME}
 
 # Volumes to attach during provisioning
 SOFTWARE_VOLUME='licensed_software'
-MATLAB_VOLUME='matlab'
 
 set +a

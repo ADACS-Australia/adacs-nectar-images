@@ -2,9 +2,6 @@
 variable "test_image_name" {
   default = ""
 }
-variable "matlab_volume" {
-  default = ""
-}
 variable "test_name" {
   default = ""
 }
@@ -36,11 +33,6 @@ resource "openstack_compute_instance_v2" "test-server" {
     host        = openstack_compute_instance_v2.test-server.access_ip_v4
     }
   }
-}
-
-resource "openstack_compute_volume_attach_v2" "test-volume" {
-  instance_id = openstack_compute_instance_v2.test-server.id
-  volume_id   = var.matlab_volume
 }
 
 # Output varialbes
