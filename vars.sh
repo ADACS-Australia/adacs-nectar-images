@@ -19,6 +19,6 @@ TEST_NAME='TEST_'${BUILD_NAME}
 TEST_IMAGE=${NEW_IMAGE_NAME}
 
 # Volumes to attach during provisioning
-SOFTWARE_VOLUME='licensed_software'
+SOFTWARE_VOLUME='software'
 
 set +a
