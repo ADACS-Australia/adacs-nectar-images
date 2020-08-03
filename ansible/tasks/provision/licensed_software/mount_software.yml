@@ -5,7 +5,7 @@
 - name: mount volume containing software
   become: yes
   mount:
-    src: LABEL=Software_Volume
+    src: LABEL=software
     path: "{{ mnt_software }}"
     state: mounted
     fstype: ext4
