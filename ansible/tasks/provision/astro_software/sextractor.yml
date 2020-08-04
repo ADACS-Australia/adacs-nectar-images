@@ -1,7 +1,0 @@
----
-
-- name: install sextractor
-  become: true
-  apt:
-    name:
-      - sextractor
