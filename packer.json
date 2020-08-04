@@ -26,7 +26,7 @@
     {
       "type": "ansible",
       "playbook_file": "ansible/master.yml",
-      "extra_arguments": ["--extra-args", "image_file={{user `ansible_image_file`}}"],
+      "extra_arguments": ["--extra-vars", "image_file={{user `ansible_image_file`}}"],
       "user": "{{user `ssh_user`}}"
     },
     {
