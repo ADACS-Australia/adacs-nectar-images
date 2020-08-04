@@ -77,8 +77,8 @@
           export PATH=$HOME/{{ heasoft }}/x86_64-pc-linux-gnu-libc2.27/heasoft_wrap:$PATH
           export LHEASOFT=None
         marker: "{mark}"
-        marker_begin: "# >>> BEGIN HEASOFT PATH SETUP"
-        marker_end: "# <<< END HEASOFT PATH SETUP"
+        marker_begin: "# >>> BEGIN HEASOFT SETUP"
+        marker_end: "# <<< END HEASOFT SETUP"
 
     - name: delete tar.gz and hwrap
       file:

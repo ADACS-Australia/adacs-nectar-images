@@ -61,15 +61,15 @@
     - "cd xmmsas_20190531_1155 && ./configure_install"
     - "source $HOME/SAS/xmmsas_20190531_1155/miniconda3/bin/activate && ./install.sh"
 
-- name: activate conda and sas in .bashrc
+- name: add aliases for activating conda and sas in .bashrc
   blockinfile:
     path: "$HOME/.bashrc"
     block: |
-      source $HOME/SAS/xmmsas_20190531_1155/miniconda3/bin/activate
-      source $HOME/SAS/xmmsas_20190531_1155/setsas.sh
+      alias conda_activate="source $HOME/SAS/xmmsas_20190531_1155/miniconda3/bin/activate"
+      alias sas_activate="source $HOME/SAS/xmmsas_20190531_1155/setsas.sh"
     marker: "{mark}"
-    marker_begin: "# >>> BEGIN SAS INIT"
-    marker_end: "# <<< END SAS INIT"
+    marker_begin: "# >>> BEGIN SAS SETUP"
+    marker_end: "# <<< END SAS SETUP"
 
 - name: remove tar.gz
   file:

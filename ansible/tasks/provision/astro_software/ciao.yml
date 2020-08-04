@@ -25,6 +25,9 @@
     - "rm ciao-install ciao-control ciao-install-*.log"
 
 - name: add alias to .bashrc
-  lineinfile:
+  blockinfile:
     path: $HOME/.bashrc
-    line: alias ciao="source $HOME/ciao-4.12/bin/ciao.bash"
+    block: alias ciao="source $HOME/ciao-4.12/bin/ciao.bash"
+    marker: "{mark}"
+    marker_begin: "# >>> BEGIN CIAO SETUP"
+    marker_end: "# <<< END CIAO SETUP"
