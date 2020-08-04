@@ -2,10 +2,10 @@
 
 - import_tasks: tasks/provision/conda.yml
 
-- import_tasks: tasks/provision/astro_software/pywifes.yml
+- import_tasks: tasks/provision/astro_software/astro_A/pywifes.yml
 
 - name: astro conda envs
-  include_tasks: tasks/provision/astro_software/conda_envs.yml
+  include_tasks: tasks/provision/astro_software/astro_A/conda_envs.yml
   vars:
     env_file: "{{ file }}"
   loop_control:
@@ -47,4 +47,4 @@
     - "conda clean -y --all"
 
 # Requires some of libraries installed in the conda envs above
-- import_tasks: tasks/provision/astro_software/tempo2.yml
+- import_tasks: tasks/provision/astro_software/astro_A/tempo2.yml

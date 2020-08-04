@@ -1,0 +1,4 @@
+---
+
+- import_tasks: tasks/provision/astro_software/astro_apt.yml
+- import_tasks: tasks/provision/astro_software/astro_B.yml

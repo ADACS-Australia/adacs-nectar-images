@@ -1,6 +1,0 @@
----
-
-- import_tasks: tasks/provision/licensed_software/mathematica.yml
-- import_tasks: tasks/provision/licensed_software/idl.yml
-- import_tasks: tasks/provision/licensed_software/matlab.yml
-- import_tasks: tasks/provision/licensed_software/intel.yml
