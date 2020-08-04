@@ -18,5 +18,13 @@
       with_items:
         - "./install.sh -s ../silent.input"
 
+    - name: setup intel in .bashrc
+      blockinfile:
+        path: $HOME/.bashrc
+        block: source /opt/intel/bin/compilervars.sh intel64
+        marker: "{mark}"
+        marker_begin: "# >>> BEGIN INTEL SETUP"
+        marker_end: "# <<< END INTEL SETUP"
+
   always:
     - import_tasks: tasks/provision/licensed_software/unmount_software.yml
