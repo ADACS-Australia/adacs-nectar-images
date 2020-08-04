@@ -8,7 +8,6 @@
   # save /home/ubuntu, useful when running module as root and you cant use $HOME
   vars:
     home_dir: "{{ ansible_facts['env']['HOME'] }}"
-    image_file: image_basic.yml
 
   vars_files:
     - vars/apt_packages.yml

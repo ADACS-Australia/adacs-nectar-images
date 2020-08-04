@@ -33,8 +33,12 @@ fi
 
 PACKER_TEMPLATE=packer.json
 
+set -u
+
 # Set variables
 source vars.sh
+echo "Building image ${NEW_IMAGE_NAME}"
+echo "using ${ANSIBLE_IMAGE_FILE}"
 
 # Check if image names are not already taken/present
 STATUS=$(openstack image show -c status -f value "${BUILD_NAME}" 2> /dev/null || true)
