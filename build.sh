@@ -63,11 +63,8 @@ fi
 # Print commands as they are run
 set -x
 
-# Pass additional scrip arguments/options through to packer build
-PACKER_OPTS=$1
-
 # Build and provision image
-packer build ${PACKER_OPTS} ${PACKER_TEMPLATE}
+packer build ${PACKER_TEMPLATE}
 
 SAVE_DIR=${SAVE_DIR:-$(PWD)}
 
