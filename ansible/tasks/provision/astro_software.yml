@@ -54,4 +54,5 @@
   with_items:
     - "conda clean -y --all"
 
+# Requires some of libraries installed in the conda envs above
 - import_tasks: tasks/provision/astro_software/tempo2.yml
