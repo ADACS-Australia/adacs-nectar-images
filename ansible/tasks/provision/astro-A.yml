@@ -1,5 +1,7 @@
 ---
 
+- import_tasks: tasks/provision/conda.yml
+
 - import_tasks: tasks/provision/astro_software/pywifes.yml
 
 - name: astro conda envs

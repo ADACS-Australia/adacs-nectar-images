@@ -8,6 +8,3 @@
       - saods9
       - sextractor
       - ftools-fv
-
-- import_tasks: tasks/provision/astro-A.yml
-- import_tasks: tasks/provision/astro-B.yml
