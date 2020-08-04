@@ -1,5 +1,5 @@
 ---
 
-- import_tasks: tasks/provision/apt.yml
-- import_tasks: tasks/provision/bindings.yml
-- import_tasks: tasks/provision/bashrc.yml
+- import_tasks: tasks/provision/base/apt.yml
+- import_tasks: tasks/provision/base/bindings.yml
+- import_tasks: tasks/provision/base/bashrc.yml
