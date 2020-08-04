@@ -9,7 +9,7 @@
 
   block:
 
-    - import_tasks: tasks/provision/licensed_software/mount_software.yml
+    - import_tasks: tasks/utils/mount_software.yml
 
     - name: install Matlab dependencies
       become: yes
@@ -79,4 +79,4 @@
         msg: rebooting to flush /tmp/
 
   always:
-    - import_tasks: tasks/provision/licensed_software/unmount_software.yml
+    - import_tasks: tasks/utils/unmount_software.yml

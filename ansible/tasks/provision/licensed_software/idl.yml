@@ -10,7 +10,7 @@
 
   block:
 
-    - import_tasks: tasks/provision/licensed_software/mount_software.yml
+    - import_tasks: tasks/utils/mount_software.yml
 
     - name: run IDL installer silently
       become: yes
@@ -107,4 +107,4 @@
         - "{{ idl_spec2d_dir }}"
 
   always:
-    - import_tasks: tasks/provision/licensed_software/unmount_software.yml
+    - import_tasks: tasks/utils/unmount_software.yml
