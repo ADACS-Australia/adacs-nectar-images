@@ -4,7 +4,6 @@
     "test_image":    "{{env `TEST_IMAGE`}}",
     "test_name":     "{{env `TEST_NAME`}}",
     "inspec_profile":"",
-    "apt_packages":  "",
     "conda_packages":""
   },
   "builders": [
@@ -25,7 +24,7 @@
       "inspec_env_vars": ["CHEF_LICENSE=accept"],
       "profile": "{{user `inspec_profile`}}",
       "user": "{{user `ssh_user`}}",
-      "attributes": ["{{user `apt_packages`}}","{{user `conda_packages`}}"]
+      "attributes": ["{{user `conda_packages`}}"]
     },
     {
       "type": "shell-local",
