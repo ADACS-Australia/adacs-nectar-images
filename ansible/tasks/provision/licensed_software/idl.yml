@@ -7,6 +7,7 @@
     idl_astro_dir:  /usr/local/idlastro
     idl_utils_dir:  /usr/local/idlutils
     idl_spec2d_dir: /usr/local/idlspec2d
+    idl_dir: /usr/local/IDL
 
   block:
 
@@ -16,12 +17,12 @@
       become: yes
       shell:
         executable: /bin/bash
-        chdir: "{{ mnt_software }}/IDL/installer"
+        chdir: "{{ mnt_software }}/IDL"
         cmd: "{{ item }}"
-        creates: /usr/local/exelis/license/license.dat
+        creates: "{{ idl_dir }}/license/license.dat"
       with_items:
-        - "./install.sh -s < ./silent/envi_answer_file"
-        - "cp ../idl-license.dat /usr/local/exelis/license/license.dat"
+        - "./install.sh -s < ./silent.input"
+        - "cp ./idl-license.dat {{ idl_dir }}/license/license.dat"
 
     - name: Install libxp6 (IDL dependency)
       become: yes
@@ -41,11 +42,10 @@
       become: yes
       shell:
         executable: /bin/bash
-        chdir: /usr/local/exelis
+        chdir: "{{ idl_dir }}"
         cmd: "{{ item }}"
         creates: /usr/local/bin/idl
       with_items:
-        - "./envi/bin/create_symlinks"
         - "./idl/bin/create_symlinks"
 
     - name: clone IDL Astro library
@@ -71,8 +71,8 @@
         path: $HOME/.bashrc
         block: |
           #-- IDL
-          export IDL_DIR=/usr/local/exelis/idl/
-          export IDL_PATH=+/usr/local/exelis/idl
+          export IDL_DIR={{ idl_dir }}/idl/
+          export IDL_PATH=+{{ idl_dir }}/idl
 
           #-- IDL Astro
           export IDL_PATH=+{{ idl_astro_dir }}/pro:$IDL_PATH
@@ -98,7 +98,7 @@
         executable: /bin/bash
         chdir: "{{ item }}"
         cmd: |
-          export IDL_DIR=/usr/local/exelis/idl/;
+          export IDL_DIR={{ idl_dir }}/idl/;
           export IDLUTILS_DIR={{ idl_utils_dir }};
           export IDLSPEC2D_DIR={{ idl_spec2d_dir }};
           $IDLUTILS_DIR/bin/evilmake all
