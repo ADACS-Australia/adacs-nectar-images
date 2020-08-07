@@ -7,7 +7,9 @@ control 'idl' do
     it {should exist}
   end
 
-  describe command(%q{idl -e 'print, "test"'}) do
-    its('stderr') {should cmp''}
+  describe command(%q{idl -e 'print, ""'}) do
+    its('stdout') {should eq "\n"}
+    its('exit_status') { should eq 0 }
   end
+
 end
