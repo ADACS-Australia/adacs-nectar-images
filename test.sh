@@ -40,6 +40,6 @@ echo "END PACKER OUTPUT"
 echo "========================================================"
 echo "See output from the InSpec provisioner (above) for test results."
 echo
-echo "   (Note: Packer is forced to exit with a non-zer oerror code, even upon success,"
+echo "   (Note: Packer is forced to exit with a non-zero error code, even upon success,"
 echo "          in order to prevent image creation.)"
 echo
