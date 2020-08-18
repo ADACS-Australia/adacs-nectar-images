@@ -4,7 +4,8 @@
     "test_image":    "{{env `TEST_IMAGE`}}",
     "test_name":     "{{env `TEST_NAME`}}",
     "inspec_profile":"",
-    "conda_packages":""
+    "inspec_varsfile":"{{env `INSPEC_VARSFILE`}}",
+    "inspec_controls":"{{env `INSPEC_CONTROLS`}}"
   },
   "builders": [
     {
@@ -24,7 +25,10 @@
       "inspec_env_vars": ["CHEF_LICENSE=accept"],
       "profile": "{{user `inspec_profile`}}",
       "user": "{{user `ssh_user`}}",
-      "attributes": ["{{user `conda_packages`}}"]
+      "extra_arguments": [
+        "--input-file={{user `inspec_varsfile`}}",
+        "--controls={{ user `inspec_controls`}}"
+      ]
     },
     {
       "type": "shell-local",
@@ -36,7 +40,7 @@
                  "echo",
                  "echo 'FORCING PACKER TO EXIT WITH AN ERROR TO PREVENT IMAGE UPLOAD'",
                  "echo",
-                 "echo '(Ignore packer output beyond this message)'",
+                 "echo '(Ignore packer output beyond this message) >>>>>>>>>>>>>>>>>>'",
                  "echo '============================================================='",
                  "echo",
                  "exit 1"
