@@ -1,12 +1,11 @@
-name: inspec-test
+name: ADACS_IMAGE_TESTS
 
 title: ADACS-Astro image tests
 summary: InSpec tests for testing the software installed on the ADACS-Astro image
 version: 0.1.0
 
-# Note: 'os' = openstack
 supports:
-  platform: os
+  platform: os      # Note: 'os'=openstack
 
 inputs:
   - name: conda_packages

@@ -1,4 +1,4 @@
-control 'astro B' do
+control 'astro_B' do
   impact 1.0
   title 'ASTRO B Image'
   desc 'Check installation contained in astro B image'
