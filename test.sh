@@ -36,16 +36,16 @@ packer build                                              \
   -var "inspec_profile=inspec_profiles/${INSPEC_PROFILE}" \
   ${PACKER_TEMPLATE} 2>&1 | tee ${LOGFILE}
 
-if [ $(grep -c "Error executing Inspec" ${LOGFILE}) -ne 0 ]; then
-  echo
-  echo "Test FAILED for image: ${NEW_IMAGE_NAME}"
-  echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
-  echo
-  exit 1
+if [ $(grep -c "SUCCESS: TESTS PASSED" ${LOGFILE}) -gt 0 ]; then
+  TEST_STATUS='PASSED'
+  EXIT_CODE=0
 else
-  echo
-  echo "Test PASSED for image: ${NEW_IMAGE_NAME}"
-  echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
-  echo
-  exit 0
+  TEST_STATUS='FAILED'
+  EXIT_CODE=1
 fi
+
+echo
+echo "Test ${TEST_STATUS} for image: ${NEW_IMAGE_NAME}"
+echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+echo
+exit ${EXIT_CODE}
