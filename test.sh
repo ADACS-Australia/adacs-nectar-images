@@ -31,7 +31,7 @@ echo
 export INSPEC_VARSFILE="ansible/vars/conda_packages.yml"
 
 # Build and provision image
-packer build                                              \
+packer build -debug                                       \
   -color=false                                            \
   -var "inspec_profile=inspec_profiles/${INSPEC_PROFILE}" \
   ${PACKER_TEMPLATE} 2>&1 | tee ${LOGFILE}
