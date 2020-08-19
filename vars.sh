@@ -9,7 +9,7 @@ OS_DISTRO='ubuntu'
 OS_VERSION='18.04'
 
 # Name to use for the temporary image during provisioning
-BUILD_NAME='ADACS_astro_image_build'
+BUILD_NAME='ADACS_image_build'
 
 # Name used for the image/server during testing
 TEST_NAME='TEST_'${BUILD_NAME}
