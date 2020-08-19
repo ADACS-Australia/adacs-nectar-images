@@ -23,16 +23,14 @@ PACKER_TEMPLATE=packer_test.json
 # Set variables
 source vars.sh
 echo "Testing image: ${NEW_IMAGE_NAME}"
-echo "using inspec controls: ${INSPEC_CONTROLS}"
 
 # Set some variables
-export INSPEC_PROFILE="inspec/"
 export INSPEC_VARSFILE="ansible/vars/conda_packages.yml"
 
 # Build and provision image
-packer build                                           \
-  -color=false                                         \
-  -var "inspec_profile=${INSPEC_PROFILE}"              \
+packer build                                              \
+  -color=false                                            \
+  -var "inspec_profile=inspec_profiles/${INSPEC_PROFILE}" \
   ${PACKER_TEMPLATE}
 
 echo "========================================================"

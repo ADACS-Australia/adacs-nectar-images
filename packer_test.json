@@ -26,8 +26,7 @@
       "profile": "{{user `inspec_profile`}}",
       "user": "{{user `ssh_user`}}",
       "extra_arguments": [
-        "--input-file={{user `inspec_varsfile`}}",
-        "--controls={{ user `inspec_controls`}}"
+        "--input-file={{user `inspec_varsfile`}}"
       ]
     },
     {

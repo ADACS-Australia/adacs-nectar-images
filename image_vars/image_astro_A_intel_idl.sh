@@ -1,3 +1,4 @@
+IMAGE_TAGNAME=image_astro_A_intel_idl
 NEW_IMAGE_NAME='ADACS Astronomy A (with Intel + IDL) - Ubuntu 18.04 LTS (Bionic) amd64'
-ANSIBLE_IMAGE_FILE=image_astro_A_intel_idl.yml
-INSPEC_CONTROLS='basic conda astro_A intel idl'
+ANSIBLE_IMAGE_FILE=${IMAGE_TAGNAME}.yml
+INSPEC_PROFILE=${IMAGE_TAGNAME}
