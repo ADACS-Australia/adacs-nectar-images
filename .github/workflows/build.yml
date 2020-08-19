@@ -40,7 +40,7 @@ jobs:
       run: curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 
     - name: Install Nova client
-      run: sudo snap install nova --classic
+      run: sudo apt install python-novaclient
 
     - name: Check if there enough cores available
       run: ./openstack_check.sh
