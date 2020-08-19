@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # This script requires:
 #  - Packer
@@ -19,10 +19,13 @@ fi
 
 set -u
 PACKER_TEMPLATE=packer_test.json
+LOGFILE=test.log
 
 # Set variables
 source vars.sh
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Testing image: ${NEW_IMAGE_NAME}"
+echo
 
 # Set some variables
 export INSPEC_VARSFILE="ansible/vars/conda_packages.yml"
@@ -31,13 +34,18 @@ export INSPEC_VARSFILE="ansible/vars/conda_packages.yml"
 packer build                                              \
   -color=false                                            \
   -var "inspec_profile=inspec_profiles/${INSPEC_PROFILE}" \
-  ${PACKER_TEMPLATE}
+  ${PACKER_TEMPLATE} 2>&1 | tee ${LOGFILE}
 
-echo "========================================================"
-echo "END PACKER OUTPUT"
-echo "========================================================"
-echo "See output from the InSpec provisioner (above) for test results."
-echo
-echo "   (Note: Packer is forced to exit with a non-zero error code, even upon success,"
-echo "          in order to prevent image creation.)"
-echo
+if [ $(grep -c "Error executing Inspec" ${LOGFILE}) -ne 0 ]; then
+  echo
+  echo "Test FAILED for image: ${NEW_IMAGE_NAME}"
+  echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+  echo
+  exit 1
+else
+  echo
+  echo "Test PASSED for image: ${NEW_IMAGE_NAME}"
+  echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+  echo
+  exit 0
+fi

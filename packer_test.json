@@ -33,14 +33,11 @@
       "type": "shell-local",
       "inline": [
                  "echo",
-                 "echo '============================================================='",
+                 "echo '=============================================================='",
+                 "echo '                  SUCCESS: TESTS PASSED'",
                  "echo",
-                 "echo 'SUCCESS: TESTS PASSED'",
-                 "echo",
-                 "echo 'FORCING PACKER TO EXIT WITH AN ERROR TO PREVENT IMAGE UPLOAD'",
-                 "echo",
-                 "echo '(Ignore packer output beyond this message) >>>>>>>>>>>>>>>>>>'",
-                 "echo '============================================================='",
+                 "echo '(Forcing packer to exit with error to prevent artefact upload)'",
+                 "echo '=============================================================='",
                  "echo",
                  "exit 1"
                  ]
