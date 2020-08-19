@@ -37,7 +37,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install Chef Inspec
       run: curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
-    - name: Set test variables
-      run: set -a; source image_vars/${{ matrix.image }}.sh
     - name: Run test script
-      run: ./test.sh
+      run: |
+        set -a
+        source image_vars/${{ matrix.image }}.sh
+        ./test.sh
