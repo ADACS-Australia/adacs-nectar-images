@@ -15,7 +15,7 @@
       "source_image_name": "{{user `test_image`}}",
       "image_name":        "{{user `test_name`}}",
       "instance_name":     "{{user `test_name`}}",
-      "flavor":            "m3.small",
+      "flavor":            "m3.xsmall",
       "security_groups":  ["default","SSH"]
     }
   ],
