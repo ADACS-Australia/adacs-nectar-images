@@ -44,9 +44,4 @@ jobs:
       run: |
         set -a
         source image_vars/${{ matrix.image }}.sh
-        echo ${IMAGE_TAGNAME}
-        echo ${NEW_IMAGE_NAME}
-        echo ${ANSIBLE_IMAGE_FILE}
-        echo ${INSPEC_PROFILE}
-        pwd
-        ls
+        ./test.sh
