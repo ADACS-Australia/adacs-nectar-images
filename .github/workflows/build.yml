@@ -43,7 +43,19 @@ jobs:
     - name: Install Nova client
       run: sudo apt install python-novaclient
 
-    - name: Check if there enough cores available
+    - name: Install QEMU utils
+      run: sudo apt install qemu-utils
+
+    - name: Check if there enough cores available for launching BUILD VM
+      run: ./openstack_check.sh
+
+    - name: Run build script
+      run: |
+        set -a
+        source image_vars/${{ matrix.image }}.sh
+        ./build.sh
+
+    - name: Check if there are enough cores available for launching TEST VM
       run: ./openstack_check.sh
 
     - name: Run test script
