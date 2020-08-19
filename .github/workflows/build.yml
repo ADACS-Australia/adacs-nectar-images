@@ -40,6 +40,9 @@ jobs:
     - name: Install Chef Inspec
       run: curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 
+    - name: Install OpenStack client
+      run: sudo apt install python-openstackclient
+
     - name: Install Nova client
       run: sudo apt install python-novaclient
 
