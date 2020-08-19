@@ -4,14 +4,6 @@
 #  - Packer
 #  - OpenStack credentials loaded in your environment
 
-set -u
-echo '----------------------'
-echo ${IMAGE_TAGNAME}
-echo ${NEW_IMAGE_NAME}
-echo ${ANSIBLE_IMAGE_FILE}
-echo ${INSPEC_PROFILE}
-echo '----------------------'
-
 # Find packer
 if ! hash packer >/dev/null 2>&1; then
     echo "You need packer installed to use this script"
