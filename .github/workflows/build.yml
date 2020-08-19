@@ -35,8 +35,16 @@ jobs:
           - image_matlab
     steps:
     - uses: actions/checkout@v2
+
     - name: Install Chef Inspec
       run: curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
+
+    - name: Install Nova client
+      run: sudo snap install nova --classic
+
+    - name: Check if there enough cores available
+      run: ./openstack_check.sh
+
     - name: Run test script
       run: |
         set -a
