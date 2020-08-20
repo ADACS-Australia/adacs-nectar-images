@@ -66,7 +66,7 @@ set -x
 # Build and provision image
 packer build ${PACKER_TEMPLATE}
 
-SAVE_DIR=${SAVE_DIR:-$(PWD)}
+SAVE_DIR=${SAVE_DIR:-${PWD}}
 
 cd ${SAVE_DIR}
 
