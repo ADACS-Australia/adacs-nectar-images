@@ -24,7 +24,7 @@ LOGFILE=test.log
 # Set variables
 source vars.sh
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-echo "Testing image: ${NEW_IMAGE_NAME}"
+echo "Testing image: ${IMAGE_FULLNAME}"
 echo
 
 # Set some variables
@@ -45,7 +45,7 @@ else
 fi
 
 echo
-echo "Test ${TEST_STATUS} for image: ${NEW_IMAGE_NAME}"
+echo "Test ${TEST_STATUS} for image: ${IMAGE_FULLNAME}"
 echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 echo
 exit ${EXIT_CODE}

@@ -13,7 +13,7 @@ BUILD_NAME="ADACS_image_build_${IMAGE_TAGNAME}"
 
 # Name used for the image/server during testing
 TEST_NAME='TEST_'${BUILD_NAME}
-TEST_IMAGE=${NEW_IMAGE_NAME}
+TEST_IMAGE=${IMAGE_FULLNAME}
 
 # Volumes to attach during provisioning
 SOFTWARE_VOLUME='software'
