@@ -2,8 +2,7 @@
 
 err=0
 for IMG in ./image_vars/image_*; do
-  source $IMG
-  ./test.sh
+  IMG_VARS=$IMG ./test.sh
   err=$((err+$?))
 done
 

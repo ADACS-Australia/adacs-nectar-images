@@ -21,7 +21,7 @@ while (( ${NTRIES} < ${MAX_TRIES} )); do
   CORES_MAX=CORES[3]
   CORES_AVAILABLE=$((${CORES_MAX} - ${CORES_USED}))
 
-  if ((  ${CORES_AVAILABLE} >= ${CORES_NEEDED} )); then
+  if (( ${CORES_AVAILABLE} >= ${CORES_NEEDED} )); then
     echo "There are $CORES_AVAILABLE cores available."
     exit 0
   else
