@@ -25,15 +25,18 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - image_astro_A
-          # - image_astro_A_intel_idl
-          - image_astro_B
-          - image_basic
+          - image_astro_A_intel_idl
+
+          # - image_astro_A
+
+          # - image_astro_B
+          # - image_basic
           # - image_idl
           # - image_intel
           # - image_intel_idl_conda
           # - image_mathematica
           # - image_matlab
+
     steps:
     - uses: actions/checkout@v2
 
