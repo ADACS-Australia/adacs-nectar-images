@@ -36,11 +36,12 @@ SAVE_DIR=${SAVE_DIR:-${PWD}}
 echo
 echo ">>>>> Building image: ${PACKER_BUILD_NAME} <<<<<"
 
-# Check if image name is not already taken/present
+# Check if build name is not already taken/present
 STATUS=$(openstack image show -c status -f value "${PACKER_BUILD_NAME}" 2> /dev/null || true)
 if [ "${STATUS}" != "" ]; then
-  echo "ERROR: The image '${PACKER_BUILD_NAME}' already exists!"
-  exit 1
+  echo "WARNING: The image '${PACKER_BUILD_NAME}' already exists!"
+  echo "         Deleting it first..."
+  openstack image delete ${PACKER_BUILD_NAME}
 fi
 
 # Check if volume is present and available
@@ -69,6 +70,14 @@ openstack image delete ${PACKER_BUILD_NAME}
 # Shrink image
 qemu-img convert -c -o compat=0.10 -O qcow2 image_large.qcow2 image_small.qcow2
 rm image_large.qcow2
+
+# Check if staged name is not already taken/present
+STATUS=$(openstack image show -c status -f value "${STAGED_NAME}" 2> /dev/null || true)
+if [ "${STATUS}" != "" ]; then
+  echo "WARNING: The image '${STAGED_NAME}' already exists!"
+  echo "         Deleting it first..."
+  openstack image delete ${STAGED_NAME}
+fi
 
 # Upload smaller image to openstack and delete local file
 openstack image create --disk-format qcow2 --container-format bare --file image_small.qcow2 "${STAGED_NAME}"
