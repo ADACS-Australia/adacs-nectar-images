@@ -2,7 +2,7 @@
   "variables": {
     "ssh_user":        "{{env `DEFAULT_USER`}}",
     "source_name":     "{{env `SOURCE_IMAGE_NAME`}}",
-    "build_name":      "{{env `BUILD_NAME`}}",
+    "build_name":      "{{env `PACKER_BUILD_NAME`}}",
     "software_volume": "{{env `SOFTWARE_VOLUME`}}",
     "ansible_image_file":"{{env `ANSIBLE_IMAGE_FILE`}}"
   },

@@ -9,11 +9,12 @@ OS_DISTRO='ubuntu'
 OS_VERSION='18.04'
 
 # Name to use for the temporary image during provisioning
-BUILD_NAME="ADACS_image_build_${IMAGE_TAGNAME}"
+PACKER_BUILD_NAME="ADACS_build_${IMAGE_TAGNAME}"
+STAGED_NAME="ADACS_staged_${IMAGE_TAGNAME}"
 
 # Name used for the image/server during testing
-TEST_NAME='TEST_'${BUILD_NAME}
-TEST_IMAGE=${IMAGE_FULLNAME}
+TEST_NAME='TEST_'${STAGED_NAME}
+TEST_IMAGE=${STAGED_NAME}
 
 # Volumes to attach during provisioning
 SOFTWARE_VOLUME='software'
