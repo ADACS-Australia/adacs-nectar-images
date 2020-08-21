@@ -19,25 +19,27 @@ env:
   OS_IDENTITY_API_VERSION: 3
 
 jobs:
-  test:
+  CICD:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      max-parallel: 1
       matrix:
         image:
           - image_basic
-          # - image_astro_A
-          # - image_astro_A_intel_idl
-          # - image_astro_B
-          # - image_idl
-          # - image_intel
-          # - image_intel_idl_conda
-          # - image_mathematica
-          # - image_matlab
+          - image_astro_A
+          - image_astro_A_intel_idl
+          - image_astro_B
+          - image_idl
+          - image_intel
+          - image_intel_idl_conda
+          - image_mathematica
+          - image_matlab
 
     steps:
     - uses: actions/checkout@v2
 
+    # Installations
     - run: sudo apt-get update
 
     - name: Install Chef Inspec
@@ -46,24 +48,27 @@ jobs:
     - name: Install OpenStack client
       run: sudo apt-get install python-openstackclient
 
-    - name: Deploy Image
-      if: github.event_name == 'push' && contains(github.ref, '/tags/release')
-      run: IMG_VARS=image_vars/${{ matrix.image }}.sh ./deploy.sh
-
     - name: Install Nova client
       run: sudo apt-get install python-novaclient
 
     - name: Install QEMU utils
       run: sudo apt-get install qemu-utils
 
+    # Building
     - name: Check if there are enough cores available for launching BUILD VM
       run: ./openstack_check.sh
 
     - name: Run build script
       run: IMG_VARS=image_vars/${{ matrix.image }}.sh ./build.sh
 
+    # Testing
     - name: Check if there are enough cores available for launching TEST VM
       run: ./openstack_check.sh
 
     - name: Run test script
       run: IMG_VARS=image_vars/${{ matrix.image }}.sh ./test.sh
+
+    # Only deploy when commit contains a release tag
+    - name: Deploy Image
+      if: github.event_name == 'push' && contains(github.ref, '/tags/release')
+      run: IMG_VARS=image_vars/${{ matrix.image }}.sh ./deploy.sh
