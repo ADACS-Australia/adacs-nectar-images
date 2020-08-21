@@ -40,17 +40,19 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - run: sudo apt-get update
+
     - name: Install Chef Inspec
       run: curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 
     - name: Install OpenStack client
-      run: sudo apt install python-openstackclient
+      run: sudo apt-get install python-openstackclient
 
     - name: Install Nova client
-      run: sudo apt install python-novaclient
+      run: sudo apt-get install python-novaclient
 
     - name: Install QEMU utils
-      run: sudo apt install qemu-utils
+      run: sudo apt-get install qemu-utils
 
     - name: Check if there enough cores available for launching BUILD VM
       run: ./openstack_check.sh
