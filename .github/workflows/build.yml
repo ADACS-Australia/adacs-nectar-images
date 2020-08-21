@@ -54,7 +54,7 @@ jobs:
     - name: Install QEMU utils
       run: sudo apt-get install qemu-utils
 
-    - name: Check if there enough cores available for launching BUILD VM
+    - name: Check if there are enough cores available for launching BUILD VM
       run: ./openstack_check.sh
 
     - name: Run build script

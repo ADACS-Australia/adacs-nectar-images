@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ea
 
 # This script requires:
 #  - OpenStack client

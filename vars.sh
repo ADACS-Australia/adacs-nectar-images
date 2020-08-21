@@ -1,5 +1,3 @@
-set -a
-
 # Source image to build upon
 SOURCE_IMAGE_NAME='NeCTAR Ubuntu 18.04 LTS (Bionic) amd64'
 
@@ -18,5 +16,3 @@ TEST_IMAGE=${STAGED_NAME}
 
 # Volumes to attach during provisioning
 SOFTWARE_VOLUME='software'
-
-set +a
