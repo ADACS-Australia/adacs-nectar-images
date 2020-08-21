@@ -25,12 +25,10 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - image_astro_A_intel_idl
-
+          - image_basic
           # - image_astro_A
-
+          # - image_astro_A_intel_idl
           # - image_astro_B
-          # - image_basic
           # - image_idl
           # - image_intel
           # - image_intel_idl_conda
@@ -47,6 +45,10 @@ jobs:
 
     - name: Install OpenStack client
       run: sudo apt-get install python-openstackclient
+
+    - name: Deploy Image
+      if: github.event_name == 'push' && contains(github.ref, '/tags/release')
+      run: IMG_VARS=image_vars/${{ matrix.image }}.sh ./deploy.sh
 
     - name: Install Nova client
       run: sudo apt-get install python-novaclient

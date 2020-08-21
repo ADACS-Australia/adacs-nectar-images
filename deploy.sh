@@ -31,7 +31,7 @@ echo ">>>>> Deploying image: ${IMAGE_FULLNAME} <<<<<"
 echo "       (from: ${STAGED_NAME} )"
 
 # Check that staged image is present
-STATUS=$(openstack image show -c status -f value "${STAGED_IMAGE}" 2> /dev/null || true)
+STATUS=$(openstack image show -c status -f value "${STAGED_NAME}" 2> /dev/null || true)
 if [ "${STATUS}" != "active" ]; then
   echo "ERROR: The image '${STAGED_NAME}' does not exist!"
   exit 1
