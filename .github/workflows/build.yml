@@ -26,14 +26,14 @@ jobs:
       matrix:
         image:
           - image_astro_A
-          - image_astro_A_intel_idl
+          # - image_astro_A_intel_idl
           - image_astro_B
           - image_basic
-          - image_idl
-          - image_intel
-          - image_intel_idl_conda
-          - image_mathematica
-          - image_matlab
+          # - image_idl
+          # - image_intel
+          # - image_intel_idl_conda
+          # - image_mathematica
+          # - image_matlab
     steps:
     - uses: actions/checkout@v2
 
@@ -53,16 +53,10 @@ jobs:
       run: ./openstack_check.sh
 
     - name: Run build script
-      run: |
-        set -a
-        source image_vars/${{ matrix.image }}.sh
-        ./build.sh
+      run: IMG_VARS=image_vars/${{ matrix.image }}.sh ./build.sh
 
     - name: Check if there are enough cores available for launching TEST VM
       run: ./openstack_check.sh
 
     - name: Run test script
-      run: |
-        set -a
-        source image_vars/${{ matrix.image }}.sh
-        ./test.sh
+      run: IMG_VARS=image_vars/${{ matrix.image }}.sh ./test.sh
