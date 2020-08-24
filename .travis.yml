@@ -7,10 +7,6 @@ dist: bionic
 language: python
 python: "3.6"
 
-stages:
-  - build
-  - test
-
 env:
   jobs:
     - IMG_VARS=image_vars/image_matlab.sh
