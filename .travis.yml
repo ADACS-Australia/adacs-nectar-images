@@ -44,3 +44,9 @@ script:
 
 after_success:
   - ./openstack_check.sh && ./test.sh
+
+deploy:
+  - provider: script
+    script: ./deploy.sh
+    tags: true
+    condition: $TRAVIS_TAG =~ ^release*$
