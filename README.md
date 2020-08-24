@@ -22,7 +22,6 @@ You'll require the following tools installed and in your path
  * Packer
  * Ansible
  * OpenStack CLI
- * QEMU tools (for image shrinking process)
 
 ## Building the image
 
@@ -35,16 +34,7 @@ You'll require the following tools installed and in your path
 ```
 
 ## Notes:
-
-1. After the image is built and provisioned via packer, it is downloaded locally and 'shrunk' via `qemu-img`, before being re-uploaded to Nectar/OpenStack.
-As a consequence, **many GB of local disk space is required** to run this script successfully.
-You can choose the directory in which the large image files will be saved/shrunk with the variable `SAVE_DIR`
-
-```
-SAVE_DIR=/path/to/save/directory ./build.sh
-```
-
-2. This code is based off https://github.com/NeCTAR-RC/packer-jupyternotebook.
+This code is based off https://github.com/NeCTAR-RC/packer-jupyternotebook.
 
 ## Testing
 To automatically launch an instance of the image and run a suite of tests via InSpec:

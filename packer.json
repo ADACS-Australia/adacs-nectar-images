@@ -2,9 +2,9 @@
   "variables": {
     "ssh_user":        "{{env `DEFAULT_USER`}}",
     "source_name":     "{{env `SOURCE_IMAGE_NAME`}}",
-    "build_name":      "{{env `PACKER_BUILD_NAME`}}",
+    "build_name":      "{{env `IMAGE_BUILDNAME`}}",
     "software_volume": "{{env `SOFTWARE_VOLUME`}}",
-    "ansible_image_file":"{{env `ANSIBLE_IMAGE_FILE`}}"
+    "image_tagname":   "{{env `IMAGE_TAGNAME`}}"
   },
   "builders": [
     {
@@ -26,7 +26,7 @@
     {
       "type": "ansible",
       "playbook_file": "ansible/master.yml",
-      "extra_arguments": ["--extra-vars", "image_file={{user `ansible_image_file`}}"],
+      "extra_arguments": ["--extra-vars", "image_tagname={{user `image_tagname`}}"],
       "user": "{{user `ssh_user`}}"
     },
     {

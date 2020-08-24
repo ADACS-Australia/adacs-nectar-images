@@ -28,26 +28,27 @@ source $IMG_VARS
 source vars.sh
 echo
 echo ">>>>> Deploying image: ${IMAGE_FULLNAME} <<<<<"
-echo "       (from: ${STAGED_NAME} )"
+echo "       (from: ${IMAGE_BUILDNAME} )"
 
-# Check that staged image is present
-STATUS=$(openstack image show -c status -f value "${STAGED_NAME}" 2> /dev/null || true)
+# Check that the image to deploy is present
+STATUS=$(openstack image show -c status -f value "${IMAGE_BUILDNAME}" 2> /dev/null || true)
 if [ "${STATUS}" != "active" ]; then
-  echo "ERROR: The image '${STAGED_NAME}' does not exist!"
+  echo "ERROR: The image '${IMAGE_BUILDNAME}' does not exist!"
   exit 1
 fi
 
-# Check that image name for deploy is not already taken/present
+# Delete old image if present before deploying
 STATUS=$(openstack image show -c status -f value "${IMAGE_FULLNAME}" 2> /dev/null || true)
 if [ "${STATUS}" != "" ]; then
-  echo "ERROR: The image '${IMAGE_FULLNAME}' already exists!"
-  exit 1
+  echo "WARNING: The image '${IMAGE_FULLNAME}' already exists!"
+  echo "         Deleting it first..."
+  openstack image delete ${IMAGE_FULLNAME}
 fi
 
-# Finally change the name (if everything was successfuly)
-openstack image set --name "${IMAGE_FULLNAME}" "${STAGED_NAME}"
+# Deploy the new/updated image
+openstack image set --name "${IMAGE_FULLNAME}" "${IMAGE_BUILDNAME}"
 
-# Set to community image if required
+# Set to a community image, if required
 if [ "${COMMUNITY_IMAGE}" == "yes" ]; do
   openstack image set --community "${IMAGE_FULLNAME}"
 fi

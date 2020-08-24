@@ -4,15 +4,13 @@
 #  - OpenStack client
 #  - Packer
 #  - Ansible
-#  - QEMU uitls
 #  - OpenStack credentials loaded in your environment
 
 # Inputs:
 #  - IMG_VARS
-#  - SAVE_DIR (optional)
 
 # Check if required software to run script is installed.
-for ITEM in openstack packer ansible qemu-img; do
+for ITEM in openstack packer ansible; do
   if ! hash ${ITEM} >/dev/null 2>&1; then
       echo "You need ${ITEM} installed to use this script"
       exit 1
@@ -31,17 +29,16 @@ set -u
 source $IMG_VARS
 source vars.sh
 PACKER_TEMPLATE=packer.json
-SAVE_DIR=${SAVE_DIR:-${PWD}}
 
 echo
-echo ">>>>> Building image: ${PACKER_BUILD_NAME} <<<<<"
+echo ">>>>> Building image: ${IMAGE_BUILDNAME} <<<<<"
 
 # Check if build name is not already taken/present
-STATUS=$(openstack image show -c status -f value "${PACKER_BUILD_NAME}" 2> /dev/null || true)
+STATUS=$(openstack image show -c status -f value "${IMAGE_BUILDNAME}" 2> /dev/null || true)
 if [ "${STATUS}" != "" ]; then
-  echo "WARNING: The image '${PACKER_BUILD_NAME}' already exists!"
+  echo "WARNING: The image '${IMAGE_BUILDNAME}' already exists!"
   echo "         Deleting it first..."
-  openstack image delete ${PACKER_BUILD_NAME}
+  openstack image delete ${IMAGE_BUILDNAME}
 fi
 
 # Check if volume is present and available
@@ -58,37 +55,12 @@ set -x
 # Build and provision image
 packer build ${PACKER_TEMPLATE}
 
-# Change to save directory, if given
-cd ${SAVE_DIR}
-
-# Save image locally
-openstack image save --file image_large.qcow2 ${PACKER_BUILD_NAME}
-
-# Delete image on openstack
-openstack image delete ${PACKER_BUILD_NAME}
-
-# Shrink image
-qemu-img convert -c -o compat=0.10 -O qcow2 image_large.qcow2 image_small.qcow2
-rm image_large.qcow2
-
-# Check if staged name is not already taken/present
-STATUS=$(openstack image show -c status -f value "${STAGED_NAME}" 2> /dev/null || true)
-if [ "${STATUS}" != "" ]; then
-  echo "WARNING: The image '${STAGED_NAME}' already exists!"
-  echo "         Deleting it first..."
-  openstack image delete ${STAGED_NAME}
-fi
-
-# Upload smaller image to openstack and delete local file
-openstack image create --disk-format qcow2 --container-format bare --file image_small.qcow2 "${STAGED_NAME}"
-rm image_small.qcow2
-
 # Set and unset some image properties
-openstack image set --property default_user=${DEFAULT_USER} "${STAGED_NAME}"
-openstack image set --property os_distro=${OS_DISTRO}       "${STAGED_NAME}"
-openstack image set --property os_version=${OS_VERSION}     "${STAGED_NAME}"
+openstack image set --property default_user=${DEFAULT_USER} "${IMAGE_BUILDNAME}"
+openstack image set --property os_distro=${OS_DISTRO}       "${IMAGE_BUILDNAME}"
+openstack image set --property os_version=${OS_VERSION}     "${IMAGE_BUILDNAME}"
 
 # Try unsetting these properties, in case packer set them, but don't raise error
-openstack image unset --property owner_specified.openstack.sha256 "${STAGED_NAME}" || true
-openstack image unset --property owner_specified.openstack.object "${STAGED_NAME}" || true
-openstack image unset --property owner_specified.openstack.md5    "${STAGED_NAME}" || true
+openstack image unset --property owner_specified.openstack.sha256 "${IMAGE_BUILDNAME}" || true
+openstack image unset --property owner_specified.openstack.object "${IMAGE_BUILDNAME}" || true
+openstack image unset --property owner_specified.openstack.md5    "${IMAGE_BUILDNAME}" || true

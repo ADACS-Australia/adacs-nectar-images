@@ -18,7 +18,7 @@ resource "openstack_compute_keypair_v2" "test-keypair" {
 resource "openstack_compute_instance_v2" "test-server" {
   name            = var.test_name
   image_name      = var.test_image_name
-  flavor_name     = "m3.small"
+  flavor_name     = "m3.xsmall"
   key_pair        = openstack_compute_keypair_v2.test-keypair.name
   security_groups = ["default", "SSH"]
 

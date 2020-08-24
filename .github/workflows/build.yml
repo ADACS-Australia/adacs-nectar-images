@@ -2,11 +2,9 @@ name: build + test
 
 on:
   push:
-    branches: [ none ]
-    # branches: [ master ]
+    branches: [ master ]
   pull_request:
-    branches: [ none ]
-    # branches: [ master ]
+    branches: [ master ]
 
 env:
   OS_AUTH_URL: ${{ secrets.OS_AUTH_URL }}
@@ -52,9 +50,6 @@ jobs:
 
     - name: Install Nova client
       run: sudo apt-get install python-novaclient
-
-    - name: Install QEMU utils
-      run: sudo apt-get install qemu-utils
 
     # Building
     - name: Check if there are enough cores available for launching BUILD VM

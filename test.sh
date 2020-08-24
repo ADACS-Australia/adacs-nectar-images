@@ -28,8 +28,9 @@ set -u
 source $IMG_VARS
 source vars.sh
 PACKER_TEMPLATE=packer_test.json
-LOGFILE=test.log
-export INSPEC_VARSFILE="ansible/vars/conda_packages.yml"
+TEST_LOG=test.log
+INSPEC_PROFILE=${IMAGE_TAGNAME}
+INSPEC_VARSFILE="ansible/vars/conda_packages.yml"
 
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Testing image: ${TEST_IMAGE}"
@@ -46,9 +47,9 @@ fi
 packer build                                              \
   -color=false                                            \
   -var "inspec_profile=inspec_profiles/${INSPEC_PROFILE}" \
-  ${PACKER_TEMPLATE} 2>&1 | tee ${LOGFILE}
+  ${PACKER_TEMPLATE} 2>&1 | tee ${TEST_LOG}
 
-if [ $(grep -c "SUCCESS: TESTS PASSED" ${LOGFILE}) -gt 0 ]; then
+if [ $(grep -c "SUCCESS: TESTS PASSED" ${TEST_LOG}) -gt 0 ]; then
   TEST_OUTCOME='PASSED'
   EXIT_CODE=0
 else
