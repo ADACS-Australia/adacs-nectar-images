@@ -49,18 +49,26 @@ if [ "${STATUS}" != "available" ]; then
   exit 1
 fi
 
-# Print commands as they are run
-set -x
-
 # Build and provision image
 packer build ${PACKER_TEMPLATE}
 
-# Set and unset some image properties
-openstack image set --property default_user=${DEFAULT_USER} "${IMAGE_BUILDNAME}"
-openstack image set --property os_distro=${OS_DISTRO}       "${IMAGE_BUILDNAME}"
-openstack image set --property os_version=${OS_VERSION}     "${IMAGE_BUILDNAME}"
-
 # Try unsetting these properties, in case packer set them, but don't raise error
-openstack image unset --property owner_specified.openstack.sha256 "${IMAGE_BUILDNAME}" || true
-openstack image unset --property owner_specified.openstack.object "${IMAGE_BUILDNAME}" || true
-openstack image unset --property owner_specified.openstack.md5    "${IMAGE_BUILDNAME}" || true
+for PROPERTY in base_image_ref      \
+                boot_roles          \
+                image_location      \
+                image_state         \
+                image_type          \
+                murano_image_info   \
+                os_hash_algo        \
+                os_hash_value       \
+                os_hidden           \
+                owner_project_name  \
+                owner_user_name     \
+                stores              \
+                user_id             \
+                owner_specified.openstack.sha256 \
+                owner_specified.openstack.object \
+                owner_specified.openstack.md5
+  do
+    openstack image unset --property $PROPERTY "${IMAGE_BUILDNAME}" || true
+done
