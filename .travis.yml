@@ -13,9 +13,18 @@ stages:
 
 env:
   global:
-    # - TWINE_USERNAME=__token__
-    # - secure: "CQcODMtFcHGa9lXEGcDXomxzoB1oyxfiP+7Of2d5G5rrQaHy1Op4L0b7CJmS1LbxBBDqqe6xG+Cnn6BIDHp3HzMaWpZNHjmLyVS2QwJb5vyJhcVKb5lyUjdbIuoUOhoi+nsl1uGYR6nmRAyvElp6YOWD23Qz3OfSucgbQhUFeaHzye4WJXO5RJ1LNrTrUIkUa8UziOwTJCK2uZci94THUhNeLQzGcjOHAYkBsvBEsvPj8Vap1pQNy4A+PdXDZCwdJbpmdrrg/VXfWsFQV83dnvpZtvzCvTWVAMiPjt6Wv/eSO+ks4PShN2N2J2oXwVs0hAksyP21ZoaAHHdnNGnGDChVTcwcdn1Ts5/pNNSUX/f/jkR4aohRzBXhL/OuBbdahPbtiK4YfBunWslIOpSTh0tunMcKxB+tt9S0X7WSmo0+gPbuRM9/3S+58mlAbTfhBYv3a3mexfrcmWn7p4/8i/gW0NC9TqoiEbwzrG9e/Hz2o0UXd0h/TVpoxUXwT06DRnmAkak+iD27PJaOSJnAbKMY2vMGuuTDx3kulApLM5GQIOB1ny3H/bfYVLszD3ghf+YHzUsllfUvnh8Q6tcZr3UbBh1xNVLGPY1Rndbnq+iPeVcGlVqURhwevNJYg6/NF4p21zYHaEGhf06FuDCz664H9kk4f5TgK7YxUbbjv3c="
+    - secure: "PzOwW3lm1NZFbIkZmAvhcTniQ4/LO2b9X3NR68v2B/DXkIvPj3wmSO1VkmPu5OkYwgDz148+AZ9NJdD8lDHSpoH4OnAUngEt16dBGXX0/MXve08QdpiOWwhr2EfHjQLG/rnLJWINYcFN1wStZwVoWuOebkUtDN2FfXNexJZnSEPoCiRSG1jji67BSTdWLNgJ2Zen2GKmDh4mmw6eX+Hai1RCpqpMT+iEJWHcxDg/mY5gwbzER3E08cEZWnfU8Eu3TWKWan3umiO0EBLlVmyhL1nZzqJNX3KdMtRnTaR8hu5FH2XBafgqdz8mxUyK6E688p4MNbaqU6tLZnFXfQLQ7BVll444J10/R1Nw/A9dliPX71brqlCCczFm+x60LDtcKYP3xN+rE0qmdOGf4mLkY6S+AcdCUuWTAoPxTXY8TiQYU4RCVXPaUvVAZJhBxjaZbeL7RBrG0sax6DP7grKEghz892l13l2tigYvuTUP0xEaWTX9BB0m4jY8yN42qwiQPt588KfJHa+9GI3sUCRtb9YCgv8nhdmV9NBcGQBRJoPqVh55juwQYiwKtSPYDnTby3Tv4qp0W2WZXqKAmlQimr7mT8nSaXigjvrOPsd+trrbPhv0GIUDS9YGFa7OHsICXP/G7fTzuCnqcNXoZFFrQ0kpYiC+kJ0ljXk86sY02r0="
+    - secure: "zhDFF//6Q5A0c82xImkm43lVMsNvf8nFji4TPZ37OCDx5PtuYHFZSc93P38v7UaAXXZZltyLoxpg0dNwkzhc2YRj8oF25ZONHwEonuWLHS5y/636CPJehHh1O5bDf10lqtSIMU5XVMT4ucIspUGIM7vRIjiU497YNymA6sDCZBmzy7UorUs5+WVEskkTp2MLWMzSgiGkOvDphOjymbRnMdfqdc2iVjYQqYElmuuuLhcOklwxREyqAlrwxSQMJjumtJ9r/U2o/+lrTBaQPAgHFyyghmpZUUlW/ZEeiIuQpHMcicEk8u9h/LXs8vTlcdrKrXQ+xjqjhNw8HkqIHRXuNEshru/A/kzMmOskHZVjOWP36UgV9cazAn5BHky3A2B1VfR26AxTo26b3y86cfE9ukkfpz+r1+9DyO7GYjY5QEOU58D+8gAn3eqobEWW86CezFz457T269b8SIQdJOiKMP+Ew6EaUZFdNYJEVKoUc63Vd3d94jGJWNJJRBDgA6hR/xYUjMv9ZuSfpNzvgYFuHidrX/YGgUNsOlxrd0VR+bijRDFX0QqtIwAmpZ94bllqrToIKZxvOGXXCSM6vv36U6akZakb/41ZWdTaXDHan+xXfRVZT52lwenW7c7a38JMeyvoUVGIq6vo4G2mMm1gS2kNmJlvwNNIx0f0my8IoNk="
+    - secure: "T3OViAK2/ovzo2yQaohiqWxTOQSN6vmemiRMuNMpX/V67EAUxGWB53o20H/6lPl8Kzg4x6lplsk+hQKZHOS0uKiRoQN7EzPCnEPbLn0YyHUYvC67nyzTKwKhdz8jMlp6YFQCu0QsRIYUlfv2aUksrvldrRM6fhg7em4i0kTR3Sd1TrHyAXNIHY/3d3MHP8KB+Cqz2AIB4PMsd/IUVAgkSMi91hqY3iM9BqtLYvV23VCm0LiUZALLJG5lH/AJJaehBu41KTBLLjfXkKrujnOCOpY+Bs3WptpUeCYbNc1q9dfhyqjTpmxtRhrICtcFMERdfCIJTQhYP3pwUQiTo0EvnqNt0xGWSrFZA5IoOP9gDumcPFIilUIe/h9sJMWlbfynPQvp9SEMJCDmW0v+nxwc7MjkbLcvjwU5U1v9cKr+Pe7T/SCV/He7L0A/ZlEixuZghsPe/YsTdkiQVd00YivxTH7qqOmOtRYH7JO4unrUgRdpx7rTn+fnZohHN9HbBfkCuxwgI28FzuGTqmNlY5OZWPolJ46tar8SxLt4oaGhBEa8xKcUfIK3CptEU3L1o0hfS/dDZbKtZzqtDiR2mhLHjEG4tyxFYR/pnsj2xQk81v6mwMa1YTedYqWfmF26Sex8QDF2QPldk49Q73+PvsYeKIqnjMOumrDuASY2r9YOKtM="
+    - secure: "3J2hSLs9w7kBzXApiB9CVNmT82J2uIRdfDCqGGTQ4a+OS4Xo4O4kQC6BXjisM4iDMON31I9Xn/89LsSuVBcmK9wE3tzqvggF+VUJHmaS1MYr1377+2OYqDfAtmFnEgLzMI3Pyco4Vn+G8CpRURuzwckmT1zP7fJ0zXPXAiKwj+m5H4Q4t6wMhtOhaTamvOHqS1pmhKX+E4p/cssv1QBpUuMMm2hvnUo+kEGc4xB8V9d8WkgQXHzrQEO24AXDdAGTNO6e/qej6MPmsE3vNe9ixY9PbXw4foUtGaL+cNfjN3U7Enx43+hby3WfsoA1HHqlLQ0iqEe19wyzfEwiJKiWPsdnJPt3fuRIznbvcK690Ix/fyR0emT9yO/idsJ42/mErWGbWOkai2cyR5umdu2Kvf39TmGolstEJ3KcUc5NxsK05RkDv0WnPZ21X66xBa1B64vGUV6L0bbdGzDw4h56O6c9r9QccvqmNqyS1XYrKuHNkxdmIoWt05ElEReW8lidEscNH0KSLY7nO0CaFKgue/KVkmsZWkk6OWQIdK53nBrE1OpkXq/rJMlfYyHt2+qCLN59otjL1dDg09mQF0NLZ/yRWIDnkRBpMAqUorLDVESqId4Il2oFav3icojaARNp7T23WYgOgHxA08dprduVu16TxOzwRw5ntVenUvnJzyM="
+    - secure: "6GqKlj6UflB4KBzdAUDjIDemCF6P4426RklasGOjp8e8nZBYX2GF9TEWM0ER9MD8sXCPLZYIq5JzYSFphR+OnTfN+lDGd67tFgamlSQc2FAHrSEXGOiuiCjfslEObbtk3JYIcDb5fCmbcqubihEmdrX6XfFJyEGtdsoRqku9fi6wl7HAKHE3YiUk/Trv2FqvCJoVesLwrexHXSMt2PUmm1XQyN8vP5/WSyXNIRoreKBpk1YEWZsgCbsfkALGILtxqzNKaR2tZcu3yohB2Z+EzFGS25h5ljtZCQ1mSXy+uVw0WRj+S2wYP82rA7BNXgFVYB3DnnfUGIDi0XZp4NE1MLupcKfk5mMu0VLqRqn7xvhdOEMBp2bD/MctQj9y6zbEFlel9XU3sOnjmoOltVOp9oIVwb8DytiYmU4EwtJLsO4w7J0+wS2H/P1GMApRf8vboLEWsLDnKeHM5O4NVPTyCfZ76FJgi2ZDNzWpKnlPqGD11bp5gcLNOZJBvf/WC2oQyT0xH5M+3uz+FyVQCaDcz2TxCDtjql9vFTUBJSOiemwD2AVHNF3WeevNkWRkUKYpEnpxpPegMdujoyEyOvfNXFhMloiwBgV+F/75L9gsLM5hZDWUnpDRIxMUM0Wlply89LjuPmHzjjvSZ7n+aN7mlGgm2TVO2Eo4jl4IYmUc/mc="
+    - OS_USER_DOMAIN_NAME="Default"
+    - OS_PROJECT_DOMAIN_ID="default"
+    - OS_REGION_NAME="Melbourne"
+    - OS_INTERFACE=public
+    - OS_IDENTITY_API_VERSION=3
   jobs:
+    - IMG_VARS=image_vars/image_matlab.sh
     - IMG_VARS=image_vars/image_basic.sh
     # - IMG_VARS=image_vars/image_astro_A.sh
     # - IMG_VARS=image_vars/image_astro_A_intel_idl.sh
@@ -24,7 +33,6 @@ env:
     # - IMG_VARS=image_vars/image_intel.sh
     # - IMG_VARS=image_vars/image_intel_idl_conda.sh
     # - IMG_VARS=image_vars/image_mathematica.sh
-    # - IMG_VARS=image_vars/image_matlab.sh
 
 install:
   - sudo apt-get update
@@ -35,9 +43,7 @@ jobs:
   include:
     - stage: build
       script:
-        - ./openstack_check.sh
-        - ./build.sh
+        - ./openstack_check.sh && ./build.sh
     - stage: test
       script:
-        - ./openstack_check.sh
-        - ./test.sh
+        - ./openstack_check.sh && ./test.sh
