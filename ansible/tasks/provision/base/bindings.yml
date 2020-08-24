@@ -4,6 +4,7 @@
   copy:
     src: "files2copy/bindings.txt"
     dest: "$HOME/.bindings"
+    mode: 666
 
 - name: source .bindings in .profile
   blockinfile:

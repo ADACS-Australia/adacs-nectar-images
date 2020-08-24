@@ -38,6 +38,7 @@
         src: "{{ mnt_software }}/{{ heasoft }}src.tar.gz"
         dest: "$HOME/{{ heasoft }}src.tar.gz"
         remote_src: yes
+        mode: 666
 
     - name: unarchive HEASOFT (this takes a while...)
       unarchive:

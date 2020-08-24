@@ -24,6 +24,7 @@
       copy:
         src: "files2copy/matlab_silent.ini"
         dest: "{{ silent_ini }}"
+        mode: 666
 
     - name: get fileInstallationKey
       shell:
@@ -58,6 +59,7 @@
         src: "{{ mnt_software }}/Matlab/network.lic"
         dest: "{{ install_dir }}/licenses/network.lic"
         remote_src: yes
+        mode: 666
 
     - name: create symbolic link to matlab
       become: yes

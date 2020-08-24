@@ -4,6 +4,7 @@
   copy:
     src: "files2copy/{{ env_file }}"
     dest: "$HOME/{{ env_file }}"
+    mode: 666
 
 - name: "create conda env from {{ env_file }}"
   shell:
