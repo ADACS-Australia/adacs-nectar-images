@@ -5,6 +5,13 @@ if ! hash nova >/dev/null 2>&1; then
     exit 1
 fi
 
+# Check if OpenStack credentials are loaded
+if [ -z "${OS_USERNAME}" ]; then
+    echo -e "Please load the OpenStack credentials! \n"
+    echo    "(source your OpenStack RC file)"
+    exit 1
+fi
+
 # Max wait time = 30s x 120 = 3600s = 60m = 1hr
 WAIT_TIME=30
 MAX_TRIES=120
