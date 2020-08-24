@@ -1,0 +1,34 @@
+notifications:
+  email: false
+
+# if: tag IS present
+
+dist: bionic
+language: python
+python: "3.6"
+
+env:
+  global:
+    # - TWINE_USERNAME=__token__
+    # - secure: "CQcODMtFcHGa9lXEGcDXomxzoB1oyxfiP+7Of2d5G5rrQaHy1Op4L0b7CJmS1LbxBBDqqe6xG+Cnn6BIDHp3HzMaWpZNHjmLyVS2QwJb5vyJhcVKb5lyUjdbIuoUOhoi+nsl1uGYR6nmRAyvElp6YOWD23Qz3OfSucgbQhUFeaHzye4WJXO5RJ1LNrTrUIkUa8UziOwTJCK2uZci94THUhNeLQzGcjOHAYkBsvBEsvPj8Vap1pQNy4A+PdXDZCwdJbpmdrrg/VXfWsFQV83dnvpZtvzCvTWVAMiPjt6Wv/eSO+ks4PShN2N2J2oXwVs0hAksyP21ZoaAHHdnNGnGDChVTcwcdn1Ts5/pNNSUX/f/jkR4aohRzBXhL/OuBbdahPbtiK4YfBunWslIOpSTh0tunMcKxB+tt9S0X7WSmo0+gPbuRM9/3S+58mlAbTfhBYv3a3mexfrcmWn7p4/8i/gW0NC9TqoiEbwzrG9e/Hz2o0UXd0h/TVpoxUXwT06DRnmAkak+iD27PJaOSJnAbKMY2vMGuuTDx3kulApLM5GQIOB1ny3H/bfYVLszD3ghf+YHzUsllfUvnh8Q6tcZr3UbBh1xNVLGPY1Rndbnq+iPeVcGlVqURhwevNJYg6/NF4p21zYHaEGhf06FuDCz664H9kk4f5TgK7YxUbbjv3c="
+  jobs:
+    - IMG_VARS=image_vars/image_basic.sh
+    # - IMG_VARS=image_vars/image_astro_A.sh
+    # - IMG_VARS=image_vars/image_astro_A_intel_idl.sh
+    # - IMG_VARS=image_vars/image_astro_B.sh
+    # - IMG_VARS=image_vars/image_idl.sh
+    # - IMG_VARS=image_vars/image_intel.sh
+    # - IMG_VARS=image_vars/image_intel_idl_conda.sh
+    # - IMG_VARS=image_vars/image_mathematica.sh
+    # - IMG_VARS=image_vars/image_matlab.sh
+
+install:
+  - sudo apt-get update
+  - sudo apt-get install python-openstackclient python-novaclient qemu-utils packer ansible
+  - curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
+
+script:
+  - ./openstack_check.sh
+  - ./build.sh
+  - ./openstack_check.sh
+  - ./test.sh
