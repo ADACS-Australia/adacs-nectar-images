@@ -7,6 +7,10 @@ dist: bionic
 language: python
 python: "3.6"
 
+stages:
+  - build
+  - test
+
 env:
   global:
     # - TWINE_USERNAME=__token__
@@ -27,8 +31,13 @@ install:
   - sudo apt-get install python-openstackclient python-novaclient qemu-utils packer ansible
   - curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 
-script:
-  - ./openstack_check.sh
-  - ./build.sh
-  - ./openstack_check.sh
-  - ./test.sh
+jobs:
+  include:
+    - stage: build
+      script:
+        - ./openstack_check.sh
+        - ./build.sh
+    - stage: test
+      script:
+        - ./openstack_check.sh
+        - ./test.sh

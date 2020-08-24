@@ -2,9 +2,11 @@ name: build + test
 
 on:
   push:
-    branches: [ master ]
+    branches: [ none ]
+    # branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: [ none ]
+    # branches: [ master ]
 
 env:
   OS_AUTH_URL: ${{ secrets.OS_AUTH_URL }}
