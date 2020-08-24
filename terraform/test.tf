@@ -7,7 +7,7 @@ variable "test_name" {
 }
 
 # Configure the OpenStack Provider
-provider "openstack" { version = "~> 1.28" }
+provider "openstack" { }
 
 # Create temporary ssh key pair
 resource "openstack_compute_keypair_v2" "test-keypair" {
