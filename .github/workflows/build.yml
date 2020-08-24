@@ -56,16 +56,16 @@ jobs:
       run: ./openstack_check.sh
 
     - name: Run build script
-      run: IMG_VARS=image_vars/${{ matrix.image }}.sh ./build.sh
+      run: IMG=image_vars/${{ matrix.image }}.sh ./build.sh
 
     # Testing
     - name: Check if there are enough cores available for launching TEST VM
       run: ./openstack_check.sh
 
     - name: Run test script
-      run: IMG_VARS=image_vars/${{ matrix.image }}.sh ./test.sh
+      run: IMG=image_vars/${{ matrix.image }}.sh ./test.sh
 
     # Only deploy when commit contains a release tag
     - name: Deploy Image
       if: github.event_name == 'push' && contains(github.ref, '/tags/release')
-      run: IMG_VARS=image_vars/${{ matrix.image }}.sh ./deploy.sh
+      run: IMG=image_vars/${{ matrix.image }}.sh ./deploy.sh

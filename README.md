@@ -28,9 +28,9 @@ You'll require the following tools installed and in your path
  1. Make sure all the required software (listed above) is installed
  2. Load your NeCTAR RC credentials into your environment
  3. `cd` to the directory containing this README.md file
- 4. Run the build script
+ 4. Run the build script for a given image, e.g.
 ```
-./build.sh
+IMG=image_vars/image_basic.sh ./build.sh
 ```
 
 ## Notes:
@@ -39,7 +39,7 @@ This code is based off https://github.com/NeCTAR-RC/packer-jupyternotebook.
 ## Testing
 To automatically launch an instance of the image and run a suite of tests via InSpec:
 ```
-./test.sh
+IMG=image_vars/image_basic.sh ./test.sh
 ```
 This is achieved via Packer, and requires Chef InSpec to also be installed.
 Note that the Packer build is forced to exit with an error in order to prevent it from creating an image, since here we only care about the test.

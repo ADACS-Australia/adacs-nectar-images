@@ -2,7 +2,7 @@
 
 err=0
 for IMG in ./image_vars/image_*; do
-  IMG_VARS=$IMG ./test.sh
+  ./test.sh
   err=$((err+$?))
 done
 

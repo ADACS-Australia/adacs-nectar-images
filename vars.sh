@@ -1,3 +1,6 @@
+# Set image specific variables
+source ${IMG}
+
 # Source image to build upon
 SOURCE_IMAGE_NAME='NeCTAR Ubuntu 18.04 LTS (Bionic) amd64'
 

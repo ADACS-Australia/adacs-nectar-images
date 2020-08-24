@@ -5,7 +5,7 @@
 #  - OpenStack credentials loaded in your environment
 
 # Inputs:
-#  - IMG_VARS
+#  - IMG
 
 # Check if required software to run script is installed.
 for ITEM in openstack; do
@@ -24,7 +24,6 @@ fi
 
 # Set variables
 set -u
-source $IMG_VARS
 source vars.sh
 echo
 echo ">>>>> Deploying image: ${IMAGE_FULLNAME} <<<<<"

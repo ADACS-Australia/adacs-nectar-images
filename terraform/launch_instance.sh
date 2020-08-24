@@ -18,7 +18,6 @@ if [ -z "${OS_USERNAME}" ]; then
 fi
 
 # Set variables
-source $IMG_VARS
 source ../vars.sh
 
 # Export terraform variables
