@@ -1,20 +1,15 @@
-# ADACS-Astro image
+# ADACS NeCTAR images
 
-This project includes a script to build an image, suitable for the NeCTAR Research Cloud environment, with a suite of software/applications pre-installed.
+This project is for build a set of ADACS images, suitable for the NeCTAR Research Cloud environment.
 
-The image is based on Nectar's official Ubuntu 18.04 (Bionic) image, but can be changed by editing the appropriate lines in the build script.
+Each image is based on Nectar's official Ubuntu 18.04 (Bionic) image, but with a suite of additional software/applications pre-installed.
 
-The repository contains:
+Main items in the repository are:
  * `packer.json` -- packer JSON config for building the image on the NeCTAR Research Cloud.
- * `ansible/master.yml` -- ansible playbook for provisioning the image.
+ * `ansible/master.yml` -- main ansible playbook for provisioning the image.
  * `scripts/clean.sh` -- shell script to 'clean' the image during provisioning.
  * `build.sh` -- shell script to drive the whole process.
-
-Packages installed via `apt` are located in `ansible/vars/apt_packages.yml`.
-
-Conda (MiniConda) is installed and activated by default.
-Packages installed via `conda` are located in `ansible/vars/conda_packages.yml`.
-
+ * `image_vars/` -- directory containing shell scripts for defining image specific environment variables.
 
 ## Requirements
 
@@ -23,7 +18,7 @@ You'll require the following tools installed and in your path
  * Ansible
  * OpenStack CLI
 
-## Building the image
+## Manually building an image
 
  1. Make sure all the required software (listed above) is installed
  2. Load your NeCTAR RC credentials into your environment
@@ -32,9 +27,6 @@ You'll require the following tools installed and in your path
 ```
 IMG=image_vars/image_basic.sh ./build.sh
 ```
-
-## Notes:
-This code is based off https://github.com/NeCTAR-RC/packer-jupyternotebook.
 
 ## Testing
 To automatically launch an instance of the image and run a suite of tests via InSpec:
@@ -47,3 +39,6 @@ Note that the Packer build is forced to exit with an error in order to prevent i
 To do manual testing, navigate to `test/terraform`.
 This directory contains scripts for launching and destroying a test server/instance.
 Once launched, you can ssh into the machine to perform your own tests and check if things work.
+
+## Notes:
+This repository is based off https://github.com/NeCTAR-RC/packer-jupyternotebook.
