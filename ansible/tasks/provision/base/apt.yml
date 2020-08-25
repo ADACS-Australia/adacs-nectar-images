@@ -5,6 +5,7 @@
   apt:
     upgrade: dist
     update_cache: yes
+    dpkg_options: 'force-confold,force-confdef'
 
 - name: apt install packages
   become: true
