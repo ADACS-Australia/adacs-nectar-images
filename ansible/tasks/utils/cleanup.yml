@@ -59,6 +59,5 @@
   copy:
     content: ''
     dest: /etc/machine-id
-    mode: preserve
   when: etc_machine_id.stat.exists == True
   ignore_errors: yes
