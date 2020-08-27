@@ -14,6 +14,11 @@
   with_items:
     - apt-get -y clean all
 
+- name: reboot to flush /tmp/
+  become: yes
+  reboot:
+    msg: rebooting to flush /tmp/
+
 - name: Clean up logs keys and configs
   shell: "{{ item }}"
   become: yes
@@ -27,11 +32,6 @@
     - 'rm -fr /etc/ssh/*key'
     - 'rm -fr /root/.ssh'
     - 'rm -fr /root/*.cfg'
-
-- name: reboot to flush /tmp/
-  become: yes
-  reboot:
-    msg: rebooting to flush /tmp/
 
 # Left over from a server install. Cloud-init will generate a new one
 - name: Remove initial netplan config
