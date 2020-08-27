@@ -57,7 +57,8 @@
 - name: empty /etc/machine-id
   become: yes
   copy:
-    dest: /etc/machine-id
     content: ''
+    dest: /etc/machine-id
+    mode: preserve
   when: etc_machine_id.stat.exists == True
   ignore_errors: yes

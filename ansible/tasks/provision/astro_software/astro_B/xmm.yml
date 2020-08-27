@@ -17,6 +17,7 @@
   get_url:
     url: "ftp://sasdev-xmm.esac.esa.int/pub/sas/18.0.0/Linux/Ubuntu16.04/sas_18.0.0-Ubuntu16.04-64.tgz"
     dest: "$HOME/SAS/sas_18.0.0-Ubuntu16.04-64.tgz"
+    mode: '666'
 
 - name: unarchive sas
   unarchive:

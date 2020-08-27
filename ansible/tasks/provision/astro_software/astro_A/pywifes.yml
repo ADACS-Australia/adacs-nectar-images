@@ -9,7 +9,7 @@
   copy:
     src: "files2copy/env_pywifes.yml"
     dest: "$HOME/env_pywifes.yml"
-    mode: 666
+    mode: '666'
 
 - name: create conda env for pywifes
   shell:

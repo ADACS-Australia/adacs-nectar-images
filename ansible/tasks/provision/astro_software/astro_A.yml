@@ -37,7 +37,7 @@
   copy:
     src: files2copy/dragons_rsys.cfg
     dest: "$HOME/.geminidir/rsys.cfg"
-    mode: 666
+    mode: '666'
 
 - name: conda clean
   shell:

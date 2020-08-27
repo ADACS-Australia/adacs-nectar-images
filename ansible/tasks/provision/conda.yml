@@ -4,6 +4,7 @@
   get_url:
     url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
     dest: "$HOME/miniconda.sh"
+    mode: +x
 
 - name: install miniconda
   shell:
