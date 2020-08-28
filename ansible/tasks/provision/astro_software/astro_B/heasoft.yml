@@ -1,12 +1,12 @@
 ---
 # Note: original archive can be downloaded from
-#   https://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/lheasoft6.27/heasoft-6.27.2src.tar.gz
+#   https://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/lheasoft6.28/heasoft-6.28src.tar.gz
 # but it's extremely slow (probably no server close by)
 - name: install HEASOFT
 
   vars:
     mnt_software: /mnt/software
-    heasoft: "heasoft-6.27.2"
+    heasoft: "heasoft-6.28"
 
   block:
 
@@ -59,7 +59,7 @@
 
     - name: download hwrap
       get_url:
-        url: https://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/release/heasoft-6.27/BUILD_DIR/hwrap
+        url: "https://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/release/{{ heasoft }}/BUILD_DIR/hwrap"
         dest: "$HOME/hwrap.sh"
         mode: +x
 
