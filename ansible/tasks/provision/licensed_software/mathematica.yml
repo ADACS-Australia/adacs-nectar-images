@@ -19,7 +19,6 @@
           - fontconfig
           - libglu1-mesa
           - libasound2
-        update_cache: yes
 
     - name: run Mathematica installer silently
       become: yes

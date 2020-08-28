@@ -17,7 +17,6 @@
         name:
           - build-essential
           - xterm             # This covers all X libraries required
-        update_cache: yes
 
     - name: copy silent.ini to remote
       become: yes
