@@ -39,7 +39,7 @@ fi
 openstack image set --name "${IMAGE_FULLNAME}" "${IMAGE_BUILDNAME}"
 
 # Set to a community image, if required
-if [ "${COMMUNITY_IMAGE}" == "yes" ]; do
+if [ "${COMMUNITY_IMAGE}" == "yes" ]; then
   openstack image set --community "${IMAGE_FULLNAME}"
 else
   openstack image set --shared "${IMAGE_FULLNAME}"
