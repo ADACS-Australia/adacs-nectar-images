@@ -38,16 +38,8 @@ jobs:
 
     - uses: ./.github/actions/install-tools
 
-    # Building
-    - name: Check if there are enough cores available for launching BUILD VM
-      run: ./utils/openstack_check.sh
-
     - name: Run build script
       run: ./build/build.sh --image ./image_vars/${{ matrix.image }}.sh
-
-    # Testing
-    - name: Check if there are enough cores available for launching TEST VM
-      run: ./utils/openstack_check.sh
 
     - name: Run test script
       run: ./test/test.sh --image ./image_vars/${{ matrix.image }}.sh
