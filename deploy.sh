@@ -32,7 +32,7 @@ STATUS=$(openstack image show -c status -f value "${IMAGE_FULLNAME}" 2> /dev/nul
 if [ "${STATUS}" != "" ]; then
   echo "WARNING: The image '${IMAGE_FULLNAME}' already exists!"
   echo "         Deleting it first..."
-  openstack image delete ${IMAGE_FULLNAME}
+  openstack image delete "${IMAGE_FULLNAME}"
 fi
 
 # Deploy the new/updated image
