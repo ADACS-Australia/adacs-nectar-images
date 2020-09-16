@@ -1,4 +1,21 @@
 # Set some variables
+terraform {
+  backend "remote" {
+    organization = "adacs"
+
+    workspaces {
+      name = "nectar-images"
+    }
+  }
+
+  required_providers {
+    openstack = {
+      source = "terraform-providers/openstack"
+    }
+  }
+  required_version = ">= 0.13"
+}
+
 variable "test_image_name" {
   default = ""
 }
