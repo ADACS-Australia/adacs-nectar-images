@@ -6,9 +6,10 @@ if ! hash nova >/dev/null 2>&1; then
 fi
 
 # Check if OpenStack credentials are loaded
-if [ -z "${OS_USERNAME}" ]; then
-    echo -e "Please load the OpenStack credentials! \n"
-    echo    "(source your OpenStack RC file)"
+openstack quota show > /dev/null
+if [ $? -ne 0 ]; then
+    echo "--- Please load the OpenStack credentials! ---"
+    echo "    (source your OpenStack RC file)"
     exit 1
 fi
 
