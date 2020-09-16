@@ -5,7 +5,7 @@
 #  - OpenStack credentials loaded in your environment
 
 DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
-source ${DIR}/../utils/functions.sh
+source ${DIR}/utils/functions.sh
 
 # Checks
 check_install openstack
@@ -14,7 +14,7 @@ check_openstack_credentials
 # Set variables
 IMG=$(get_image_vars_file "$@")
 set -u
-source ${DIR}/../vars.sh
+source ${DIR}/vars.sh
 
 echo
 echo ">>>>> Deploying image: ${IMAGE_FULLNAME} <<<<<"
