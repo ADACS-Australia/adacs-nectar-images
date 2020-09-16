@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 control 'astro_B' do
   impact 1.0
   title 'ASTRO B Image'
   desc 'Check installation contained in astro B image'
 
-  programs = [
-    "ds9",
-    "sextractor",
-    "fv"
+  programs = %w[
+    ds9
+    sextractor
+    fv
   ]
 
   programs.each do |program|
@@ -15,18 +17,17 @@ control 'astro_B' do
     end
   end
 
-  describe command("sextractor --version") do
-    its('exit_status') {should cmp 0}
+  describe command('sextractor --version') do
+    its('exit_status') { should cmp 0 }
   end
 
-  ciao = command("alias ciao")
-  conda_activate = command("alias conda_activate")
-  sas_activate = command("alias sas_activate")
+  ciao = command('alias ciao')
+  conda_activate = command('alias conda_activate')
+  sas_activate = command('alias sas_activate')
 
-  aliases = [ciao,conda_activate,sas_activate]
+  aliases = [ciao, conda_activate, sas_activate]
 
   aliases.each do |i|
-
     # Check that the alias exists
     describe i do
       its('exit_status') { should eq 0 }
@@ -39,7 +40,6 @@ control 'astro_B' do
     describe command(j) do
       its('exit_status') { should eq 0 }
     end
-
   end
 
   describe command('fhelp -h') do
@@ -55,5 +55,4 @@ control 'astro_B' do
   describe command("#{sas} && sashelp -h") do
     its('exit_status') { should eq 0 }
   end
-
 end

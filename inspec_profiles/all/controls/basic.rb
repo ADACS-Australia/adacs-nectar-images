@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 apt_packages = [
   'gcc',
@@ -20,8 +21,7 @@ control 'basic' do
 
   apt_packages.each do |package|
     describe command(package) do
-      it {should exist}
+      it { should exist }
     end
   end
-
 end

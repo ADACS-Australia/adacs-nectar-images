@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 
 # Load conda package list from file
@@ -9,12 +11,12 @@ control 'conda' do
   desc 'Check for installation of conda and packages'
 
   describe command('conda') do
-    it {should exist}
+    it { should exist }
   end
 
   describe command('conda list') do
     conda_packages.each do |package|
-      its('stdout') {should match package}
+      its('stdout') { should match package }
     end
   end
 
@@ -23,5 +25,4 @@ control 'conda' do
   #     its('exit_status') {should cmp 0}
   #   end
   # end
-
 end

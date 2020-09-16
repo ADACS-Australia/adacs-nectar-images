@@ -7,7 +7,7 @@ variable "test_name" {
 }
 
 # Configure the OpenStack Provider
-provider "openstack" { }
+provider "openstack" {}
 
 # Create temporary ssh key pair
 resource "openstack_compute_keypair_v2" "test-keypair" {
@@ -22,15 +22,15 @@ resource "openstack_compute_instance_v2" "test-server" {
   key_pair        = openstack_compute_keypair_v2.test-keypair.name
   security_groups = ["default", "SSH"]
 
-# Wait for ssh connection
+  # Wait for ssh connection
   provisioner "remote-exec" {
     inline = ["echo '===> ssh is now available <==='"]
 
     connection {
-    type        = "ssh"
-    user        = "ubuntu"
-    private_key = openstack_compute_keypair_v2.test-keypair.private_key
-    host        = openstack_compute_instance_v2.test-server.access_ip_v4
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = openstack_compute_keypair_v2.test-keypair.private_key
+      host        = openstack_compute_instance_v2.test-server.access_ip_v4
     }
   }
 }
@@ -38,7 +38,7 @@ resource "openstack_compute_instance_v2" "test-server" {
 # Output varialbes
 output "private_key" {
   sensitive = true
-  value = openstack_compute_keypair_v2.test-keypair.private_key
+  value     = openstack_compute_keypair_v2.test-keypair.private_key
 }
 
 output "IP" {
