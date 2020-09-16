@@ -13,8 +13,8 @@ check_install packer inspec
 check_openstack_credentials
 
 # Set variables
-set -u
 IMG=$(get_image_vars_file "$@")
+set -u
 source vars.sh
 PACKER_TEMPLATE=${DIR}/packer_test.json
 TEST_LOG=${DIR}/test.log

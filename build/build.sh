@@ -14,8 +14,8 @@ check_install openstack packer ansible
 check_openstack_credentials
 
 # Set variables
-set -u
 IMG=$(get_image_vars_file "$@")
+set -u
 source ${DIR}/../vars.sh
 PACKER_TEMPLATE=${DIR}/packer.json
 
