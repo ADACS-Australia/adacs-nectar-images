@@ -44,7 +44,5 @@ jobs:
     - name: Run test script
       run: ./test/test.sh --image ./image_vars/${{ matrix.image }}.sh
 
-    # Only deploy when commit contains a release tag
     - name: Deploy Image
-      if: github.event_name == 'push' && contains(github.ref, '/tags/release')
       run: ./deploy.sh --image ./image_vars/${{ matrix.image }}.sh
