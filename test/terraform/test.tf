@@ -1,12 +1,12 @@
 # Set some variables
 terraform {
-  backend "remote" {
-    organization = "adacs"
+  #  backend "remote" {
+  #    organization = "adacs"
 
-    workspaces {
-      name = "nectar-images"
-    }
-  }
+  #    workspaces {
+  #      name = "nectar-images"
+  #    }
+  #  }
 
   required_providers {
     openstack = {
