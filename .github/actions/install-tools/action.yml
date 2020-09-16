@@ -1,0 +1,19 @@
+name: 'install tools'
+description: 'install tools'
+runs:
+  using: "composite"
+  steps:
+    - run: sudo apt-get update
+      shell: bash
+
+    - name: Install Chef Inspec
+      run: curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
+      shell: bash
+
+    - name: Install OpenStack client
+      run: sudo apt-get install python-openstackclient
+      shell: bash
+
+    - name: Install Nova client
+      run: sudo apt-get install python-novaclient
+      shell: bash

@@ -36,17 +36,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    # Installations
-    - run: sudo apt-get update
-
-    - name: Install Chef Inspec
-      run: curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
-
-    - name: Install OpenStack client
-      run: sudo apt-get install python-openstackclient
-
-    - name: Install Nova client
-      run: sudo apt-get install python-novaclient
+    - uses: ./.github/actions/install-tools
 
     # Building
     - name: Check if there are enough cores available for launching BUILD VM
