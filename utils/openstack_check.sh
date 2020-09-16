@@ -1,17 +1,11 @@
 #!/bin/bash -e
 
-if ! hash nova >/dev/null 2>&1; then
-    echo "You need nova installed to use this script"
-    exit 1
-fi
+# Get absolute path to directory containing the current file
+DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
+source ${DIR}/functions.sh
 
-# Check if OpenStack credentials are loaded
-openstack quota show > /dev/null
-if [ $? -ne 0 ]; then
-    echo "--- Please load the OpenStack credentials! ---"
-    echo "    (source your OpenStack RC file)"
-    exit 1
-fi
+check_install nova
+check_openstack_credentials
 
 # Max wait time = 30s x 120 = 3600s = 60m = 1hr
 WAIT_TIME=30
@@ -33,11 +27,11 @@ while (( ${NTRIES} < ${MAX_TRIES} )); do
     echo "There are $CORES_AVAILABLE cores available."
     exit 0
   else
-    echo "NOT ENOUGH CORES AVAILABLE. Retrying in ${WAIT_TIME}s"
+    >&2 echo "NOT ENOUGH CORES AVAILABLE. Retrying in ${WAIT_TIME}s"
     sleep ${WAIT_TIME}
   fi
 
 done
 
-echo "TIMED OUT"
+>&2 echo "TIMED OUT"
 exit 1

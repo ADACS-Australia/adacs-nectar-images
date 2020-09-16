@@ -5,32 +5,21 @@
 #  - Inspec
 #  - OpenStack credentials loaded in your environment
 
-# Inputs:
-#  - IMG
+DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
+source ${DIR}/../utils/functions.sh
 
-# Check if required software to run script is installed.
-for ITEM in packer inspec; do
-  if ! hash ${ITEM} >/dev/null 2>&1; then
-      echo "You need ${ITEM} installed to use this script"
-      exit 1
-  fi
-done
-
-# Check if OpenStack credentials are loaded
-openstack quota show > /dev/null
-if [ $? -ne 0 ]; then
-    echo "--- Please load the OpenStack credentials! ---"
-    echo "    (source your OpenStack RC file)"
-    exit 1
-fi
+# Checks
+check_install packer inspec
+check_openstack_credentials
 
 # Set variables
 set -u
+IMG=$(get_image_vars_file "$@")
 source vars.sh
-PACKER_TEMPLATE=packer_test.json
-TEST_LOG=test.log
-INSPEC_PROFILE=${IMAGE_TAGNAME}
-INSPEC_VARSFILE="ansible/vars/conda_packages.yml"
+PACKER_TEMPLATE=${DIR}/packer_test.json
+TEST_LOG=${DIR}/test.log
+INSPEC_PROFILE=${DIR}/inspec_profiles/${IMAGE_TAGNAME}
+INSPEC_VARSFILE="${DIR}/../build/ansible/vars/conda_packages.yml"
 
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Testing image: ${TEST_IMAGE}"
@@ -44,9 +33,9 @@ if [ "${STATUS}" != "active" ]; then
 fi
 
 # Build and provision image
-packer build                                              \
-  -color=false                                            \
-  -var "inspec_profile=inspec_profiles/${INSPEC_PROFILE}" \
+packer build                              \
+  -color=false                            \
+  -var "inspec_profile=${INSPEC_PROFILE}" \
   ${PACKER_TEMPLATE} 2>&1 | tee ${TEST_LOG}
 
 if [ $(grep -c "SUCCESS: TESTS PASSED" ${TEST_LOG}) -gt 0 ]; then

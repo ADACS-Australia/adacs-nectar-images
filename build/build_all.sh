@@ -1,5 +1,6 @@
-#!/bin/bash -a
+#!/bin/bash
+DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
 
-for IMG in ./image_vars/image_*; do
-  ./build.sh
+for IMG in ${DIR}/../image_vars/image_*; do
+  ${DIR}/build.sh --image "${IMG}"
 done

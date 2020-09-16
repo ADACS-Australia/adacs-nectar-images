@@ -4,7 +4,8 @@
     "source_name":     "{{env `SOURCE_IMAGE_NAME`}}",
     "build_name":      "{{env `IMAGE_BUILDNAME`}}",
     "software_volume": "{{env `SOFTWARE_VOLUME`}}",
-    "image_tagname":   "{{env `IMAGE_TAGNAME`}}"
+    "image_tagname":   "{{env `IMAGE_TAGNAME`}}",
+    "build_dir":       "{{env `DIR`}}"
   },
   "builders": [
     {
@@ -25,7 +26,7 @@
     },
     {
       "type": "ansible",
-      "playbook_file": "ansible/master.yml",
+      "playbook_file": "{{user `build_dir`}}/ansible/master.yml",
       "extra_arguments": ["--extra-vars", "image_tagname={{user `image_tagname`}}"],
       "user": "{{user `ssh_user`}}"
     },
@@ -36,7 +37,7 @@
     {
       "type": "shell",
       "execute_command": "{{.Vars}} sudo --stdin --preserve-env bash '{{.Path}}'",
-      "script": "scripts/cleanup.sh"
+      "script": "{{user `build_dir`}}/scripts/cleanup.sh"
     }
   ],
   "_comment1": " Make sure ansible provisioner 'user' is the same as ",

@@ -1,8 +1,9 @@
 #!/bin/bash -a
+DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
 
 err=0
-for IMG in ./image_vars/image_*; do
-  ./test.sh
+for IMG in ${DIR}/../image_vars/image_*; do
+  ${DIR}/test.sh --image ${IMG}
   err=$((err+$?))
 done
 
