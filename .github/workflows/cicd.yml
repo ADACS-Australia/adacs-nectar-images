@@ -38,21 +38,21 @@ jobs:
 
     - uses: ./.github/actions/install-tools
 
-    # # Building
-    # - name: Check if there are enough cores available for launching BUILD VM
-    #   run: ./openstack_check.sh
+    # Building
+    - name: Check if there are enough cores available for launching BUILD VM
+      run: ./utils/openstack_check.sh
 
-    # - name: Run build script
-    #   run: IMG=image_vars/${{ matrix.image }}.sh ./build.sh
+    - name: Run build script
+      run: ./build/build.sh --image ./image_vars/${{ matrix.image }}.sh
 
-    # # Testing
-    # - name: Check if there are enough cores available for launching TEST VM
-    #   run: ./openstack_check.sh
+    # Testing
+    - name: Check if there are enough cores available for launching TEST VM
+      run: ./utils/openstack_check.sh
 
-    # - name: Run test script
-    #   run: IMG=image_vars/${{ matrix.image }}.sh ./test.sh
+    - name: Run test script
+      run: ./test/test.sh --image ./image_vars/${{ matrix.image }}.sh
 
-    # # Only deploy when commit contains a release tag
-    # - name: Deploy Image
-    #   if: github.event_name == 'push' && contains(github.ref, '/tags/release')
-    #   run: IMG=image_vars/${{ matrix.image }}.sh ./deploy.sh
+    # Only deploy when commit contains a release tag
+    - name: Deploy Image
+      if: github.event_name == 'push' && contains(github.ref, '/tags/release')
+      run: ./deploy.sh --image ./image_vars/${{ matrix.image }}.sh
