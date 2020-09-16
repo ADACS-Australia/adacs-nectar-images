@@ -4,28 +4,18 @@
 #  - OpenStack client
 #  - OpenStack credentials loaded in your environment
 
-# Inputs:
-#  - IMG
+DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
+source ${DIR}/../utils/functions.sh
 
-# Check if required software to run script is installed.
-for ITEM in openstack; do
-  if ! hash ${ITEM} >/dev/null 2>&1; then
-      echo "You need ${ITEM} installed to use this script"
-      exit 1
-  fi
-done
-
-# Check if OpenStack credentials are loaded
-openstack quota show > /dev/null
-if [ $? -ne 0 ]; then
-    echo "--- Please load the OpenStack credentials! ---"
-    echo "    (source your OpenStack RC file)"
-    exit 1
-fi
+# Checks
+check_install openstack
+check_openstack_credentials
 
 # Set variables
 set -u
-source vars.sh
+IMG=$(get_image_vars_file "$@")
+source ${DIR}/../vars.sh
+
 echo
 echo ">>>>> Deploying image: ${IMAGE_FULLNAME} <<<<<"
 echo "       (from: ${IMAGE_BUILDNAME} )"
