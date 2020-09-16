@@ -4,20 +4,12 @@
 #  - Terraform
 #  - OpenStack credentials loaded in your environment
 
-# Find packer
-if ! hash terraform >/dev/null 2>&1; then
-    echo "You need terraform installed to use this script"
-    exit 1
-fi
+DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
+source ${DIR}/../../utils/functions.sh
 
-# Check if OpenStack credentials are loaded
-openstack quota show > /dev/null
-if [ $? -ne 0 ]; then
-    echo "--- Please load the OpenStack credentials! ---"
-    echo "    (source your OpenStack RC file)"
-    exit 1
-fi
+# Checks
+check_install terraform
+check_openstack_credentials
 
-terraform destroy -auto-approve #-backup=-
+terraform destroy -auto-approve
 rm temporary_key.pem
-# rm terraform.tfstate

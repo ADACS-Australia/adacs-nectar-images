@@ -4,22 +4,17 @@
 #  - Terraform
 #  - OpenStack credentials loaded in your environment
 
-# Find packer
-if ! hash terraform >/dev/null 2>&1; then
-    echo "You need terraform installed to use this script"
-    exit 1
-fi
+DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
+source ${DIR}/../../utils/functions.sh
 
-# Check if OpenStack credentials are loaded
-openstack quota show > /dev/null
-if [ $? -ne 0 ]; then
-    echo "--- Please load the OpenStack credentials! ---"
-    echo "    (source your OpenStack RC file)"
-    exit 1
-fi
+# Checks
+check_install terraform
+check_openstack_credentials
 
 # Set variables
-source ../vars.sh
+IMG=$(get_image_vars_file "$@")
+set -u
+source ${DIR}/../../vars.sh
 
 # Export terraform variables
 export TF_VAR_test_image_name=${TEST_IMAGE}
@@ -44,7 +39,7 @@ echo "      ssh -i ${TMP_KEY} ${DEFAULT_USER}@${IP}"
 echo
 echo "Template command for running the inspec test on this instance is:"
 echo
-echo "      inspec exec \${INSPEC_PROFILE} -t ssh://${DEFAULT_USER}@${IP} -i ${TMP_KEY} --input-file \${APT_PACKAGES} \${CONDA_PACKAGES}"
+echo "      inspec exec \${INSPEC_PROFILE} -t ssh://${DEFAULT_USER}@${IP} -i ${TMP_KEY} --input-file \${CONDA_PACKAGES}"
 echo
 echo "To tear down the test instance run:"
 echo
