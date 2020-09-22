@@ -43,7 +43,7 @@ if [ "${STATUS}" != "" ]; then
 fi
 
 # Build and provision image
-packer build ${PACKER_TEMPLATE}
+packer build -color=false ${PACKER_TEMPLATE}
 
 # Try unsetting these properties, in case packer set them, but don't raise error
 for PROPERTY in base_image_ref      \
