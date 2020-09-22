@@ -46,10 +46,12 @@ jobs:
     - uses: ./.github/actions/install-tools
 
     - name: Run build script
-      run: ./build/build.sh --image ./image_vars/${{ matrix.image }}.sh
+      working-directory: build
+      run: ./build.sh --image ../image_vars/${{ matrix.image }}.sh
 
     - name: Run test script
-      run: ./test/test.sh --image ./image_vars/${{ matrix.image }}.sh
+      working-directory: test
+      run: ./test.sh --image ../image_vars/${{ matrix.image }}.sh
 
     - name: Deploy Image
       run: ./deploy.sh --image ./image_vars/${{ matrix.image }}.sh
