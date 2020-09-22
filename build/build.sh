@@ -4,13 +4,15 @@
 #  - OpenStack client
 #  - Packer
 #  - Ansible
+#  - Terraform
 #  - OpenStack credentials loaded in your environment
+#  - Terraform credentials
 
 DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
 source ${DIR}/../utils/functions.sh
 
 # Checks
-check_install openstack packer ansible
+check_install openstack packer ansible terraform
 check_openstack_credentials
 
 # Set variables
@@ -18,6 +20,16 @@ IMG=$(get_image_vars_file "$@")
 set -u
 source ${DIR}/../vars.sh
 PACKER_TEMPLATE=${DIR}/packer.json
+
+echo "--- Ensuring NFS software server is up..."
+nslookup nfs.swin-dev.cloud.edu.au
+cd ${DIR}/nfs
+echo "Initialising terraform..."
+terraform init
+echo "Getting key..."
+NFS_KEY=$(terraform output key)
+echo "Changing back to build directory..."
+cd -
 
 echo
 echo ">>>>> Building image: ${IMAGE_BUILDNAME} <<<<<"
@@ -28,14 +40,6 @@ if [ "${STATUS}" != "" ]; then
   echo "WARNING: The image '${IMAGE_BUILDNAME}' already exists!"
   echo "         Deleting it first..."
   openstack image delete ${IMAGE_BUILDNAME}
-fi
-
-# Check if volume is present and available
-STATUS=$(openstack volume show -c status -f value ${SOFTWARE_VOLUME})
-if [ "${STATUS}" != "available" ]; then
-  echo "ERROR: The volume '${SOFTWARE_VOLUME}' is $STATUS"
-  openstack volume show "${SOFTWARE_VOLUME}"
-  exit 1
 fi
 
 # Build and provision image
