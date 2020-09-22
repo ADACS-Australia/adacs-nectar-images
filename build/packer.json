@@ -21,18 +21,10 @@
   ],
   "provisioners": [
     {
-      "type": "shell-local",
-      "command": "openstack server add volume {{user `build_name`}} {{user `software_volume`}}"
-    },
-    {
       "type": "ansible",
       "playbook_file": "{{user `build_dir`}}/ansible/master.yml",
       "extra_arguments": ["--extra-vars", "image_tagname={{user `image_tagname`}}"],
       "user": "{{user `ssh_user`}}"
-    },
-    {
-      "type": "shell-local",
-      "command": "openstack server remove volume {{user `build_name`}} {{user `software_volume`}}"
     },
     {
       "type": "shell",

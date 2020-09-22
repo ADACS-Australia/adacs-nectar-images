@@ -1,0 +1,21 @@
+{
+  "builders": [
+    {
+      "type":              "openstack",
+      "communicator":      "ssh",
+      "ssh_username":      "ec2-user",
+      "source_image_name": "NeCTAR CentOS 7 x86_64",
+      "image_name":        "NFS-server",
+      "instance_name":     "NFS_server_build",
+      "flavor":            "m3.xsmall",
+      "security_groups":  ["default","SSH"]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "playbook.yml",
+      "user": "ec2-user"
+    }
+  ]
+}

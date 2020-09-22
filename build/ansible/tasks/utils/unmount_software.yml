@@ -7,3 +7,9 @@
   mount:
     path: "{{ mnt_software }}"
     state: absent
+
+- name: remove key
+  become: yes
+  file:
+    path: "/var/tmp/nfs.key"
+    state: absent

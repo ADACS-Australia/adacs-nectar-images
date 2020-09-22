@@ -1,0 +1,48 @@
+---
+
+- name: Provision the image
+  hosts: default
+  gather_facts: yes
+  become: no
+
+  tasks:
+
+    - name: install autofs
+      become: yes
+      yum:
+        name: autofs
+
+    - name: autofs configuration 1
+      become: yes
+      lineinfile:
+        path: /etc/auto.master
+        line: /mnt/volumes    /etc/auto.volumes   --timeout=300
+
+    - name: autofs configuration 2
+      become: yes
+      lineinfile:
+        path: /etc/auto.volumes
+        line: software    -fstype=auto,ro   :/dev/disk/by-label/software
+        create: yes
+        mode: '0644'
+
+    - name: enable autofs
+      become: yes
+      systemd:
+        name: autofs
+        state: started
+        enabled: yes
+
+    - name: Increase SSH MaxAuthTries to 40 for sshd
+      become: yes
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regex: ^(# *)?MaxAuthTries
+        line: MaxAuthTries 40
+
+    - name: restart sshd
+      become: yes
+      systemd:
+        name: sshd
+        state: restarted
+        enabled: yes
