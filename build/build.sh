@@ -25,7 +25,7 @@ echo "--- Ensuring NFS software server is up..."
 nslookup nfs.swin-dev.cloud.edu.au
 cd ${DIR}/nfs
 echo "Initialising terraform..."
-terraform init
+terraform init > /dev/null
 echo "Getting key..."
 NFS_KEY=$(terraform output key)
 echo "Changing back to build directory..."

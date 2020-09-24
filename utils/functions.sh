@@ -11,9 +11,9 @@ function check_install {
 function check_openstack_credentials {
   # Check if OpenStack credentials are loaded
   openstack quota show > /dev/null || local err=$?; true
-  if [ $err -ne 0 ]; then
-      >&2 echo "--- Please load the OpenStack credentials! ---"
-      >&2 echo "    (source your OpenStack RC file)"
+  if [[ "$err" -ne 0 ]]; then
+      >&2 echo "Please load your OpenStack credentials!"
+      >&2 echo "(source your OpenStack RC file)"
       exit 1
   fi
 }
