@@ -1,0 +1,6 @@
+---
+
+- name: ensure sshfs is installed
+  become: yes
+  apt:
+    name: sshfs

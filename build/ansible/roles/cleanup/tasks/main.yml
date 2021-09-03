@@ -1,0 +1,63 @@
+---
+
+- name: apt autoclean and autoremove
+  become: true
+  apt:
+    autoclean: yes
+    autoremove: yes
+
+- name: apt clean all
+  command: "{{ item }}"
+  become: true
+  args:
+    warn: no
+  with_items:
+    - apt-get -y clean all
+
+- name: reboot to flush /tmp/
+  become: yes
+  reboot:
+    msg: rebooting to flush /tmp/
+
+- name: Clean up logs keys and configs
+  shell: "{{ item }}"
+  become: yes
+  args:
+    warn: no
+  with_items:
+    - 'find /var/log -type f -exec ''truncate -s0 {}'' \;'
+    - 'rm -fr /var/log/journal/*'
+    - 'rm -fr /var/lib/cloud/*'
+    - 'rm -fr /home/default/.ssh/*'
+    - 'rm -fr /etc/ssh/*key'
+    - 'rm -fr /root/.ssh'
+    - 'rm -fr /root/*.cfg'
+
+# Left over from a server install. Cloud-init will generate a new one
+- name: Remove initial netplan config
+  become: yes
+  file:
+    name: /etc/netplan/01-netcfg.yaml
+    state: absent
+
+- name: remove /var/lib/dbus/machine-id
+  become: yes
+  file:
+    path: /var/lib/dbus/machine-id
+    state: absent
+
+- name: check if /etc/machine-id exists
+  become: yes
+  stat:
+    path: /etc/machine-id
+  register: etc_machine_id
+
+# machine-id should be empty for systemd to regenerate
+# ignore errors because some distros have this tmpfs mounted
+- name: empty /etc/machine-id
+  become: yes
+  copy:
+    content: ''
+    dest: /etc/machine-id
+  when: etc_machine_id.stat.exists
+  ignore_errors: yes

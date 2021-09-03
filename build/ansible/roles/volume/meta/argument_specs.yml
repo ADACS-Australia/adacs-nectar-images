@@ -1,0 +1,30 @@
+---
+argument_specs:
+
+  main:
+    short_description: Options for mounting/unmounting the software volume
+    options:
+      mount:
+        type: "bool"
+        required: true
+        description: "Mount or unmount software"
+      mount_path:
+        type: "str"
+        required: true
+        description: "Mount path of the software volume"
+
+  mount:
+    short_description: Path to mount the software volume on to
+    options:
+      mount_path:
+        type: "str"
+        required: true
+        description: "Path to mount the software volume on to"
+
+  unmount:
+    short_description: Path the software volume is mounted on
+    options:
+      mount_path:
+        type: "str"
+        required: true
+        description: "Path the software volume is mounted on. This will be unmounted"

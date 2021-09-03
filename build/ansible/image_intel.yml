@@ -1,0 +1,13 @@
+---
+
+- name: Intel image
+  hosts: default
+  gather_facts: yes
+  become: no
+
+  roles:
+    - apt
+    - bindings
+    - bashrc
+    - intel
+    - cleanup

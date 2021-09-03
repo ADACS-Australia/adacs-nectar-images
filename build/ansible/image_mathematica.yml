@@ -1,0 +1,13 @@
+---
+
+- name: <image tagname> image playbook
+  hosts: default
+  gather_facts: yes
+  become: no
+
+  roles:
+    - apt
+    - bindings
+    - bashrc
+    - mathematica
+    - cleanup

@@ -1,0 +1,19 @@
+---
+
+- name: Astro A with Intel + IDL image
+  hosts: default
+  gather_facts: yes
+  become: no
+
+  roles:
+    - apt
+    - bindings
+    - bashrc
+    - astro_apt
+    - conda
+    - pywifes
+    - irag_dragons
+    - tempo2
+    - intel
+    - idl
+    - cleanup

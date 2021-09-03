@@ -1,0 +1,45 @@
+---
+
+- name: astro conda envs
+  import_role:
+    name: conda_envs
+  vars:
+    env_file: "{{ file }}"
+  loop_control:
+    loop_var: file
+  loop:
+    - "env_fermitools.yml"
+    - "env_dragons.yml"
+    - "env_gemini.yml"
+    - "env_astroconda.yml"
+    - "env_iraf27.yml"
+
+- name: conda clean
+  shell:
+    chdir: "$HOME"
+    executable: /bin/bash
+    cmd: "{{ item }}"
+  with_items:
+    - "conda clean -y --all"
+
+- name: create iraf and DRAGONS directories
+  file:
+    path: "$HOME/{{ item }}"
+    state: directory
+  with_items:
+   - "iraf"
+   - ".geminidir"
+
+- name: configure iraf
+  shell:
+    chdir: "$HOME/iraf"
+    executable: /bin/bash
+    cmd: "{{ item }}"
+  with_items:
+    - "source ~/.bashrc && conda activate iraf27 && printf '\n' | mkiraf"
+
+- name: copy DRAGONS rsys.cfg
+  copy:
+    src: dragons_rsys.cfg
+    dest: "$HOME/.geminidir/rsys.cfg"
+    mode: '666'

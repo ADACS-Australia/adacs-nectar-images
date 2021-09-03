@@ -1,0 +1,15 @@
+---
+
+- name: copy search history bindings file
+  copy:
+    src: "bindings.txt"
+    dest: "$HOME/.bindings"
+    mode: '666'
+
+- name: source .bindings in .profile
+  blockinfile:
+    path: $HOME/.profile
+    block: source $HOME/.bindings
+    marker: "{mark}"
+    marker_begin: "# >>> set bindings for ipython style forward/reverse history search"
+    marker_end: "# <<<"

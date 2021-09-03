@@ -1,0 +1,91 @@
+---
+
+- name: install matlab
+
+  vars:
+    mount_path:   /mnt/software
+    install_dir:  /usr/local/MATLAB-R2019b
+    silent_ini:   /tmp/matlab_silent.ini
+
+  block:
+
+    - name: Mount software
+      import_role:
+        name: volume
+      vars:
+        mount: true
+
+    - name: install Matlab dependencies
+      become: yes
+      apt:
+        name:
+          - build-essential
+          - xterm             # This covers all X libraries required
+
+    - name: copy silent.ini to remote
+      become: yes
+      copy:
+        src: "files2copy/matlab_silent.ini"
+        dest: "{{ silent_ini }}"
+        mode: '666'
+
+    - name: get fileInstallationKey
+      shell:
+        executable: /bin/bash
+        cmd: "cat {{ mount_path }}/Matlab/fileInstall.key"
+      register: fileInstallationKey
+
+    - name: set fileInstallationKey
+      become: yes
+      lineinfile:
+        path: "{{ silent_ini }}"
+        regexp: "^fileInstallationKey="
+        line: "fileInstallationKey={{ fileInstallationKey.stdout }}"
+        state: present
+
+    - name: run matlab installer silently
+      become: yes
+      shell:
+        executable: /bin/bash
+        cmd: "{{ mount_path }}/Matlab/matlab-2019b/install -inputFile {{ silent_ini }}"
+        creates: "{{ install_dir }}"
+
+    - name: create licenses directory
+      become: yes
+      file:
+        path: "{{ install_dir }}/licenses"
+        state: directory
+
+    - name: copy license file
+      become: yes
+      copy:
+        src: "{{ mount_path }}/Matlab/network.lic"
+        dest: "{{ install_dir }}/licenses/network.lic"
+        remote_src: yes
+        mode: '666'
+
+    - name: create symbolic link to matlab
+      become: yes
+      file:
+        src: "{{ install_dir }}/bin/matlab"
+        dest: "/usr/local/bin/matlab"
+        state: link
+
+    - name: add $MATLAB_DIR to .bashrc
+      lineinfile:
+        path: "$HOME/.bashrc"
+        regexp: "^export MATLAB_DIR={{ install_dir }}$"
+        line: "export MATLAB_DIR={{ install_dir }}"
+        state: present
+
+    - name: reboot to flush /tmp/
+      become: yes
+      reboot:
+        msg: rebooting to flush /tmp/
+
+  always:
+    - name: Unmount software
+      import_role:
+        name: volume
+      vars:
+        mount: false

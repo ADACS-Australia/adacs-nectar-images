@@ -1,0 +1,13 @@
+---
+
+- name: unmount software volume
+  become: yes
+  mount:
+    path: "{{ mount_path }}"
+    state: absent
+
+- name: remove key
+  become: yes
+  file:
+    path: "/var/tmp/nfs.key"
+    state: absent

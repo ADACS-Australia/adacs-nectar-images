@@ -1,0 +1,13 @@
+---
+
+- name: IDL image
+  hosts: default
+  gather_facts: yes
+  become: no
+
+  roles:
+    - apt
+    - bindings
+    - bashrc
+    - idl
+    - cleanup
