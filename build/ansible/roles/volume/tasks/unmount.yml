@@ -9,5 +9,5 @@
 - name: remove key
   become: yes
   file:
-    path: "/var/tmp/nfs.key"
+    path: "{{ nfs_key_path }}"
     state: absent

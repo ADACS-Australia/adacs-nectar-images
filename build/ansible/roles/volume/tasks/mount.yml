@@ -13,7 +13,7 @@
 - name: create key
   become: yes
   copy:
-    dest: "/var/tmp/nfs.key"
+    dest: "{{ nfs_key_path }}"
     mode: '0600'
     content: "{{ lookup('env','NFS_KEY') }}\n"
 
@@ -23,7 +23,7 @@
     path: "{{ mount_path }}"
     src: ec2-user@nfs.swin-dev.cloud.edu.au:/mnt/volumes/software
     fstype: fuse.sshfs
-    opts: "defaults,allow_other,ro,IdentitiesOnly=yes,IdentityFile=/var/tmp/nfs.key,StrictHostKeyChecking=no"
+    opts: "defaults,allow_other,ro,IdentitiesOnly=yes,IdentityFile={{ nfs_key_path }},StrictHostKeyChecking=no"
     state: mounted  # This will create the mount point, but there is a bug which means it doesn't actually get mounted
 
 - name: reboot to force sshfs to mount
