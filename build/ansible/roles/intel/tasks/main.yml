@@ -20,7 +20,7 @@
         chdir: "{{ mount_path }}/Intel/installer"
         cmd: "{{ item }}"
       with_items:
-        - "./install.sh -s ../silent.input"
+        - "./install.sh -s ../silent.input --ignore-signature"
 
     - name: setup intel in .bashrc
       blockinfile:
