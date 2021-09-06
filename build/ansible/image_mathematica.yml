@@ -1,6 +1,6 @@
 ---
 
-- name: <image tagname> image playbook
+- name: Mathematica image
   hosts: default
   gather_facts: yes
   become: no
