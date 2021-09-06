@@ -23,10 +23,12 @@
     path: "{{ mount_path }}"
     src: ec2-user@nfs.swin-dev.cloud.edu.au:/mnt/volumes/software
     fstype: fuse.sshfs
-    opts: "defaults,allow_other,ro,IdentitiesOnly=yes,IdentityFile={{ nfs_key_path }},StrictHostKeyChecking=no"
+    opts: "_netdev,defaults,allow_other,ro,IdentitiesOnly=yes,IdentityFile={{ nfs_key_path }},StrictHostKeyChecking=no"
     state: mounted  # This will create the mount point, but there is a bug which means it doesn't actually get mounted
 
-- name: reboot to force sshfs to mount
+- name: force reload mounts
   become: yes
-  reboot:
-    msg: rebooting to force sshfs to mount
+  systemd:
+    daemon_reload: yes
+    name: remote-fs.target
+    state: restarted
