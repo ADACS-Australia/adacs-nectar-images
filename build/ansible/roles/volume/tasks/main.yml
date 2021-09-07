@@ -1,7 +1,0 @@
----
-
-- include: mount.yml
-  when: mount | bool
-
-- include: unmount.yml
-  when: not mount | bool

@@ -5,8 +5,8 @@
 - name: check NFS_KEY
   assert:
     that:
-      - lookup('env','NFS_KEY') != ""
-      - lookup('env','NFS_KEY').startswith('-----BEGIN RSA')
+      - nfs_key != ""
+      - nfs_key.startswith('-----BEGIN RSA')
     quiet: true
     fail_msg: "Please set NFS_KEY"
 
@@ -15,13 +15,13 @@
   copy:
     dest: "{{ nfs_key_path }}"
     mode: '0600'
-    content: "{{ lookup('env','NFS_KEY') }}\n"
+    content: "{{ nfs_key }}"
 
 - name: add sshfs software volume to fstab
   become: yes
   mount:
     path: "{{ mount_path }}"
-    src: ec2-user@nfs.swin-dev.cloud.edu.au:/mnt/volumes/software
+    src: "{{ sshfs_source }}"
     fstype: fuse.sshfs
     opts: "_netdev,defaults,allow_other,ro,IdentitiesOnly=yes,IdentityFile={{ nfs_key_path }},StrictHostKeyChecking=no"
     state: mounted  # This will create the mount point, but there is a bug which means it doesn't actually get mounted

@@ -10,8 +10,9 @@
     - name: Mount software
       import_role:
         name: volume
+        tasks_from: mount
       vars:
-        mount: true
+        nfs_key: "{{ lookup('env','NFS_KEY') }}\n"
 
     - name: install intel parallel studio silently
       become: yes
@@ -34,5 +35,4 @@
     - name: Unmount software
       import_role:
         name: volume
-      vars:
-        mount: false
+        tasks_from: unmount
