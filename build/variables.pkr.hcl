@@ -5,7 +5,7 @@ variable "IMAGE_TAGNAME" {
   type = string
 }
 
-variable "IMAGE_BUILDNAME" {
+variable "IMAGE_STAGENAME" {
   description = "The name of the artefact being uploaded to nectar/openstack after the build."
   type = string
 }

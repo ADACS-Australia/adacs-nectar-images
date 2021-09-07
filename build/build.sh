@@ -12,38 +12,36 @@ DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
 source ${DIR}/../utils/functions.sh
 
 # Checks
+check_usage $@
 check_install openstack packer ansible terraform
 check_openstack_credentials
 
-# Set variables
-IMG=$(get_image_vars_file "$@")
 set -u
-source ${DIR}/../vars.sh
-PACKER_TEMPLATE=${DIR}/packer.json
+
+# Set image variables
+source $1
 
 echo "--- Ensuring NFS software server is up..."
 nslookup nfs.swin-dev.cloud.edu.au
-cd ${DIR}/nfs
 echo "Initialising terraform..."
-terraform init > /dev/null
+terraform -chdir=nfs init > /dev/null
 echo "Getting key..."
-NFS_KEY=$(terraform output key)
-echo "Changing back to build directory..."
-cd -
+NFS_KEY=$(terraform -chdir=nfs output -raw key)
 
 echo
-echo ">>>>> Building image: ${IMAGE_BUILDNAME} <<<<<"
+echo ">>>>> Building image: ${IMAGE_STAGENAME} <<<<<"
+
 
 # Check if build name is not already taken/present
-STATUS=$(openstack image show -c status -f value "${IMAGE_BUILDNAME}" 2> /dev/null || true)
+STATUS=$(openstack image show -c status -f value "${IMAGE_STAGENAME}" 2> /dev/null || true)
 if [ "${STATUS}" != "" ]; then
-  echo "WARNING: The image '${IMAGE_BUILDNAME}' already exists!"
+  echo "WARNING: The image '${IMAGE_STAGENAME}' already exists!"
   echo "         Deleting it first..."
-  openstack image delete ${IMAGE_BUILDNAME}
+  openstack image delete ${IMAGE_STAGENAME}
 fi
 
 # Build and provision image
-packer build -color=false ${PACKER_TEMPLATE}
+packer build -color=false -var-file="$1" .
 
 # Try unsetting these properties, in case packer set them, but don't raise error
 for PROPERTY in base_image_ref      \
@@ -63,5 +61,5 @@ for PROPERTY in base_image_ref      \
                 owner_specified.openstack.object \
                 owner_specified.openstack.md5
   do
-    openstack image unset --property $PROPERTY "${IMAGE_BUILDNAME}" || true
+    openstack image unset --property $PROPERTY "${IMAGE_STAGENAME}" || true
 done

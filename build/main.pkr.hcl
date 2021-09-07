@@ -1,8 +1,8 @@
 source "openstack" "image_build" {
   communicator      = "ssh"
   flavor            = "m3.small"
-  image_name        = "${var.IMAGE_BUILDNAME}"
-  instance_name     = "${var.IMAGE_BUILDNAME}"
+  image_name        = "${var.IMAGE_STAGENAME}"
+  instance_name     = "${var.IMAGE_STAGENAME}"
   security_groups   = ["default", "SSH"]
   source_image_name = "${var.SOURCE_IMAGE_NAME}"
   ssh_username      = "${var.DEFAULT_USER}"
