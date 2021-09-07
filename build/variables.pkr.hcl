@@ -1,12 +1,12 @@
 # Required input variables
 
-variable "IMAGE_TAGNAME" {
-  description = "The 'tag' name for the image being built. This should match the playbook filename (without the .yml)"
+variable "staging_name" {
+  description = "The name of the artefact being uploaded to nectar/openstack after the build."
   type = string
 }
 
-variable "IMAGE_STAGENAME" {
-  description = "The name of the artefact being uploaded to nectar/openstack after the build."
+variable "IMAGE_TAGNAME" {
+  description = "The 'tag' name for the image being built. This should match the playbook filename (without the .yml)"
   type = string
 }
 

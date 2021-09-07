@@ -41,7 +41,7 @@ if [ "${STATUS}" != "" ]; then
 fi
 
 # Build and provision image
-packer build -color=false -var-file="$1" .
+packer build -color=false -var-file="$1" -var "staging_name=${IMAGE_STAGENAME}" .
 
 # Try unsetting these properties, in case packer set them, but don't raise error
 for PROPERTY in base_image_ref      \
