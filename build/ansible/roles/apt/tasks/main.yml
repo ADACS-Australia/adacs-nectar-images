@@ -1,14 +1,15 @@
 ---
 
-- name: perform a full upgrade
+- name: Upgrade all packages
   become: true
   apt:
     upgrade: dist
     update_cache: yes
-    dpkg_options: 'force-confold,force-confdef'
-  register: apt_res
-  retries: 5
-  until: apt_res is success
+  register: apt_action
+  retries: 100
+  delay: 10
+  until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
+# Note: https://saveriomiroddi.github.io/Handling-the-apt-lock-on-ubuntu-server-installations/
 
 - name: apt install packages
   become: true

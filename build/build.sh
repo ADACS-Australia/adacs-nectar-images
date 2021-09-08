@@ -50,16 +50,10 @@ for PROPERTY in base_image_ref      \
                 image_state         \
                 image_type          \
                 murano_image_info   \
-                os_hash_algo        \
-                os_hash_value       \
-                os_hidden           \
                 owner_project_name  \
                 owner_user_name     \
                 stores              \
-                user_id             \
-                owner_specified.openstack.sha256 \
-                owner_specified.openstack.object \
-                owner_specified.openstack.md5
+                user_id
   do
     openstack image unset --property $PROPERTY "${IMAGE_STAGENAME}" || true
 done

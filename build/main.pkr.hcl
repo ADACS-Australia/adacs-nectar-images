@@ -1,4 +1,4 @@
-source "openstack" "image_build" {
+source "openstack" "base_image" {
   communicator      = "ssh"
   flavor            = "m3.small"
   image_name        = "${var.staging_name}"
@@ -9,8 +9,8 @@ source "openstack" "image_build" {
 }
 
 build {
-  name = "adacs-image"
-  sources = ["source.openstack.image_build"]
+  name    = "ADACS"
+  sources = ["source.openstack.base_image"]
 
   provisioner "ansible" {
     playbook_file   = "ansible/${var.IMAGE_TAGNAME}.yml"

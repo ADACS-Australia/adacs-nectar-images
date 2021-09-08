@@ -6,8 +6,7 @@
   become: no
 
   roles:
-    - apt
+    - yum
     - bindings
-    - bashrc
     - abaqus
     - cleanup
