@@ -2,21 +2,12 @@
 
 - name: install IDL
 
-  vars:
-    mount_path:     /mnt/software
-    idl_astro_dir:  /usr/local/idlastro
-    idl_utils_dir:  /usr/local/idlutils
-    idl_spec2d_dir: /usr/local/idlspec2d
-    idl_dir: /usr/local/IDL
-
   block:
 
     - name: Mount software
       import_role:
         name: volume
         tasks_from: mount
-      vars:
-        nfs_key: "{{ lookup('env','NFS_KEY') }}\n"
 
     - name: run IDL installer silently
       become: yes

@@ -2,17 +2,12 @@
 
 - name: install mathematica
 
-  vars:
-    mount_path: /mnt/software
-
   block:
 
     - name: Mount software
       import_role:
         name: volume
         tasks_from: mount
-      vars:
-        nfs_key: "{{ lookup('env','NFS_KEY') }}\n"
 
     - name: install Mathematica dependencies
       become: yes

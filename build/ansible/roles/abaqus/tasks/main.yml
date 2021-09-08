@@ -2,10 +2,6 @@
 
 - name: install abaqus
 
-  vars:
-    mount_path:   /mnt/software
-    install_dir:  /opt/abaqus
-
   when: ansible_os_family == 'RedHat'
 
   block:
@@ -13,8 +9,7 @@
     - name: Mount software
       import_role:
         name: volume
-      vars:
-        mount: true
+        tasks_from: mount
 
     - name: Upgrade all packages
       become: yes
@@ -68,5 +63,4 @@
     - name: Unmount software
       import_role:
         name: volume
-      vars:
-        mount: false
+        tasks_from: unmount

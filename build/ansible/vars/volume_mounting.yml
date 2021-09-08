@@ -1,0 +1,4 @@
+---
+
+mount_path: /mnt/software
+nfs_key: "{{ lookup('env','NFS_KEY') }}\n"

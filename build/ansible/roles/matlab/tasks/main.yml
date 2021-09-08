@@ -2,19 +2,12 @@
 
 - name: install matlab
 
-  vars:
-    mount_path:   /mnt/software
-    install_dir:  /usr/local/MATLAB-R2019b
-    silent_ini:   /tmp/matlab_silent.ini
-
   block:
 
     - name: Mount software
       import_role:
         name: volume
         tasks_from: mount
-      vars:
-        nfs_key: "{{ lookup('env','NFS_KEY') }}\n"
 
     - name: install Matlab dependencies
       become: yes

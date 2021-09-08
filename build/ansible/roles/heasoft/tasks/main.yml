@@ -4,18 +4,12 @@
 # but it's extremely slow (probably no server close by)
 - name: install HEASOFT
 
-  vars:
-    mount_path: /mnt/software
-    heasoft: "heasoft-6.28"
-
   block:
 
     - name: Mount software
       import_role:
         name: volume
         tasks_from: mount
-      vars:
-        nfs_key: "{{ lookup('env','NFS_KEY') }}\n"
 
     - name: install HEASOFT dependencies
       become: yes

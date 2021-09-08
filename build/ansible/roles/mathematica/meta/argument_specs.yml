@@ -1,0 +1,15 @@
+---
+
+argument_specs:
+
+  main:
+    short_description: Mounting the software volume
+    options:
+      mount_path:
+        type: "str"
+        required: true
+        description: "Path to mount the software volume on to"
+      nfs_key:
+        type: "str"
+        required: true
+        description: "Private key to the NFS server"
