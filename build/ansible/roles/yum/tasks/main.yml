@@ -1,13 +1,20 @@
 ---
 
+# Note: using 'dnf' instead of 'yum'
+
 - name: Upgrade all packages
   become: yes
-  yum:
+  dnf:
     name: '*'
     state: latest
     update_cache: yes
+    lock_timeout: 0
+  register: result
+  retries: 100
+  delay: 10
+  until: result is success
 
 - name: yum install packages
   become: yes
-  yum:
+  dnf:
     name: "{{ yum_packages }}"
