@@ -1,6 +1,8 @@
 #!/bin/bash
-DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
 
-for IMG in ${DIR}/../image_vars/image_*; do
-  ${DIR}/build.sh --image "${IMG}"
+# Note: this build all the images in series,
+# so it will take a very long time.
+
+for input_file in ../image_vars/image_*.sh.hcl; do
+  ./build.sh "${input_file}"
 done
