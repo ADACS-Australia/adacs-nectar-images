@@ -1,18 +1,6 @@
 ---
 
-- name: apt autoclean and autoremove
-  become: true
-  apt:
-    autoclean: yes
-    autoremove: yes
-
-- name: apt clean all
-  command: "{{ item }}"
-  become: true
-  args:
-    warn: no
-  with_items:
-    - apt-get -y clean all
+- include_tasks: "{{ ansible_os_family | lower }}_package_manager_clean.yml"
 
 - name: reboot to flush /tmp/
   become: yes
