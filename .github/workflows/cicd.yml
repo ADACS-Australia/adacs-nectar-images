@@ -1,4 +1,4 @@
-name: build + test + deploy
+name: ADACS image build
 
 on:
   push:
@@ -43,7 +43,7 @@ jobs:
     - name: Terraform Apply
       run: terraform apply -auto-approve > /dev/null
 
-  CICD:
+  build:
     needs: start_nfs
     runs-on: ubuntu-latest
     strategy:
@@ -59,6 +59,7 @@ jobs:
           - image_intel_idl_conda
           - image_mathematica
           - image_matlab
+          - image_abaqus
 
     steps:
     - uses: actions/checkout@v2
@@ -73,14 +74,14 @@ jobs:
 
     - name: Run build script
       working-directory: build
-      run: ./build.sh --image ../image_vars/${{ matrix.image }}.sh
+      run: ./build.sh ../image_vars/${{ matrix.image }}.sh.hcl
 
     - name: Run test script
       working-directory: test
-      run: ./test.sh --image ../image_vars/${{ matrix.image }}.sh
+      run: ./test.sh ../image_vars/${{ matrix.image }}.sh.hcl
 
     - name: Deploy Image
-      run: ./deploy.sh --image ./image_vars/${{ matrix.image }}.sh
+      run: ./deploy.sh ./image_vars/${{ matrix.image }}.sh.hcl
 
   stop_nfs:
     needs: CICD

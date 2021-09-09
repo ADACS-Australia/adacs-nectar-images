@@ -18,7 +18,7 @@ source ${DIR}/../../vars.sh
 
 # Export terraform variables
 export TF_VAR_test_image_name=${TEST_IMAGE}
-export TF_VAR_test_name=${TEST_NAME}
+export TF_VAR_test_name=${TEST_SERVER_NAME}
 
 # Launch test instance
 terraform init

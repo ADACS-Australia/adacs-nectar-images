@@ -1,9 +1,9 @@
 {
   "variables": {
-    "ssh_user":      "{{env `DEFAULT_USER`}}",
-    "test_image":    "{{env `TEST_IMAGE`}}",
-    "test_name":     "{{env `TEST_NAME`}}",
-    "inspec_profile":"",
+    "ssh_user":          "{{env `DEFAULT_USER`}}",
+    "test_image":        "{{env `IMAGE_STAGENAME`}}",
+    "test_server_name":  "{{env `TEST_SERVER_NAME`}}",
+    "inspec_profile": "",
     "inspec_varsfile":"{{env `INSPEC_VARSFILE`}}",
     "inspec_controls":"{{env `INSPEC_CONTROLS`}}"
   },
