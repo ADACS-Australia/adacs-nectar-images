@@ -2,17 +2,17 @@
 
 # Note: using 'dnf' instead of 'yum'
 
+- name: Wait for auto updates to finish
+  become: yes
+  shell:
+    cmd: time (while ps -opid= -C dnf-automatic > /dev/null; do sleep 1; done);
+
 - name: Upgrade all packages
   become: yes
   dnf:
     name: '*'
     state: latest
     update_cache: yes
-    lock_timeout: 0
-  register: result
-  retries: 100
-  delay: 10
-  until: result is success
 
 - name: yum install packages
   become: yes
