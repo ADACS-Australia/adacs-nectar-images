@@ -43,17 +43,18 @@ fi
 # Build and provision image
 packer build -color=false -var-file="$1" -var "staging_name=${IMAGE_STAGENAME}" .
 
+echo "--- Unsetting image properties..."
 # Try unsetting these properties, in case packer set them, but don't raise error
 for PROPERTY in base_image_ref      \
                 boot_roles          \
                 image_location      \
                 image_state         \
                 image_type          \
-                murano_image_info   \
                 owner_project_name  \
                 owner_user_name     \
-                stores              \
                 user_id
   do
     openstack image unset --property $PROPERTY "${IMAGE_STAGENAME}" || true
 done
+
+echo "COMPLETE"
