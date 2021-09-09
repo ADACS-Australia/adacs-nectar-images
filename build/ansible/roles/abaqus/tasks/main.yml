@@ -39,7 +39,7 @@
     - name: fix 'locales-archive' bug
       become: yes
       shell: |
-        yum reinstall glibc-common
+        yum -y reinstall glibc-common
         localedef --delete-from-archive $(localedef --list-archive | grep -v -i ^en | xargs)
         mv /usr/lib/locale/locale-archive /usr/lib/locale/locale-archive.bak
         localedef --add-to-archive
