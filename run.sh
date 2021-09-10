@@ -1,13 +1,5 @@
 #!/bin/bash -ea
 
-# This script requires:
-#  - OpenStack client
-#  - Packer
-#  - Ansible
-#  - Terraform
-#  - OpenStack credentials loaded in your environment
-#  - Terraform credentials
-
 NFS_DIR="./build/nfs/"
 NFS_DOMAIN="nfs.swin-dev.cloud.edu.au"
 
@@ -16,7 +8,7 @@ source ./utils/functions.sh
 
 # Checks
 check_usage $@
-check_install openstack packer ansible terraform inspec
+check_installed openstack packer ansible terraform inspec
 check_openstack_credentials
 
 set -u
@@ -65,5 +57,45 @@ for PROPERTY in base_image_ref      \
   do
     openstack image unset --property $PROPERTY "${IMAGE_STAGENAME}" || true
 done
+
+echo "BUILD COMPLETE"
+
+
+echo ">>>>> Testing image: ${IMAGE_STAGENAME} <<<<<"
+echo
+
+# Re-launch instance with packer and run inspec tests
+packer build -color=false \
+  -var "user=${DEFAULT_USER}" \
+  -var "source_image=${IMAGE_STAGENAME}" \
+  -var "instance_name=${TEST_SERVER_NAME}" \
+  -var "inspec_profile=$(pwd)/test/inspec_profiles/${IMAGE_TAGNAME}" \
+  -var "inspec_varsfile=$(pwd)/build/ansible/roles/conda/vars/main.yml" \
+  ./test
+
+echo "TESTING COMPLETE"
+
+
+echo
+echo ">>>>> Releasing image: ${IMAGE_RELEASENAME} <<<<<"
+echo "       (from: ${IMAGE_STAGENAME} )"
+
+# Delete old image if present before deploying
+STATUS=$(openstack image show -c status -f value "${IMAGE_RELEASENAME}" 2> /dev/null || true)
+if [ "${STATUS}" != "" ]; then
+  echo "WARNING: The image '${IMAGE_RELEASENAME}' already exists!"
+  echo "         Deleting it first..."
+  openstack image delete "${IMAGE_RELEASENAME}"
+fi
+
+# Deploy the new/updated image
+openstack image set --name "${IMAGE_RELEASENAME}" "${IMAGE_STAGENAME}"
+
+# Set to a community image, if required
+if [ "${COMMUNITY_IMAGE}" == "yes" ]; then
+  openstack image set --community "${IMAGE_RELEASENAME}"
+else
+  openstack image set --shared "${IMAGE_RELEASENAME}"
+fi
 
 echo "COMPLETE"

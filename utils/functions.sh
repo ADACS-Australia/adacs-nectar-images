@@ -1,4 +1,4 @@
-function check_install {
+function check_installed {
   for ITEM in "$@"; do
     if ! hash ${ITEM} >/dev/null 2>&1; then
         >&2 echo "You need ${ITEM} installed to use this script"
@@ -26,7 +26,7 @@ function check_usage {
 ${msg}
 Usage:
 
-  ./build.sh <path_to_image_options_file>
+  ./run.sh <path_to_image_options_file>
 
 EOF
   exit 1

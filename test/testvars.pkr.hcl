@@ -1,31 +1,26 @@
 # Required input variables
 
-variable "inspec_controls" {
-  type    = string
-  default = "${env("INSPEC_CONTROLS")}"
+variable "user" {
+  description = "SSH user to conect to the instance with i.e. the default user in the source image"
+  type = string
+}
+
+variable "source_image" {
+  description = "Full name of the source image for packer to run inspec tests on."
+  type = string
+}
+
+variable "instance_name" {
+  description = "The name of the test server."
+  type = string
 }
 
 variable "inspec_profile" {
-  type    = string
-  default = ""
+  description = "Full path to the inspec profile to use for testing."
+  type = string
 }
 
 variable "inspec_varsfile" {
-  type    = string
-  default = "${env("INSPEC_VARSFILE")}"
-}
-
-variable "ssh_user" {
-  type    = string
-  default = "${env("DEFAULT_USER")}"
-}
-
-variable "test_image" {
-  type    = string
-  default = "${env("IMAGE_STAGENAME")}"
-}
-
-variable "test_server_name" {
-  type    = string
-  default = "${env("TEST_SERVER_NAME")}"
+  description = "Full path to the file containing variables to be used for inspec."
+  type = string
 }
