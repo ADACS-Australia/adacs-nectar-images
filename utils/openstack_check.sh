@@ -1,11 +1,6 @@
-#!/bin/bash -e
+set -e
 
-# Get absolute path to directory containing the current file
-DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
-source ${DIR}/functions.sh
-
-check_install nova
-check_openstack_credentials
+echo "--- Ensuring there are enough OpenStack resources available to proceed..."
 
 # Max wait time = 30s x 120 = 3600s = 60m = 1hr
 WAIT_TIME=30

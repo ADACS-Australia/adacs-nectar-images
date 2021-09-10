@@ -8,8 +8,11 @@ source ./utils/functions.sh
 
 # Checks
 check_usage $@
-check_installed openstack packer ansible terraform inspec
+check_installed openstack packer ansible terraform inspec nova
 check_openstack_credentials
+
+# Check to see if enough resource are available to proceed
+source ./utils/openstack_check.sh
 
 set -u
 
