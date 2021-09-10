@@ -1,0 +1,66 @@
+---
+
+- name: install abaqus
+
+  when: ansible_os_family == 'RedHat'
+
+  block:
+
+    - name: Mount software
+      import_role:
+        name: volume
+        tasks_from: mount
+
+    - name: Upgrade all packages
+      become: yes
+      yum:
+        name: '*'
+        state: latest
+        update_cache: yes
+
+    - name: install dependencies
+      become: yes
+      yum:
+        name:
+          - "@Development tools"
+          - xorg-x11-server-Xorg
+          - xorg-x11-xauth
+          - xorg-x11-apps
+          - motif
+          - ksh
+          - redhat-lsb
+          - mesa-libGL
+          - mesa-libGL-devel
+          - nano
+          - langpacks-en
+          - mesa-dri-drivers
+          - xorg-x11-drivers
+
+    - name: fix 'locales-archive' bug
+      become: yes
+      shell: |
+        yum -y reinstall glibc-common
+        localedef --delete-from-archive $(localedef --list-archive | grep -v -i ^en | xargs)
+        mv /usr/lib/locale/locale-archive /usr/lib/locale/locale-archive.bak
+        localedef --add-to-archive
+
+    - name: run abaqus installer silently
+      become: yes
+      shell:
+        executable: /bin/bash
+        chdir: "{{ mount_path }}/ABAQUS/AM_SIM_Abaqus_Extend.AllOS/1/"
+        cmd: ./StartTUI.sh --silent ../../silent-input.xml
+        creates: "{{ install_dir }}"
+
+    - name: create symbolic link to abaqus
+      become: yes
+      file:
+        src: "{{ install_dir }}/Commands/abaqus"
+        dest: "/usr/local/bin/abaqus"
+        state: link
+
+  always:
+    - name: Unmount software
+      import_role:
+        name: volume
+        tasks_from: unmount

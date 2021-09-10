@@ -1,0 +1,19 @@
+---
+
+- name: Astro B image
+  hosts: default
+  gather_facts: yes
+  become: no
+
+  vars_files:
+    - vars/volume_mounting.yml
+
+  roles:
+    - apt
+    - bindings
+    - bashrc
+    - astro_apt
+    - heasoft
+    - xmm
+    - ciao
+    - cleanup

@@ -22,13 +22,13 @@ INSPEC_PROFILE=${DIR}/inspec_profiles/${IMAGE_TAGNAME}
 INSPEC_VARSFILE="${DIR}/../build/ansible/vars/conda_packages.yml"
 
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-echo "Testing image: ${TEST_IMAGE}"
+echo "Testing image: ${IMAGE_STAGENAME}"
 echo
 
 # Check that build image is present
-STATUS=$(openstack image show -c status -f value "${TEST_IMAGE}" 2> /dev/null || true)
+STATUS=$(openstack image show -c status -f value "${IMAGE_STAGENAME}" 2> /dev/null || true)
 if [ "${STATUS}" != "active" ]; then
-  echo "ERROR: The image '${TEST_IMAGE}' does not exist!"
+  echo "ERROR: The image '${IMAGE_STAGENAME}' does not exist!"
   exit 1
 fi
 
@@ -47,7 +47,7 @@ else
 fi
 
 echo
-echo "Test ${TEST_OUTCOME} for image: ${TEST_IMAGE}"
+echo "Test ${TEST_OUTCOME} for image: ${IMAGE_STAGENAME}"
 echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 echo
 exit ${EXIT_CODE}

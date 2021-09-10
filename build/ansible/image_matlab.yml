@@ -1,0 +1,16 @@
+---
+
+- name: MATLAB image
+  hosts: default
+  gather_facts: yes
+  become: no
+
+  vars_files:
+    - vars/volume_mounting.yml
+
+  roles:
+    - apt
+    - bindings
+    - bashrc
+    - matlab
+    - cleanup

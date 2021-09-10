@@ -1,0 +1,4 @@
+---
+
+nfs_key_path: "/var/tmp/nfs.key"
+sshfs_source: "ec2-user@nfs.swin-dev.cloud.edu.au:/mnt/volumes/software"

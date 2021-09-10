@@ -1,0 +1,15 @@
+---
+
+- name: Intel + IDL + conda image
+  hosts: default
+  gather_facts: yes
+  become: no
+
+  roles:
+    - apt
+    - bindings
+    - bashrc
+    - intel
+    - idl
+    - conda
+    - cleanup

@@ -1,0 +1,6 @@
+---
+
+idl_astro_dir:  /usr/local/idlastro
+idl_utils_dir:  /usr/local/idlutils
+idl_spec2d_dir: /usr/local/idlspec2d
+idl_dir:        /usr/local/IDL

@@ -1,0 +1,31 @@
+---
+
+- name: clone PyWiFeS
+  git:
+    repo: https://github.com/PyWiFeS/pipeline.git
+    dest: $HOME/pywifes
+
+- name: copy pywifes conda env file
+  copy:
+    src: "env_pywifes.yml"
+    dest: "$HOME/env_pywifes.yml"
+    mode: '666'
+
+- name: create conda env for pywifes
+  shell:
+    chdir: "$HOME"
+    executable: /bin/bash
+    cmd: "{{ item }}"
+  with_items:
+    - "conda env create --force -f env_pywifes.yml"
+    - "source .bashrc && conda activate pywifes && conda develop $HOME/pywifes/src"
+
+- name: set $PYWIFES_DIR in .bashrc
+  lineinfile:
+    path: $HOME/.bashrc
+    line: export PYWIFES_DIR=$HOME/pywifes/reference_data
+
+- name: remove conda env file
+  file:
+    path: "$HOME/env_pywifes.yml"
+    state: absent

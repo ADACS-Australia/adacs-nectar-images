@@ -1,5 +1,0 @@
----
-
-- import_tasks: tasks/provision/astro_software/astro_B/heasoft.yml
-- import_tasks: tasks/provision/astro_software/astro_B/xmm.yml
-- import_tasks: tasks/provision/astro_software/astro_B/ciao.yml

@@ -1,0 +1,95 @@
+---
+# Note: original archive can be downloaded from
+#   https://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/lheasoft6.28/heasoft-6.28src.tar.gz
+# but it's extremely slow (probably no server close by)
+- name: install HEASOFT
+
+  block:
+
+    - name: Mount software
+      import_role:
+        name: volume
+        tasks_from: mount
+
+    - name: install HEASOFT dependencies
+      become: yes
+      apt:
+        name:
+          - libreadline-dev
+          - libcurl4
+          - libcurl4-gnutls-dev
+          - libncurses5-dev
+          - xorg-dev
+          - gcc
+          - g++
+          - gfortran
+          - perl-modules
+          - perl
+          - libgsl-dev
+          - pgplot5
+          - libidn11-dev
+          - flex
+          - libcfitsio-dev
+          - python3-numpy
+
+    - name: copy heasoft archive from software volume
+      copy:
+        src: "{{ mount_path }}/{{ heasoft }}src.tar.gz"
+        dest: "$HOME/{{ heasoft }}src.tar.gz"
+        remote_src: yes
+        mode: '666'
+
+    - name: unarchive HEASOFT (this takes a while...)
+      unarchive:
+        src: "$HOME/{{ heasoft }}src.tar.gz"
+        dest: "$HOME"
+        remote_src: yes
+        creates: "$HOME/{{ heasoft }}"
+
+    - name: install HEASOFT (this takes a while...)
+      shell:
+        executable: /bin/bash
+        chdir: "$HOME/{{ heasoft }}/BUILD_DIR"
+        cmd: "{{ item }}"
+      with_items:
+        - "./configure"
+        - "make"
+        - "make install"
+
+    - name: download hwrap
+      get_url:
+        url: "https://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/release/{{ heasoft }}/BUILD_DIR/hwrap"
+        dest: "$HOME/hwrap.sh"
+        mode: +x
+
+    - name: install heasoft with hwrap
+      shell:
+        executable: /bin/bash
+        chdir: "$HOME"
+        cmd: "{{ item }}"
+      with_items:
+        - "./hwrap.sh $HOME/{{ heasoft }}/x86_64-pc-linux-gnu-libc2.27/"
+
+    - name: add hsoft_wrap directory to $PATH
+      blockinfile:
+        path: $HOME/.bashrc
+        block: |
+          export PATH=$HOME/{{ heasoft }}/x86_64-pc-linux-gnu-libc2.27/heasoft_wrap:$PATH
+          export LHEASOFT=None
+        marker: "{mark}"
+        marker_begin: "# >>> BEGIN HEASOFT SETUP"
+        marker_end: "# <<< END HEASOFT SETUP"
+
+    - name: delete tar.gz and hwrap
+      file:
+        path: "$HOME/{{ item }}"
+        state: absent
+      with_items:
+        - "hwrap.sh"
+        - "{{ heasoft }}src.tar.gz"
+
+  always:
+    - name: Unmount software
+      import_role:
+        name: volume
+        tasks_from: unmount

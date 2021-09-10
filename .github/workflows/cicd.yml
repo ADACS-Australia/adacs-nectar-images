@@ -1,4 +1,4 @@
-name: build + test + deploy
+name: ADACS image build
 
 on:
   push:
@@ -21,9 +21,6 @@ jobs:
   start_nfs:
     runs-on: ubuntu-latest
     if: "always()"
-    defaults:
-      run:
-        working-directory: ./build/nfs
 
     steps:
     - uses: actions/checkout@v2
@@ -34,16 +31,14 @@ jobs:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
         terraform_wrapper: false
 
-    - name: Terraform Init
-      run: terraform init
+    - name: Terraform apply
+      working-directory: ./build/nfs
+      run: |
+        terraform init
+        terraform fmt -check
+        terraform apply -auto-approve > /dev/null
 
-    - name: Terraform Format
-      run: terraform fmt -check
-
-    - name: Terraform Apply
-      run: terraform apply -auto-approve > /dev/null
-
-  CICD:
+  build:
     needs: start_nfs
     runs-on: ubuntu-latest
     strategy:
@@ -59,6 +54,7 @@ jobs:
           - image_intel_idl_conda
           - image_mathematica
           - image_matlab
+          - image_abaqus
 
     steps:
     - uses: actions/checkout@v2
@@ -71,24 +67,13 @@ jobs:
 
     - uses: ./.github/actions/install-tools
 
-    - name: Run build script
-      working-directory: build
-      run: ./build.sh --image ../image_vars/${{ matrix.image }}.sh
-
-    - name: Run test script
-      working-directory: test
-      run: ./test.sh --image ../image_vars/${{ matrix.image }}.sh
-
-    - name: Deploy Image
-      run: ./deploy.sh --image ./image_vars/${{ matrix.image }}.sh
+    - name: build -> test -> release
+      run: ./run.sh ./image_vars/${{ matrix.image }}.sh
 
   stop_nfs:
-    needs: CICD
+    needs: build
     runs-on: ubuntu-latest
     if: "always()"
-    defaults:
-      run:
-        working-directory: ./build/nfs
 
     steps:
     - uses: actions/checkout@v2
@@ -99,11 +84,9 @@ jobs:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
         terraform_wrapper: false
 
-    - name: Terraform Init
-      run: terraform init
-
-    - name: Terraform Format
-      run: terraform fmt -check
-
-    - name: Terraform Destroy
-      run: terraform destroy -auto-approve > /dev/null
+    - name: Terraform destroy
+      working-directory: ./build/nfs
+      run: |
+        terraform init
+        terraform fmt -check
+        terraform destroy -auto-approve > /dev/null

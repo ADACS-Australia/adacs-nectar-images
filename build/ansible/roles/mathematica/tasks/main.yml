@@ -1,0 +1,39 @@
+---
+
+- name: install mathematica
+
+  block:
+
+    - name: Mount software
+      import_role:
+        name: volume
+        tasks_from: mount
+
+    - name: install Mathematica dependencies
+      become: yes
+      apt:
+        name:
+          - avahi-daemon
+          - qt5-default       # Should cover most of what's required. The others are "just in case".
+          - xauth
+          - fontconfig
+          - libglu1-mesa
+          - libasound2
+
+    - name: run Mathematica installer silently
+      become: yes
+      vars:
+        mathematica_path: /usr/local/Wolfram/Mathematica/11.2
+      shell:
+        executable: /bin/bash
+        cmd: "{{ item }}"
+        creates: "{{ mathematica_path }}/Configuration/Licensing/mathpass"
+      with_items:
+        - "sh {{ mount_path }}/Mathematica/Mathematica_11.2.0_LINUX.sh -- -silent"
+        - "cp {{ mount_path }}/Mathematica/mathpass {{ mathematica_path }}/Configuration/Licensing/mathpass"
+
+  always:
+    - name: Unmount software
+      import_role:
+        name: volume
+        tasks_from: unmount

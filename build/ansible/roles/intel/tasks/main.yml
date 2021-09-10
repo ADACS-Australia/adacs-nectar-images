@@ -1,0 +1,33 @@
+---
+
+- name: install intel parallel studio
+
+  block:
+
+    - name: Mount software
+      import_role:
+        name: volume
+        tasks_from: mount
+
+    - name: install intel parallel studio silently
+      become: yes
+      shell:
+        executable: /bin/bash
+        chdir: "{{ mount_path }}/Intel/installer"
+        cmd: "{{ item }}"
+      with_items:
+        - "./install.sh -s ../silent.input --ignore-signature"
+
+    - name: setup intel in .bashrc
+      blockinfile:
+        path: $HOME/.bashrc
+        block: source /opt/intel/bin/compilervars.sh intel64
+        marker: "{mark}"
+        marker_begin: "# >>> BEGIN INTEL SETUP"
+        marker_end: "# <<< END INTEL SETUP"
+
+  always:
+    - name: Unmount software
+      import_role:
+        name: volume
+        tasks_from: unmount

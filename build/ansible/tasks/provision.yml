@@ -1,5 +1,0 @@
----
-
-- import_tasks: tasks/provision/base.yml
-- import_tasks: "tasks/images/{{ image_tagname }}.yml"
-- import_tasks: tasks/utils/cleanup.yml

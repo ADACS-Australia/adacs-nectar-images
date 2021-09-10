@@ -1,0 +1,9 @@
+---
+argument_specs:
+  main:
+    short_description: Conda env file to copy and install
+    options:
+      env_file:
+        type: "str"
+        required: true
+        description: "Conda env file to copy and install"
