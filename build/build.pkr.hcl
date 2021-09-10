@@ -9,7 +9,7 @@ source "openstack" "base_image" {
 }
 
 build {
-  name    = "ADACS"
+  name    = "ADACS build"
   sources = ["source.openstack.base_image"]
 
   provisioner "ansible" {

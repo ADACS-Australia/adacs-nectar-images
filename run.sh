@@ -16,7 +16,7 @@ source ./utils/functions.sh
 
 # Checks
 check_usage $@
-check_install openstack packer ansible terraform
+check_install openstack packer ansible terraform inspec
 check_openstack_credentials
 
 set -u
