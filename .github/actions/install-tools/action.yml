@@ -11,9 +11,9 @@ runs:
       shell: bash
 
     - name: Install OpenStack client
-      run: sudo apt-get install python-openstackclient
+      run: pip install python-openstackclient
       shell: bash
 
     - name: Install Nova client
-      run: sudo apt-get install python-novaclient
+      run: pip install python-novaclient
       shell: bash
