@@ -8,8 +8,11 @@
 #  - OpenStack credentials loaded in your environment
 #  - Terraform credentials
 
-DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
-source ${DIR}/../utils/functions.sh
+NFS_DIR="./build/nfs/"
+NFS_DOMAIN="nfs.swin-dev.cloud.edu.au"
+
+# Get useful functions
+source ./utils/functions.sh
 
 # Checks
 check_usage $@
@@ -22,11 +25,11 @@ set -u
 source $1
 
 echo "--- Ensuring NFS software server is up..."
-nslookup nfs.swin-dev.cloud.edu.au
+nslookup ${NFS_DOMAIN}
 echo "Initialising terraform..."
-terraform -chdir=nfs init > /dev/null
+terraform -chdir=${NFS_DIR} init > /dev/null
 echo "Getting key..."
-NFS_KEY=$(terraform -chdir=nfs output -raw key)
+NFS_KEY=$(terraform -chdir=${NFS_DIR} output -raw key)
 
 echo
 echo ">>>>> Building image: ${IMAGE_STAGENAME} <<<<<"
@@ -41,7 +44,13 @@ if [ "${STATUS}" != "" ]; then
 fi
 
 # Build and provision image
-packer build -color=false -var-file="$1" -var "staging_name=${IMAGE_STAGENAME}" .
+packer build -color=false \
+  -var "user=${DEFAULT_USER}" \
+  -var "source_image=${SOURCE_IMAGE_NAME}" \
+  -var "staging_name=${IMAGE_STAGENAME}" \
+  -var "playbook=$(pwd)/build/ansible/${IMAGE_TAGNAME}.yml" \
+  -var "scripts=$(pwd)/build/scripts" \
+  ./build
 
 echo "--- Unsetting image properties..."
 # Try unsetting these properties, in case packer set them, but don't raise error
