@@ -11,7 +11,7 @@ apt_packages = [
   'nano',
   'emacs',
   'wget',
-  'python'
+  'python3'
 ]
 
 control 'basic' do
