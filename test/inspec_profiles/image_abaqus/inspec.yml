@@ -1,0 +1,17 @@
+name: abaqus
+
+title: "ADACS (with ABAQUS)"
+summary: InSpec tests for testing the ADACS image
+version: 0.1.0
+
+supports:
+  platform: os      # Note: 'os'=openstack
+
+inputs:
+  - name: conda_packages
+    type: Array
+    required: true
+
+depends:
+- name: ADACS_IMAGE_TESTS
+  path: ../all/
