@@ -7,11 +7,11 @@ on:
     branches: [ master ]
 
 env:
-  OS_AUTH_TYPE: ${{ secrets.OS_AUTH_TYPE }}
-  OS_AUTH_URL: ${{ secrets.OS_AUTH_URL }}
-  OS_IDENTITY_API_VERSION: ${{ secrets.OS_IDENTITY_API_VERSION }}
-  OS_REGION_NAME: ${{ secrets.OS_REGION_NAME }}
-  OS_INTERFACE: ${{ secrets.OS_INTERFACE }}
+  OS_AUTH_TYPE: v3applicationcredential
+  OS_AUTH_URL: https://keystone.rc.nectar.org.au:5000/v3/
+  OS_IDENTITY_API_VERSION: 3
+  OS_REGION_NAME: Melbourne
+  OS_INTERFACE: public
   OS_APPLICATION_CREDENTIAL_ID: ${{ secrets.OS_APPLICATION_CREDENTIAL_ID }}
   OS_APPLICATION_CREDENTIAL_SECRET: ${{ secrets.OS_APPLICATION_CREDENTIAL_SECRET }}
   TF_CLI_ARGS: -no-color
