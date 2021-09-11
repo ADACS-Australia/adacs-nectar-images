@@ -11,8 +11,6 @@ check_usage $@
 check_installed openstack packer ansible terraform inspec
 check_openstack_credentials
 
-exit 0
-
 set -u
 
 # Set image variables
