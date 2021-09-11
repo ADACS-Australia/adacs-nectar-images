@@ -1,7 +1,7 @@
 ---
 
 - name: astro conda envs
-  import_role:
+  include_role:
     name: conda_envs
   vars:
     env_file: "{{ file }}"
