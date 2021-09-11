@@ -33,37 +33,31 @@ EOF
   fi
 }
 
-function check_resources {
+function get_max_parallel {
+  local openstack_limits="openstack.limits"
+  local reqcores="2"
+  openstack limits show --absolute -f value > $openstack_limits
 
-  echo "--- Ensuring there are enough OpenStack resources available to proceed..."
+  local maxvms=$(grep maxTotalInstances $openstack_limits| cut -d ' ' -f 2)
+  local nvms=$(grep totalInstancesUsed $openstack_limits| cut -d ' ' -f 2)
 
-  # Max wait time = 30s x 120 = 3600s = 60m = 1hr
-  WAIT_TIME=30
-  MAX_TRIES=120
-  NTRIES=0
-  CORES_NEEDED=2
+  local maxcores=$(grep maxTotalCores $openstack_limits | cut -d ' ' -f 2)
+  local ncores=$(grep totalCoresUsed $openstack_limits| cut -d ' ' -f 2)
 
-  while (( ${NTRIES} < ${MAX_TRIES} )); do
-    NTRIES=$((${NTRIES}+1))
+  local nvms_avail=$(( $maxvms - $nvms ))
+  local ncores_avail=$(( $maxcores - $ncores ))
 
-    # Split the 'nova limits' line containing cores/vcpu usage info
-    IFS='| ' read -r -a CORES <<< "$(nova limits | grep Cores)"
+  local nvms_from_cores=$(( $maxcores / $reqcores ))
 
-    CORES_USED=CORES[2]
-    CORES_MAX=CORES[3]
-    CORES_AVAILABLE=$((${CORES_MAX} - ${CORES_USED}))
+  # Minimum of nvms_avail and nvms_from_cores
+  local max_parallel=$(( $nvms_avail < $nvms_from_cores ? $nvms_avail : $nvms_from_cores ))
 
-    if (( ${CORES_AVAILABLE} >= ${CORES_NEEDED} )); then
-      echo "There are $CORES_AVAILABLE cores available."
-      exit 0
-    else
-      >&2 echo "NOT ENOUGH CORES AVAILABLE. Retrying in ${WAIT_TIME}s"
-      sleep ${WAIT_TIME}
-    fi
-
-  done
-
-  >&2 echo "TIMED OUT"
-  exit 1
+  if (( $max_parallel < 1 )); then
+    echo "Not enough resources"
+    exit 1
+  else
+    echo $max_parallel
+    exit 0
+  fi
 
 }

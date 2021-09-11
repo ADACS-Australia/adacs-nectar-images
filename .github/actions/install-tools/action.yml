@@ -13,7 +13,3 @@ runs:
     - name: Install OpenStack client
       run: pip install python-openstackclient
       shell: bash
-
-    - name: Install Nova client
-      run: pip install python-novaclient
-      shell: bash

@@ -21,6 +21,8 @@ jobs:
   start_nfs:
     runs-on: ubuntu-latest
     if: "always()"
+    outputs:
+      max_parallel: ${{ steps.maxp.outputs.max_parallel }}
 
     steps:
     - uses: actions/checkout@v2
@@ -38,10 +40,22 @@ jobs:
         terraform fmt -check
         terraform apply -auto-approve > /dev/null
 
+    - uses: ./.github/actions/install-tools
+
+    - name: Get max parallel for build step
+      id: maxp
+      run: |
+        source utils/functions.sh
+        check_installed openstack
+        check_openstack_credentials
+        echo ::set-output name=max_parallel::$(get_max_parallel)
+
+
   build:
     needs: start_nfs
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: ${{ needs.start_nfs.outputs.max_parallel }}
       fail-fast: false
       matrix:
         image:
