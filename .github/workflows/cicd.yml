@@ -55,7 +55,7 @@ jobs:
     needs: start_nfs
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: ${{ needs.start_nfs.outputs.max_parallel }}
+      max-parallel: ${{ fromJSON(needs.start_nfs.outputs.max_parallel) }}
       fail-fast: false
       matrix:
         image:
