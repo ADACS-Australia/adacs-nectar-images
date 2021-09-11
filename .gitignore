@@ -1,0 +1,9 @@
+.vscode/
+.terraform
+*.lock
+*.tfstate*
+*.terraform.lock.hcl
+*.tmp
+*.pem
+*.log
+openstack.limits
