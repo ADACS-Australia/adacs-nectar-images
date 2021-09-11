@@ -1,6 +1,6 @@
 ---
 # Note: original archive can be downloaded from
-#   https://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/lheasoft6.28/heasoft-6.28src.tar.gz
+#   https://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/lheasoft6.29/heasoft-6.29src.tar.gz
 # but it's extremely slow (probably no server close by)
 - name: install HEASOFT
 
@@ -56,11 +56,12 @@
         - "make"
         - "make install"
 
-    - name: download hwrap
-      get_url:
-        url: "https://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/release/{{ heasoft }}/BUILD_DIR/hwrap"
+    - name: copy hwrap to home
+      copy:
+        src: "{{ mount_path }}/hwrap_{{ heasoft }}.sh"
         dest: "$HOME/hwrap.sh"
-        mode: +x
+        remote_src: yes
+        mode: '+x'
 
     - name: install heasoft with hwrap
       shell:
