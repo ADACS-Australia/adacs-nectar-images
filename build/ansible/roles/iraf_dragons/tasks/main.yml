@@ -2,7 +2,7 @@
 
 - name: astro conda envs
   include_role:
-    name: conda_envs
+    name: conda_env
   vars:
     env_file: "{{ file }}"
   loop_control:

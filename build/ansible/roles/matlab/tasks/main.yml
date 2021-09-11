@@ -19,7 +19,7 @@
     - name: copy silent.ini to remote
       become: yes
       copy:
-        src: "files2copy/matlab_silent.ini"
+        src: "matlab_silent.ini"
         dest: "{{ silent_ini }}"
         mode: '666'
 
