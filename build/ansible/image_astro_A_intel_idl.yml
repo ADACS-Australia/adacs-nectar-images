@@ -12,7 +12,7 @@
     - astro_apt
     - conda
     - pywifes
-    - irag_dragons
+    - iraf_dragons
     - tempo2
     - intel
     - idl
