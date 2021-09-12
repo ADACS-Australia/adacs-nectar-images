@@ -79,4 +79,6 @@
 
 - name: cleanup conda
   shell:
+    chdir: "$HOME"
+    executable: /bin/bash
     cmd: source $HOME/.bashrc && conda_activate && conda clean -y --all
