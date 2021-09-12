@@ -15,6 +15,10 @@
       - xpa-tools
       - saods9
 
+- name: cleanup to free space for ciao install
+  import_role:
+    name: cleanup
+
 - name: install ciao
   shell:
     executable: /bin/bash

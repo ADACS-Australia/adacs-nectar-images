@@ -76,3 +76,7 @@
   file:
     path: "$HOME/SAS/sas_18.0.0-Ubuntu16.04-64.tgz"
     state: absent
+
+- name: cleanup conda
+  shell:
+    cmd: source $HOME/.bashrc && conda_activate && conda clean -y --all
