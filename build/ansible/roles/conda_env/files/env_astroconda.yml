@@ -2,4 +2,5 @@ name: astroconda
 channels:
   - http://ssb.stsci.edu/astroconda
 dependencies:
+  - python=3.7
   - stsci
