@@ -23,7 +23,7 @@
     path: "{{ mount_path }}"
     src: "{{ sshfs_source }}"
     fstype: fuse.sshfs
-    opts: "_netdev,defaults,allow_other,ro,IdentitiesOnly=yes,IdentityFile={{ nfs_key_path }},StrictHostKeyChecking=no"
+    opts: "_netdev,defaults,allow_other,ro,IdentitiesOnly=yes,IdentityFile={{ nfs_key_path }},StrictHostKeyChecking=no,sshfs_debug,debug"
     state: mounted  # This will create the mount point, but there is a bug which means it doesn't actually get mounted
 
 - name: force reload mounts
