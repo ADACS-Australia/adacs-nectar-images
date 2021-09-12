@@ -84,6 +84,21 @@ jobs:
     - name: build -> test -> release
       run: ./run.sh ./image_vars/${{ matrix.image }}.sh
 
+    # If job gets cancelled, GitHub only waits 7.5s, which is not long enough for packer to clean up after itself
+    - name: cleanup
+      if: always()
+      run: |
+        source ./image_vars/${{ matrix.image }}.sh
+        set -e
+        for item in $IMAGE_STAGENAME $TEST_SERVER_NAME; do
+          openstack server show -f shell $item > instance.info
+          if (( $? == 0 )); then
+            source instance.info
+            openstack keypair delete $key_name
+            openstack server delete $item
+          fi
+        done
+
   stop_nfs:
     needs: build
     runs-on: ubuntu-latest
