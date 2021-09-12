@@ -89,7 +89,7 @@ jobs:
       if: always()
       run: |
         source ./image_vars/${{ matrix.image }}.sh
-        set -e
+        set +e
         for item in $IMAGE_STAGENAME $TEST_SERVER_NAME; do
           openstack server show -f shell $item > instance.info
           if (( $? == 0 )); then
