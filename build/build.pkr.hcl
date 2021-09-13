@@ -1,6 +1,6 @@
 source "openstack" "base_image" {
   communicator      = "ssh"
-  flavor            = "m3.small"
+  flavor            = "m3.medium"
   image_name        = "${var.staging_name}"
   instance_name     = "${var.staging_name}"
   security_groups   = ["default", "SSH"]

@@ -35,7 +35,7 @@ EOF
 
 function get_max_parallel {
   local openstack_limits="openstack.limits"
-  local reqcores="2"
+  local reqcores="4"
   openstack limits show --absolute -f value > $openstack_limits
 
   local maxvms=$(grep maxTotalInstances $openstack_limits| cut -d ' ' -f 2)

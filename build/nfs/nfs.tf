@@ -24,7 +24,7 @@ resource "openstack_compute_keypair_v2" "nfskey" {
 resource "openstack_compute_instance_v2" "nfsserver" {
   name            = "NFS-server"
   image_name      = "NFS-server"
-  flavor_name     = "m3.xsmall"
+  flavor_name     = "m3.medium"
   key_pair        = openstack_compute_keypair_v2.nfskey.name
   security_groups = ["default", "SSH"]
 }
