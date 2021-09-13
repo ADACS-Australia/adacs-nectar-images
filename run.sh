@@ -25,7 +25,7 @@ echo "Getting key..."
 NFS_KEY=$(terraform -chdir=${NFS_DIR} output -raw key)
 echo "Getting IP..."
 NFS_IP=$(terraform -chdir=${NFS_DIR} output -raw ip)
-if [[ $(uname -s)=="Darwin" ]]; then netcat_opts="-w 5 -G 5"; else netcat_opts="-w 5"; fi
+if [ "$(uname -s)" == "Darwin" ]; then netcat_opts="-w 5 -G 5"; else netcat_opts="-w 5"; fi
 nc $netcat_opts -z $NFS_IP 22 || ( echo "ERROR: Could not connect to $NFS_IP via port 22" && exit 1 )
 
 
