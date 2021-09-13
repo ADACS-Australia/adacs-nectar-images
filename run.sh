@@ -1,8 +1,5 @@
 #!/bin/bash -ea
 
-NFS_DIR="./build/nfs/"
-NFS_DOMAIN="nfs.swin-dev.cloud.edu.au"
-
 # Get useful functions
 source ./utils/functions.sh
 
@@ -16,18 +13,24 @@ set -u
 # Set image variables
 source $1
 
+NFS_DIR="./build/nfs/"
 echo "--- Ensuring NFS software server is up..."
 echo "Initialising terraform..."
 terraform -chdir=${NFS_DIR} init > /dev/null
+set +e
+terraform -chdir=${NFS_DIR} output | grep -q "No outputs found"
+if (( $? == 0 )); then echo "ERROR: nfs server may not be up."; exit 1; fi
+set -e
 echo "Getting key..."
 NFS_KEY=$(terraform -chdir=${NFS_DIR} output -raw key)
 echo "Getting IP..."
 NFS_IP=$(terraform -chdir=${NFS_DIR} output -raw ip)
-nc -w 5 -G 5 -z $NFS_IP 22 || ( echo "ERROR: Could not connect to $NFS_IP via port 22" && exit 1 )
+if [[ $(uname -s)=="Darwin" ]]; then netcat_opts="-w 5 -G 5"; else netcat_opts="-w 5"; fi
+nc $netcat_opts -z $NFS_IP 22 || ( echo "ERROR: Could not connect to $NFS_IP via port 22" && exit 1 )
+
 
 echo
 echo ">>>>> Building image: ${IMAGE_STAGENAME} <<<<<"
-
 
 # Check if build name is not already taken/present
 STATUS=$(openstack image show -c status -f value "${IMAGE_STAGENAME}" 2> /dev/null || true)
