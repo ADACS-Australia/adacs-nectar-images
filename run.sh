@@ -17,11 +17,13 @@ set -u
 source $1
 
 echo "--- Ensuring NFS software server is up..."
-nslookup ${NFS_DOMAIN}
 echo "Initialising terraform..."
 terraform -chdir=${NFS_DIR} init > /dev/null
 echo "Getting key..."
 NFS_KEY=$(terraform -chdir=${NFS_DIR} output -raw key)
+echo "Getting IP..."
+NFS_IP=$(terraform -chdir=${NFS_DIR} output -raw ip)
+nc -w 5 -G 5 -z $NFS_IP 22 || ( echo "ERROR: Could not connect to $NFS_IP via port 22" && exit 1 )
 
 echo
 echo ">>>>> Building image: ${IMAGE_STAGENAME} <<<<<"

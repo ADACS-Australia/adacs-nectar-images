@@ -2,3 +2,6 @@
 
 mount_path: /mnt/software
 nfs_key: "{{ lookup('env','NFS_KEY') }}\n"
+nfs_ip: "{{ lookup('env','NFS_IP') }}"
+nfs_user: ec2-user
+nfs_src_path: /mnt/volumes/software
