@@ -12,6 +12,18 @@ argument_specs:
         type: "str"
         required: true
         description: "Private key to the NFS server"
+      nfs_ip:
+        type: "str"
+        required: true
+        description: "IP address of the NFS server"
+      nfs_user:
+        type: "str"
+        required: true
+        description: "ssh user to connect with to the NFS server"
+      nfs_src_path:
+        type: "str"
+        required: true
+        description: "path of the src dir on the NFS server, that you wish to mount"
 
   unmount:
     short_description: Unmounting the software volume

@@ -21,7 +21,7 @@
   become: yes
   mount:
     path: "{{ mount_path }}"
-    src: "{{ sshfs_source }}"
+    src: "{{ nfs_user }}@{{ nfs_ip }}:{{ nfs_src_path }}"
     fstype: fuse.sshfs
     opts: "_netdev,defaults,allow_other,ro,reconnect,IdentitiesOnly=yes,IdentityFile={{ nfs_key_path }},StrictHostKeyChecking=no,ServerAliveInterval=15,ServerAliveCountMax=20"
     state: mounted  # This will create the mount point, but there is a bug which means it doesn't actually get mounted
