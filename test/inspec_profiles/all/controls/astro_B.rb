@@ -24,5 +24,4 @@ control 'astro_B' do
   describe command('fhelp -h') do
     its('exit_status') { should eq 0 }
   end
-
 end
