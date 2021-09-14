@@ -20,9 +20,14 @@ build {
     # '~local_user' directory being created on the remote.
   }
 
+  # Reboot to flush /tmp
   provisioner "shell" {
-    execute_command = "{{ .Vars }} sudo --stdin --preserve-env bash '{{ .Path }}'"
-    script          = "${var.scripts}/cleanup.sh"
+    inline = ["sudo reboot"]
+    expect_disconnect = true
   }
 
+  provisioner "shell" {
+    execute_command   = "{{ .Vars }} sudo --stdin --preserve-env bash '{{ .Path }}'"
+    script            = "${var.scripts}/cleanup.sh"
+  }
 }

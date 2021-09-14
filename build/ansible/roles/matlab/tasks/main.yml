@@ -72,11 +72,6 @@
         line: "export MATLAB_DIR={{ install_dir }}"
         state: present
 
-    - name: reboot to flush /tmp/
-      become: yes
-      reboot:
-        msg: rebooting to flush /tmp/
-
   always:
     - name: Unmount software
       import_role:

@@ -2,11 +2,6 @@
 
 - include_tasks: "{{ ansible_os_family | lower }}_package_manager_clean.yml"
 
-- name: reboot to flush /tmp/
-  become: yes
-  reboot:
-    msg: rebooting to flush /tmp/
-
 - name: Clean up logs keys and configs
   shell: "{{ item }}"
   become: yes
