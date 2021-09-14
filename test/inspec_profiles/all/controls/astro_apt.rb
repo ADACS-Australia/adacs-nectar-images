@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
-control 'astro_B' do
+control 'astro_apt' do
   impact 1.0
-  title 'ASTRO B Image'
-  desc 'Check installation contained in astro B image'
+  title 'ASTRO apt packages'
+  desc 'Check for astronomy packages installed via apt'
 
   programs = %w[
     ds9
     sextractor
-    fv
   ]
 
   programs.each do |program|
@@ -19,9 +18,5 @@ control 'astro_B' do
 
   describe command('sextractor --version') do
     its('exit_status') { should cmp 0 }
-  end
-
-  describe command('fhelp -h') do
-    its('exit_status') { should eq 0 }
   end
 end

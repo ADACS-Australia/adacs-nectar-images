@@ -1,25 +1,9 @@
 # frozen_string_literal: true
 
-control 'astro_A' do
+control 'conda_envs_astro' do
   impact 1.0
-  title 'ASTRO A Image'
-  desc 'Check installation contained in astro A image'
-
-  programs = %w[
-    ds9
-    sextractor
-    fv
-  ]
-
-  programs.each do |program|
-    describe command(program) do
-      it { should exist }
-    end
-  end
-
-  describe command('sextractor --version') do
-    its('exit_status') { should cmp 0 }
-  end
+  title 'Astronomy conda environments'
+  desc 'Check for anaconda astronomy environments'
 
   envs = [
     'astroconda ',
