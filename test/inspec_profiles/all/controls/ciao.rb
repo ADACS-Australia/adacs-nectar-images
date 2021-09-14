@@ -1,24 +1,9 @@
 # frozen_string_literal: true
 
-control 'astro_C' do
+control 'ciao' do
   impact 1.0
-  title 'ASTRO C Image'
-  desc 'Check installation contained in astro C image'
-
-  programs = %w[
-    ds9
-    sextractor
-  ]
-
-  programs.each do |program|
-    describe command(program) do
-      it { should exist }
-    end
-  end
-
-  describe command('sextractor --version') do
-    its('exit_status') { should cmp 0 }
-  end
+  title 'CIAO'
+  desc 'Check for CIAO installation'
 
   ciao = command('alias ciao')
 
