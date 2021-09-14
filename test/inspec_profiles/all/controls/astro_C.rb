@@ -21,10 +21,8 @@ control 'astro_C' do
   end
 
   ciao = command('alias ciao')
-  conda_activate = command('alias conda_activate')
-  sas_activate = command('alias sas_activate')
 
-  aliases = [ciao, conda_activate, sas_activate]
+  aliases = [ciao]
 
   aliases.each do |i|
     # Check that the alias exists
@@ -43,11 +41,6 @@ control 'astro_C' do
 
   ciao_activate = ciao.stdout.match(/\'(.*?)\'/)[0].gsub("'", '')
   describe command("#{ciao_activate} && ahelp -h") do
-    its('exit_status') { should eq 0 }
-  end
-
-  sas = sas_activate.stdout.match(/\'(.*?)\'/)[0].gsub("'", '')
-  describe command("#{sas} && sashelp -h") do
     its('exit_status') { should eq 0 }
   end
 end
