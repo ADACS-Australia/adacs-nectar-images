@@ -78,10 +78,10 @@
     state: absent
 
 - name: cleanup conda
-  shell:
+  command:
     chdir: "$HOME"
-    executable: /bin/bash
-    cmd: |
-      set -e
+    cmd: >
+      /bin/bash -iec "
       source SAS/xmmsas_20190531_1155/miniconda3/bin/activate
       conda clean -y --all
+      "
