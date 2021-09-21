@@ -12,15 +12,14 @@
     mode: '666'
 
 - name: create conda env for pywifes
-  shell:
+  command:
     chdir: "$HOME"
-    executable: /bin/bash
-    cmd: |
-      set -e
-      source $HOME/.bashrc
-      conda env create --force -f env_pywifes.yml
-      conda activate pywifes
-      conda develop $HOME/pywifes/src
+    cmd: >
+      /bin/bash -iec "
+      conda env create --force -f $HOME/env_pywifes.yml;
+      conda activate pywifes;
+      conda develop $HOME/pywifes/src;
+      "
 
 - name: set $PYWIFES_DIR in .bashrc
   lineinfile:
