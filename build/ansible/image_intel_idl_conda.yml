@@ -11,7 +11,6 @@
   roles:
     - apt
     - inputrc
-    - bashrc
     - intel
     - idl
     - conda

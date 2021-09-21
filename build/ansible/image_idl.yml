@@ -11,6 +11,5 @@
   roles:
     - apt
     - inputrc
-    - bashrc
     - idl
     - cleanup

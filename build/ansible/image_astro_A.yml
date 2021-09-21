@@ -8,7 +8,6 @@
   roles:
     - apt
     - inputrc
-    - bashrc
     - astro_apt
     - conda
     - pywifes

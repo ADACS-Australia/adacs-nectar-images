@@ -19,7 +19,9 @@ build {
     extra_arguments = [
       "--input-file=${var.inspec_varsfile}",
       "--no-create-lockfile",
-      "--chef-license=accept-silent"
+      "--chef-license=accept-silent",
+      "--shell",
+      "--shell-command='bash -i'"
       ]
   }
 
