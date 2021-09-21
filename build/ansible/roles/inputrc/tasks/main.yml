@@ -1,0 +1,9 @@
+---
+
+- name: set forward/reverse search history bindings
+  copy:
+    dest: "$HOME/.inputrc"
+    mode: '0644'
+    content: |
+      "\e[A": history-search-backward
+      "\e[B": history-search-forward

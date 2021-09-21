@@ -10,8 +10,7 @@
 
   roles:
     - apt
-    - bindings
-    - bashrc
+    - inputrc
     - astro_apt
     - conda
     - pywifes

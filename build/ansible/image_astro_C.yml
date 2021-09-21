@@ -7,8 +7,7 @@
 
   roles:
     - apt
-    - bindings
-    - bashrc
+    - inputrc
     - astro_apt
     - ciao
     - cleanup

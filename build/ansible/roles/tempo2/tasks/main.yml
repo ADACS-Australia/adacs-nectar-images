@@ -13,7 +13,7 @@
 - name: get CONDA_PREFIX
   shell:
     executable: /bin/bash
-    cmd: "source ~/.bashrc && conda activate && echo $CONDA_PREFIX"
+    cmd: "source $HOME/.bashrc && conda activate && echo $CONDA_PREFIX"
   register: CONDA_PREFIX
 
 - name: install tempo2

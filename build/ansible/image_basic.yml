@@ -7,7 +7,6 @@
 
   roles:
     - apt
-    - bindings
-    - bashrc
+    - inputrc
     - conda
     - cleanup

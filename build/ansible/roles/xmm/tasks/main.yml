@@ -81,4 +81,7 @@
   shell:
     chdir: "$HOME"
     executable: /bin/bash
-    cmd: source SAS/xmmsas_20190531_1155/miniconda3/bin/activate && conda clean -y --all
+    cmd: |
+      set -e
+      source SAS/xmmsas_20190531_1155/miniconda3/bin/activate
+      conda clean -y --all

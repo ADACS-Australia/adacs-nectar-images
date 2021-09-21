@@ -34,9 +34,11 @@
   shell:
     chdir: "$HOME/iraf"
     executable: /bin/bash
-    cmd: "{{ item }}"
-  with_items:
-    - "source ~/.bashrc && conda activate iraf27 && printf '\n' | mkiraf"
+    cmd: |
+      set -e
+      source $HOME/.bashrc
+      conda activate iraf27
+      printf '\n' | mkiraf
 
 - name: copy DRAGONS rsys.cfg
   copy:
