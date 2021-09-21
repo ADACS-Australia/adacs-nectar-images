@@ -5,28 +5,23 @@ control 'xmm' do
   title 'XMM'
   desc 'Check for XMM-SAS installation'
 
-  conda_activate = command('alias conda_activate')
-  sas_activate = command('alias sas_activate')
-
-  aliases = [conda_activate, sas_activate]
-
-  aliases.each do |i|
-    # Check that the alias exists
-    describe i do
-      its('exit_status') { should eq 0 }
-    end
-
-    # Grep for the actual command the alias defines, since aliases are not expanded in non-interactive ssh
-    j = i.stdout.match(/\'(.*?)\'/)[0].gsub("'", '')
-
-    # Check that the alias works
-    describe command(j) do
-      its('exit_status') { should eq 0 }
-    end
+  describe command('alias conda_activate') do
+    its('exit_status') { should eq 0 }
   end
 
-  sas = sas_activate.stdout.match(/\'(.*?)\'/)[0].gsub("'", '')
-  describe command("#{sas} && sashelp -h") do
+  describe command('conda_activate') do
+    its('exit_status') { should eq 0 }
+  end
+
+  describe command('alias sas_activate') do
+    its('exit_status') { should eq 0 }
+  end
+
+  describe command('sas_activate') do
+    its('exit_status') { should eq 0 }
+  end
+
+  describe command('sas_activate && sashelp -h') do
     its('exit_status') { should eq 0 }
   end
 end
