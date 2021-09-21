@@ -23,16 +23,15 @@
       conda init
 
 - name: "conda: install packages and clean"
-  shell:
+  command:
     chdir: "$HOME"
-    executable: /bin/bash
-    cmd: |
-      set -e
-      source $HOME/.bashrc
-      conda install -y {{ conda_packages | join(' ') }}
-      conda clean -y --all
-      conda config --set env_prompt '({name}) '
-      conda config --set auto_activate_base false
+    cmd: >
+      bash -iec "
+      conda install -y {{ conda_packages | join(' ') }};
+      conda clean -y --all;
+      conda config --set env_prompt '({name}) ';
+      conda config --set auto_activate_base false;
+      "
 
 - name: delete miniconda install script
   file:

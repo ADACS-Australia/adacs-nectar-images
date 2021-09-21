@@ -31,14 +31,10 @@
    - ".geminidir"
 
 - name: configure iraf
-  shell:
+  command:
     chdir: "$HOME/iraf"
     executable: /bin/bash
-    cmd: |
-      set -e
-      source $HOME/.bashrc
-      conda activate iraf27
-      printf '\n' | mkiraf
+    cmd: /bin/bash -iec "conda activate iraf27; printf '\n' | mkiraf"
 
 - name: copy DRAGONS rsys.cfg
   copy:
