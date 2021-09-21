@@ -7,7 +7,7 @@
 
   roles:
     - apt
-    - bindings
+    - inputrc
     - bashrc
     - astro_apt
     - conda
