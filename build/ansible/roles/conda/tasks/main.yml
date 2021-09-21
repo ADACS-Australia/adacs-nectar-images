@@ -13,13 +13,22 @@
     executable: /bin/bash
     cmd: bash miniconda.sh -b -p conda
 
-- name: "conda: init, install packages, and clean"
+- name: "conda: init"
   shell:
     chdir: "$HOME"
     executable: /bin/bash
     cmd: |
       set -e
-      source conda/bin/activate && conda init
+      source conda/bin/activate
+      conda init
+
+- name: "conda: install packages and clean"
+  shell:
+    chdir: "$HOME"
+    executable: /bin/bash
+    cmd: |
+      set -e
+      source $HOME/.bashrc
       conda install -y {{ conda_packages | join(' ') }}
       conda clean -y --all
       conda config --set env_prompt '({name}) '
