@@ -17,13 +17,13 @@
   shell:
     chdir: "$HOME"
     executable: /bin/bash
-    cmd: "{{ item }}"
-  with_items:
-    - "source conda/bin/activate && conda init"
-    - "conda install -y {{ conda_packages | join(' ') }}"
-    - "conda clean -y --all"
-    - "conda config --set env_prompt '({name}) '"
-    - "conda config --set auto_activate_base false"
+    cmd: |
+      set -e
+      source conda/bin/activate && conda init
+      conda install -y {{ conda_packages | join(' ') }}
+      conda clean -y --all
+      conda config --set env_prompt '({name}) '
+      conda config --set auto_activate_base false
 
 - name: delete miniconda install script
   file:
