@@ -15,12 +15,9 @@
     - "env_iraf27.yml"
 
 - name: conda clean
-  shell:
+  command:
     chdir: "$HOME"
-    executable: /bin/bash
-    cmd: "{{ item }}"
-  with_items:
-    - "conda clean -y --all"
+    cmd: /bin/bash -iec "conda clean -y --all"
 
 - name: create iraf and DRAGONS directories
   file:
@@ -33,7 +30,6 @@
 - name: configure iraf
   command:
     chdir: "$HOME/iraf"
-    executable: /bin/bash
     cmd: /bin/bash -iec "conda activate iraf27; printf '\n' | mkiraf"
 
 - name: copy DRAGONS rsys.cfg
