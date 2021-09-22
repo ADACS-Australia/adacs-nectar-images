@@ -82,6 +82,6 @@
     chdir: "$HOME"
     cmd: >
       /bin/bash -iec "
-      source SAS/xmmsas_20190531_1155/miniconda3/bin/activate
-      conda clean -y --all
+      source SAS/xmmsas_20190531_1155/miniconda3/bin/activate;
+      conda clean -y --all;
       "
