@@ -21,7 +21,8 @@ build {
       "--no-create-lockfile",
       "--chef-license=accept-silent",
       "--shell",
-      "--shell-command='bash -i'"
+      "--shell-command=/bin/bash",
+      "--shell-options='-i'"
       ]
   }
 
