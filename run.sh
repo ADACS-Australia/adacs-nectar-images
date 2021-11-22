@@ -58,6 +58,7 @@ for PROPERTY in base_image_ref      \
                 image_type          \
                 owner_project_name  \
                 owner_user_name     \
+                murano_image_info   \
                 user_id
   do
     openstack image unset --property $PROPERTY "${IMAGE_STAGENAME}" || true
