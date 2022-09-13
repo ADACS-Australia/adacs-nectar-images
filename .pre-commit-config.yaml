@@ -2,7 +2,7 @@
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.2.0
+    rev: v4.3.0
     hooks:
       - id: check-merge-conflict
       - id: no-commit-to-branch
@@ -12,15 +12,21 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: check-json
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-symlinks
+      # - id: pretty-format-json
+        args: ['--autofix']
 
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.24.2
+    rev: v1.28.0
     hooks:
       - id: yamllint
         args: ['-d relaxed']
 
-  - repo: git://github.com/kintoandar/pre-commit
-    rev: v2.1.0
+  - repo: https://github.com/kintoandar/pre-commit
+    rev: v2.1.2
     hooks:
       - id: terraform_fmt
       # - id: terraform_validate
@@ -34,7 +40,7 @@ repos:
         entry: ansible-lint --write build/
 
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
-    rev: 2.1.4
+    rev: 3.0.0
     hooks:
       - id: rubocop
         args: [
