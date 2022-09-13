@@ -1,25 +1,23 @@
 ---
-
 - name: install abaqus
 
   when: ansible_os_family == 'RedHat'
 
   block:
-
     - name: Mount software
       import_role:
         name: volume
         tasks_from: mount
 
     - name: Upgrade all packages
-      become: yes
+      become: true
       yum:
-        name: '*'
+        name: "*"
         state: latest
-        update_cache: yes
+        update_cache: true
 
     - name: install dependencies
-      become: yes
+      become: true
       yum:
         name:
           - "@Development tools"
@@ -37,7 +35,7 @@
           - xorg-x11-drivers
 
     - name: fix 'locales-archive' bug
-      become: yes
+      become: true
       shell: |
         yum -y reinstall glibc-common
         localedef --delete-from-archive $(localedef --list-archive | grep -v -i ^en | xargs)
@@ -45,7 +43,7 @@
         localedef --add-to-archive
 
     - name: run abaqus installer silently
-      become: yes
+      become: true
       shell:
         executable: /bin/bash
         chdir: "{{ mount_path }}/ABAQUS/AM_SIM_Abaqus_Extend.AllOS/1/"
@@ -53,10 +51,10 @@
         creates: "{{ install_dir }}"
 
     - name: create symbolic link to abaqus
-      become: yes
+      become: true
       file:
         src: "{{ install_dir }}/Commands/abaqus"
-        dest: "/usr/local/bin/abaqus"
+        dest: /usr/local/bin/abaqus
         state: link
 
   always:

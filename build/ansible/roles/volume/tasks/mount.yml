@@ -1,6 +1,5 @@
 ---
-
-- include_tasks: "sshfs_install_{{ ansible_os_family | lower }}.yml"
+- include_tasks: sshfs_install_{{ ansible_os_family | lower }}.yml
 
 - name: check NFS_KEY
   assert:
@@ -8,27 +7,27 @@
       - nfs_key != ""
       - nfs_key.startswith('-----BEGIN RSA')
     quiet: true
-    fail_msg: "Please set NFS_KEY"
+    fail_msg: Please set NFS_KEY
 
 - name: create key
-  become: yes
+  become: true
   copy:
     dest: "{{ nfs_key_path }}"
-    mode: '0600'
+    mode: "0600"
     content: "{{ nfs_key }}"
 
 - name: add sshfs software volume to fstab
-  become: yes
+  become: true
   mount:
     path: "{{ mount_path }}"
     src: "{{ nfs_user }}@{{ nfs_ip }}:{{ nfs_src_path }}"
     fstype: fuse.sshfs
-    opts: "_netdev,defaults,allow_other,ro,reconnect,IdentitiesOnly=yes,IdentityFile={{ nfs_key_path }},StrictHostKeyChecking=no,ServerAliveInterval=15,ServerAliveCountMax=20"
-    state: mounted  # This will create the mount point, but there is a bug which means it doesn't actually get mounted
+    opts: _netdev,defaults,allow_other,ro,reconnect,IdentitiesOnly=yes,IdentityFile={{ nfs_key_path }},StrictHostKeyChecking=no,ServerAliveInterval=15,ServerAliveCountMax=20
+    state: mounted # This will create the mount point, but there is a bug which means it doesn't actually get mounted
 
 - name: force reload mounts
-  become: yes
+  become: true
   systemd:
-    daemon_reload: yes
+    daemon_reload: true
     name: remote-fs.target
     state: restarted

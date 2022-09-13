@@ -1,7 +1,6 @@
 ---
-
 - name: install astro apt packages
-  become: yes
+  become: true
   apt:
     name:
       - xpa-tools

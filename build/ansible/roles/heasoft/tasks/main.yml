@@ -5,14 +5,13 @@
 - name: install HEASOFT
 
   block:
-
     - name: Mount software
       import_role:
         name: volume
         tasks_from: mount
 
     - name: install HEASOFT dependencies
-      become: yes
+      become: true
       apt:
         name:
           - libreadline-dev
@@ -35,41 +34,41 @@
     - name: copy heasoft archive from software volume
       copy:
         src: "{{ mount_path }}/{{ heasoft }}src.tar.gz"
-        dest: "$HOME/{{ heasoft }}src.tar.gz"
-        remote_src: yes
-        mode: '666'
+        dest: $HOME/{{ heasoft }}src.tar.gz
+        remote_src: true
+        mode: "0666"
 
     - name: unarchive HEASOFT (this takes a while...)
       unarchive:
-        src: "$HOME/{{ heasoft }}src.tar.gz"
-        dest: "$HOME"
-        remote_src: yes
-        creates: "$HOME/{{ heasoft }}"
+        src: $HOME/{{ heasoft }}src.tar.gz
+        dest: $HOME
+        remote_src: true
+        creates: $HOME/{{ heasoft }}
 
     - name: install HEASOFT (this takes a while...)
       shell:
         executable: /bin/bash
-        chdir: "$HOME/{{ heasoft }}/BUILD_DIR"
+        chdir: $HOME/{{ heasoft }}/BUILD_DIR
         cmd: "{{ item }}"
       with_items:
-        - "./configure"
-        - "make"
-        - "make install"
+        - ./configure
+        - make
+        - make install
 
     - name: copy hwrap to home
       copy:
         src: "{{ mount_path }}/hwrap_{{ heasoft }}.sh"
-        dest: "$HOME/hwrap.sh"
-        remote_src: yes
-        mode: '+x'
+        dest: $HOME/hwrap.sh
+        remote_src: true
+        mode: +x
 
     - name: install heasoft with hwrap
       shell:
         executable: /bin/bash
-        chdir: "$HOME"
+        chdir: $HOME
         cmd: "{{ item }}"
       with_items:
-        - "./hwrap.sh $HOME/{{ heasoft }}/x86_64-pc-linux-gnu-libc2.27/"
+        - ./hwrap.sh $HOME/{{ heasoft }}/x86_64-pc-linux-gnu-libc2.27/
 
     - name: add hsoft_wrap directory to $PATH
       blockinfile:
@@ -83,10 +82,10 @@
 
     - name: delete tar.gz and hwrap
       file:
-        path: "$HOME/{{ item }}"
+        path: $HOME/{{ item }}
         state: absent
       with_items:
-        - "hwrap.sh"
+        - hwrap.sh
         - "{{ heasoft }}src.tar.gz"
 
   always:

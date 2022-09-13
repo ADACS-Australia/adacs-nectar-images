@@ -1,3 +1,4 @@
+---
 name: geminiconda
 channels:
   - http://ssb.stsci.edu/astroconda

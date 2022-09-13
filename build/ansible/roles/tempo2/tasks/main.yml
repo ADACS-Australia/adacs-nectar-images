@@ -1,12 +1,11 @@
 ---
-
 - name: clone tempo2
   git:
     repo: https://bitbucket.org/psrsoft/tempo2.git
     dest: $HOME/tempo2
 
 - name: install pgplot
-  become: yes
+  become: true
   apt:
     name: pgplot5
 
@@ -17,15 +16,15 @@
 
 - name: install tempo2
   shell:
-    chdir: "$HOME/tempo2"
+    chdir: $HOME/tempo2
     executable: /bin/bash
     cmd: "{{ item }}"
   with_items:
-    - "./bootstrap"
+    - ./bootstrap
     - >
       TEMPO2=$HOME/tempo2/T2runtime
       LD_LIBRARY_PATH={{ CONDA_PREFIX.stdout }}/pkgs/
       GSL_CONFIG={{ CONDA_PREFIX.stdout }}/bin/gsl-config
       ./configure
-    - "make && make install"
-    - "make plugins && make plugins-install"
+    - make && make install
+    - make plugins && make plugins-install

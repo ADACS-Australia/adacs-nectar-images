@@ -1,5 +1,4 @@
 ---
-
 - name: download ciao install script
   get_url:
     url: https://cxc.cfa.harvard.edu/cgi-gen/ciao/ciao412_install.cgi?standard=true
@@ -7,7 +6,7 @@
     mode: +x
 
 - name: install ciao dependencies
-  become: yes
+  become: true
   apt:
     name:
       - python3
@@ -18,11 +17,11 @@
 - name: install ciao
   shell:
     executable: /bin/bash
-    chdir: "$HOME"
+    chdir: $HOME
     cmd: "{{ item }}"
   with_items:
-    - "./ciao-install --batch --delete-tar"
-    - "rm ciao-install ciao-control ciao-install-*.log"
+    - ./ciao-install --batch --delete-tar
+    - rm ciao-install ciao-control ciao-install-*.log
 
 - name: add alias to .bashrc
   blockinfile:

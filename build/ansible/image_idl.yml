@@ -1,9 +1,8 @@
 ---
-
 - name: IDL image
   hosts: default
-  gather_facts: yes
-  become: no
+  gather_facts: true
+  become: false
 
   vars_files:
     - vars/volume_mounting.yml

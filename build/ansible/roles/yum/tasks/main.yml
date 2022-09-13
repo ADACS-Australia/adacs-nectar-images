@@ -1,20 +1,19 @@
 ---
-
 # Note: using 'dnf' instead of 'yum'
 
 - name: Wait for auto updates to finish
-  become: yes
+  become: true
   shell:
     cmd: time (while ps -opid= -C dnf-automatic > /dev/null; do sleep 1; done);
 
 - name: Upgrade all packages
-  become: yes
+  become: true
   dnf:
-    name: '*'
+    name: "*"
     state: latest
-    update_cache: yes
+    update_cache: true
 
 - name: yum install packages
-  become: yes
+  become: true
   dnf:
     name: "{{ yum_packages }}"

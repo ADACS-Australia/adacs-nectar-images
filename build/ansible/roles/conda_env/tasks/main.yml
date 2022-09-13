@@ -1,17 +1,16 @@
 ---
-
-- name: "copy {{ env_file }}"
+- name: copy {{ env_file }}
   copy:
     src: "{{ env_file }}"
-    dest: "$HOME/{{ env_file }}"
-    mode: '666'
+    dest: $HOME/{{ env_file }}
+    mode: "0666"
 
-- name: "create conda env from {{ env_file }}"
+- name: create conda env from {{ env_file }}
   command:
-    chdir: "$HOME"
+    chdir: $HOME
     cmd: /bin/bash -iec "conda env create --force -f {{ env_file }}"
 
-- name: "remove {{ env_file }}"
+- name: remove {{ env_file }}
   file:
-    path: "$HOME/{{ env_file }}"
+    path: $HOME/{{ env_file }}
     state: absent

@@ -1,36 +1,35 @@
 ---
-
 - include_tasks: "{{ ansible_os_family | lower }}_package_manager_clean.yml"
 
 - name: Clean up logs keys and configs
   shell: "{{ item }}"
-  become: yes
+  become: true
   args:
-    warn: no
+    warn: false
   with_items:
-    - 'find /var/log -type f -exec ''truncate -s0 {}'' \;'
-    - 'rm -fr /var/log/journal/*'
-    - 'rm -fr /var/lib/cloud/*'
-    - 'rm -fr /home/default/.ssh/*'
-    - 'rm -fr /etc/ssh/*key'
-    - 'rm -fr /root/.ssh'
-    - 'rm -fr /root/*.cfg'
+    - find /var/log -type f -exec 'truncate -s0 {}' \;
+    - rm -fr /var/log/journal/*
+    - rm -fr /var/lib/cloud/*
+    - rm -fr /home/default/.ssh/*
+    - rm -fr /etc/ssh/*key
+    - rm -fr /root/.ssh
+    - rm -fr /root/*.cfg
 
 # Left over from a server install. Cloud-init will generate a new one
 - name: Remove initial netplan config
-  become: yes
+  become: true
   file:
     name: /etc/netplan/01-netcfg.yaml
     state: absent
 
 - name: remove /var/lib/dbus/machine-id
-  become: yes
+  become: true
   file:
     path: /var/lib/dbus/machine-id
     state: absent
 
 - name: check if /etc/machine-id exists
-  become: yes
+  become: true
   stat:
     path: /etc/machine-id
   register: etc_machine_id
@@ -38,9 +37,9 @@
 # machine-id should be empty for systemd to regenerate
 # ignore errors because some distros have this tmpfs mounted
 - name: empty /etc/machine-id
-  become: yes
+  become: true
   copy:
-    content: ''
+    content: ""
     dest: /etc/machine-id
   when: etc_machine_id.stat.exists
-  ignore_errors: yes
+  ignore_errors: true

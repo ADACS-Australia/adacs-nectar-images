@@ -1,5 +1,4 @@
 ---
-
 yum_packages:
   - redhat-lsb
   - "@Development tools"

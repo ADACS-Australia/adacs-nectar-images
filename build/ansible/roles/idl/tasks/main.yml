@@ -1,32 +1,30 @@
 ---
-
 - name: install IDL
 
   block:
-
     - name: Mount software
       import_role:
         name: volume
         tasks_from: mount
 
     - name: run IDL installer silently
-      become: yes
+      become: true
       shell:
         executable: /bin/bash
         chdir: "{{ mount_path }}/IDL"
         cmd: "{{ item }}"
         creates: "{{ idl_dir }}/license/license.dat"
       with_items:
-        - "./install.sh -s < ./silent.input"
-        - "cp ./idl-license.dat {{ idl_dir }}/license/license.dat"
+        - ./install.sh -s < ./silent.input
+        - cp ./idl-license.dat {{ idl_dir }}/license/license.dat
 
     - name: Install libxp6 (IDL dependency)
-      become: yes
+      become: true
       apt:
         deb: http://archive.ubuntu.com/ubuntu/pool/main/libx/libxp/libxp6_1.0.2-1ubuntu1_amd64.deb
 
     - name: Install other IDL dependencies
-      become: yes
+      become: true
       apt:
         name:
           - libxmu6
@@ -35,29 +33,29 @@
           - gfortran
 
     - name: create symbolic links for idl
-      become: yes
+      become: true
       shell:
         executable: /bin/bash
         chdir: "{{ idl_dir }}"
         cmd: "{{ item }}"
         creates: /usr/local/bin/idl
       with_items:
-        - "./idl/bin/create_symlinks"
+        - ./idl/bin/create_symlinks
 
     - name: clone IDL Astro library
-      become: yes
+      become: true
       git:
         repo: https://github.com/wlandsman/IDLAstro.git
         dest: "{{ idl_astro_dir }}"
 
     - name: clone IDL utils (SDSS)
-      become: yes
+      become: true
       subversion:
         repo: https://svn.sdss.org/public/repo/sdss/idlutils/tags/v5_5_24
         dest: "{{ idl_utils_dir }}"
 
     - name: clone IDL spec2d (SDSS)
-      become: yes
+      become: true
       subversion:
         repo: https://svn.sdss.org/public/repo/eboss/idlspec2d/tags/v5_13_2
         dest: "{{ idl_spec2d_dir }}"
@@ -89,7 +87,7 @@
         marker_end: "# <<< END IDL PATH SETUP"
 
     - name: build C libraries for idlutils and idlspec2d
-      become: yes
+      become: true
       shell:
         executable: /bin/bash
         chdir: "{{ item }}"

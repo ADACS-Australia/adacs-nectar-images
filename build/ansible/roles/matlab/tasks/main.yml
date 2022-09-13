@@ -1,75 +1,73 @@
 ---
-
 - name: install matlab
 
   block:
-
     - name: Mount software
       import_role:
         name: volume
         tasks_from: mount
 
     - name: install Matlab dependencies
-      become: yes
+      become: true
       apt:
         name:
           - build-essential
-          - xterm             # This covers all X libraries required
+          - xterm # This covers all X libraries required
 
     - name: copy silent.ini to remote
-      become: yes
+      become: true
       copy:
-        src: "matlab_silent.ini"
+        src: matlab_silent.ini
         dest: "{{ silent_ini }}"
-        mode: '666'
+        mode: "0666"
 
     - name: get fileInstallationKey
       shell:
         executable: /bin/bash
-        cmd: "cat {{ mount_path }}/Matlab/fileInstall.key"
+        cmd: cat {{ mount_path }}/Matlab/fileInstall.key
       register: fileInstallationKey
 
     - name: set fileInstallationKey
-      become: yes
+      become: true
       lineinfile:
         path: "{{ silent_ini }}"
-        regexp: "^fileInstallationKey="
-        line: "fileInstallationKey={{ fileInstallationKey.stdout }}"
+        regexp: ^fileInstallationKey=
+        line: fileInstallationKey={{ fileInstallationKey.stdout }}
         state: present
 
     - name: run matlab installer silently
-      become: yes
+      become: true
       shell:
         executable: /bin/bash
         cmd: "{{ mount_path }}/Matlab/matlab-2019b/install -inputFile {{ silent_ini }}"
         creates: "{{ install_dir }}"
 
     - name: create licenses directory
-      become: yes
+      become: true
       file:
         path: "{{ install_dir }}/licenses"
         state: directory
 
     - name: copy license file
-      become: yes
+      become: true
       copy:
         src: "{{ mount_path }}/Matlab/network.lic"
         dest: "{{ install_dir }}/licenses/network.lic"
-        remote_src: yes
-        mode: '666'
+        remote_src: true
+        mode: "0666"
 
     - name: create symbolic link to matlab
-      become: yes
+      become: true
       file:
         src: "{{ install_dir }}/bin/matlab"
-        dest: "/usr/local/bin/matlab"
+        dest: /usr/local/bin/matlab
         state: link
 
     - name: add $MATLAB_DIR to .bashrc
       lineinfile:
-        path: "$HOME/.bashrc"
-        regexp: "^export MATLAB_DIR={{ install_dir }}$"
-        line: "export MATLAB_DIR={{ install_dir }}"
+        path: $HOME/.bashrc
+        regexp: ^export MATLAB_DIR={{ install_dir }}$
+        line: export MATLAB_DIR={{ install_dir }}
         state: present
 
   always:

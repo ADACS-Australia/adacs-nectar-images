@@ -1,9 +1,8 @@
 ---
-
 - name: yum clean all
   command: "{{ item }}"
   become: true
   args:
-    warn: no
+    warn: false
   with_items:
     - yum -y clean all

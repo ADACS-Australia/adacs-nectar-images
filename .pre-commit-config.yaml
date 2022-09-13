@@ -22,28 +22,16 @@ repos:
   - repo: git://github.com/kintoandar/pre-commit
     rev: v2.1.0
     hooks:
-    - id: terraform_fmt
-    # - id: terraform_validate
-    # - id: prometheus_check_rules
-    # - id: prometheus_check_config
+      - id: terraform_fmt
+      # - id: terraform_validate
+      # - id: prometheus_check_rules
+      # - id: prometheus_check_config
 
   - repo: https://github.com/ansible/ansible-lint
-    rev: v4.3.4
+    rev: v6.5.2
     hooks:
       - id: ansible-lint
-        entry: ansible-lint -x 203,204,208,301,303,305,306,401,403,602,701
-    # The following rules are SKIPPED:
-      # '203' => Most files should not contain tabs
-      # '204' => Lines should be no longer than 160 chars
-      # '208' => File permissions not mentioned
-      # '301' => Commands should not change things if nothing needs doing
-      # '303' => Using command rather than module
-      # '305' => Use shell only when shell functionality is required
-      # '306' => Shells that use pipes should set the pipefail option
-      # '401' => Git checkouts must contain explicit version
-      # '403' => Package installs should not use latest
-      # '602' => Don't compare to empty string
-      # '701' => meta/main.yml should contain relevant info
+        entry: ansible-lint --write build/
 
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 2.1.4
@@ -52,4 +40,4 @@ repos:
         args: [
           '--auto-correct',
           '--except',' Naming/FileName,Metrics/BlockLength'
-          ]
+              ]

@@ -1,10 +1,9 @@
 ---
-
 - name: Upgrade all packages
   become: true
   apt:
     upgrade: dist
-    update_cache: yes
+    update_cache: true
   register: apt_action
   retries: 100
   delay: 10

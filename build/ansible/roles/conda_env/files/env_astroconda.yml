@@ -1,3 +1,4 @@
+---
 name: astroconda
 channels:
   - http://ssb.stsci.edu/astroconda

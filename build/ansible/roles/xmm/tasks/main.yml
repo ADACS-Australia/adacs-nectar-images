@@ -1,7 +1,6 @@
 ---
-
 - name: install xmm dependencies
-  become: yes
+  become: true
   apt:
     name:
       - perl
@@ -10,61 +9,61 @@
 
 - name: create SAS directory
   file:
-    path: "$HOME/SAS"
+    path: $HOME/SAS
     state: directory
 
 - name: download sas
   get_url:
-    url: "ftp://sasdev-xmm.esac.esa.int/pub/sas/18.0.0/Linux/Ubuntu16.04/sas_18.0.0-Ubuntu16.04-64.tgz"
-    dest: "$HOME/SAS/sas_18.0.0-Ubuntu16.04-64.tgz"
-    mode: '666'
+    url: ftp://sasdev-xmm.esac.esa.int/pub/sas/18.0.0/Linux/Ubuntu16.04/sas_18.0.0-Ubuntu16.04-64.tgz
+    dest: $HOME/SAS/sas_18.0.0-Ubuntu16.04-64.tgz
+    mode: "0666"
 
 - name: unarchive sas
   unarchive:
-    src: "$HOME/SAS/sas_18.0.0-Ubuntu16.04-64.tgz"
-    dest: "$HOME/SAS"
-    remote_src: yes
-    creates: "$HOME/SAS/xmmsas_20190531_1155"
+    src: $HOME/SAS/sas_18.0.0-Ubuntu16.04-64.tgz
+    dest: $HOME/SAS
+    remote_src: true
+    creates: $HOME/SAS/xmmsas_20190531_1155
 
 - name: begin install
   shell:
     executable: /bin/bash
-    chdir: "$HOME/SAS"
+    chdir: $HOME/SAS
     cmd: "{{ item }}"
   with_items:
-    - "./install.sh"
+    - ./install.sh
 
 - name: redo unarchive sas
   unarchive:
-    src: "$HOME/SAS/sas_18.0.0-Ubuntu16.04-64.tgz"
-    dest: "$HOME/SAS"
-    remote_src: yes
-    creates: "$HOME/SAS/xmmsas_20190531_1155"
+    src: $HOME/SAS/sas_18.0.0-Ubuntu16.04-64.tgz
+    dest: $HOME/SAS
+    remote_src: true
+    creates: $HOME/SAS/xmmsas_20190531_1155
 
 - name: remove broken miniconda installer
   file:
-    path: "$HOME/SAS/xmmsas_20190531_1155/pythonInstaller/Miniconda3-4.3.31-Linux-x86_64.sh"
+    path: $HOME/SAS/xmmsas_20190531_1155/pythonInstaller/Miniconda3-4.3.31-Linux-x86_64.sh
     state: absent
 
 - name: fix miniconda_and_env_installer.sh
   lineinfile:
-    path: "$HOME/SAS/xmmsas_20190531_1155/pythonInstaller/miniconda_and_env_installer.sh"
-    regexp: "curl --progress-bar -o"
+    path: $HOME/SAS/xmmsas_20190531_1155/pythonInstaller/miniconda_and_env_installer.sh
+    regexp: curl --progress-bar -o
     line: curl -L --progress-bar -o $MINICONDA_LOCAL_PKG  "$MINICONDA_REPO"$MINICONDA_FILE_VER
     state: present
 
 - name: re-run install
   shell:
     executable: /bin/bash
-    chdir: "$HOME/SAS"
+    chdir: $HOME/SAS
     cmd: "{{ item }}"
   with_items:
-    - "cd xmmsas_20190531_1155 && ./configure_install"
-    - "source $HOME/SAS/xmmsas_20190531_1155/miniconda3/bin/activate && ./install.sh"
+    - cd xmmsas_20190531_1155 && ./configure_install
+    - source $HOME/SAS/xmmsas_20190531_1155/miniconda3/bin/activate && ./install.sh
 
 - name: add aliases for activating conda and sas in .bashrc
   blockinfile:
-    path: "$HOME/.bashrc"
+    path: $HOME/.bashrc
     block: |
       alias conda_activate="source $HOME/SAS/xmmsas_20190531_1155/miniconda3/bin/activate"
       alias sas_activate="source $HOME/SAS/xmmsas_20190531_1155/setsas.sh"
@@ -74,12 +73,12 @@
 
 - name: remove tar.gz
   file:
-    path: "$HOME/SAS/sas_18.0.0-Ubuntu16.04-64.tgz"
+    path: $HOME/SAS/sas_18.0.0-Ubuntu16.04-64.tgz
     state: absent
 
 - name: cleanup conda
   command:
-    chdir: "$HOME"
+    chdir: $HOME
     cmd: >
       /bin/bash -iec "
       source SAS/xmmsas_20190531_1155/miniconda3/bin/activate;

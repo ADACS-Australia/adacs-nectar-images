@@ -1,5 +1,4 @@
 ---
-
 apt_packages:
   - lsb-core
   - build-essential

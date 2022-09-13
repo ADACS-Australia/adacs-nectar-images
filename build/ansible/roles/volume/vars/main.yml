@@ -1,3 +1,2 @@
 ---
-
-nfs_key_path: "/var/tmp/nfs.key"
+nfs_key_path: /var/tmp/nfs.key

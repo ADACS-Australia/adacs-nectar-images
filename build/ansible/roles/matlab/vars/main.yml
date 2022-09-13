@@ -1,4 +1,3 @@
 ---
-
 install_dir: /usr/local/MATLAB-R2019b
-silent_ini:  /tmp/matlab_silent.ini
+silent_ini: /tmp/matlab_silent.ini

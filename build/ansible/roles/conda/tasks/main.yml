@@ -1,21 +1,20 @@
 ---
-
 - name: download miniconda
   get_url:
     url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    dest: "$HOME/miniconda.sh"
+    dest: $HOME/miniconda.sh
     mode: +x
 
 - name: install miniconda
   shell:
-    chdir: "$HOME"
-    creates: "$HOME/conda"
+    chdir: $HOME
+    creates: $HOME/conda
     executable: /bin/bash
     cmd: bash miniconda.sh -b -p conda
 
 - name: "conda: init"
   shell:
-    chdir: "$HOME"
+    chdir: $HOME
     executable: /bin/bash
     cmd: |
       set -e
@@ -24,7 +23,7 @@
 
 - name: "conda: install packages and clean"
   command:
-    chdir: "$HOME"
+    chdir: $HOME
     cmd: >
       bash -iec "
       conda install -y {{ conda_packages | join(' ') }};
@@ -35,7 +34,7 @@
 
 - name: delete miniconda install script
   file:
-    path: "$HOME/{{ item }}"
+    path: $HOME/{{ item }}
     state: absent
   with_items:
     - miniconda.sh

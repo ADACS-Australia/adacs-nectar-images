@@ -1,34 +1,33 @@
 ---
 argument_specs:
-
   mount:
     short_description: Mounting the software volume
     options:
       mount_path:
-        type: "str"
+        type: str
         required: true
-        description: "Path to mount the software volume on to"
+        description: Path to mount the software volume on to
       nfs_key:
-        type: "str"
+        type: str
         required: true
-        description: "Private key to the NFS server"
+        description: Private key to the NFS server
       nfs_ip:
-        type: "str"
+        type: str
         required: true
-        description: "IP address of the NFS server"
+        description: IP address of the NFS server
       nfs_user:
-        type: "str"
+        type: str
         required: true
-        description: "ssh user to connect with to the NFS server"
+        description: ssh user to connect with to the NFS server
       nfs_src_path:
-        type: "str"
+        type: str
         required: true
-        description: "path of the src dir on the NFS server, that you wish to mount"
+        description: path of the src dir on the NFS server, that you wish to mount
 
   unmount:
     short_description: Unmounting the software volume
     options:
       mount_path:
-        type: "str"
+        type: str
         required: true
-        description: "Path the software volume is mounted on. This will be unmounted"
+        description: Path the software volume is mounted on. This will be unmounted

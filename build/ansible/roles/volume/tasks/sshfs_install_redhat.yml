@@ -1,6 +1,5 @@
 ---
-
 - name: ensure sshfs is installed
-  become: yes
+  become: true
   yum:
     name: sshfs
